@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script> -->
+    <script type="text/javascript" src="../layui/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript">
+        layui.use(['layer', 'form', 'laydate'], function(){
+            var layer = layui.layer
+            var form = layui.form;
+            window.laydate = layui.laydate;
+            window.openLoading = function() {
+                var index = layer.load(1, { shade: [0.5, '#fff'] });
+                window.curLoadingIndex = index;
+                window.loadingTimer = setTimeout(function() {
+                    clearTimeout(window.loadingTimer);
+                    layer.close(window.curLoadingIndex);
+                    layer.msg('数据处理出错，请联系管理员！');
+                }, 1000 * 60 * 2);
+                return index;
+            }
+            window.closeLoading = function() {
+                if (window.loadingTimer) clearTimeout(window.loadingTimer);
+                layer.close(window.curLoadingIndex);
+            }
+        });
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

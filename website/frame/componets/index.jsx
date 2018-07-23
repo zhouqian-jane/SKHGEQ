@@ -1,0 +1,13 @@
+export { default as ViwePager } from './viwePager';
+export { default as Tip } from './tip';
+export { default as Table } from './table';
+export { default as Panel } from './panel';
+export { default as Dialog } from './dialog';
+export { default as WordsContent } from './wordsContent';
+export { default as ChartView } from './chart';
+export { default as Vedio } from './vedio';
+export { default as NoHornTip } from './noHornTip';
+export { default as Vedios } from './vedios';
+export { default as ImgDisplay } from './imgDisplay';
+export { default as QueryBox } from './queryBox';
+export { default as QueryBoxs } from './queryBoxs';

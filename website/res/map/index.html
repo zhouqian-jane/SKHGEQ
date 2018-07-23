@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>   
+    <meta charset="utf-8" />   
+    <style>
+        html,body{ height: 100%;width: 100%;padding: 0;margin: 0;}
+    </style>
+    <script src="client.js"></script>
+    <script type="text/javascript">
+        if (!$.ecity) $.ecity = {};
+        if (!$.ecity.top) $.ecity.top = window;
+        _load(
+            "frame/arcgis_js_api/library/3.20/3.20/init.js",
+            "frame/arcgis_js_api/library/3.20/3.20/custom/heatmap.js",
+            "frame/arcgis_js_api/library/3.20/3.20/dijit/themes/tundra/tundra.css",
+            "frame/arcgis_js_api/library/3.20/3.20/esri/css/esri.css"
+        )
+        var dojoConfig = {parseOnLoad: true};
+    </script>
+</head>
+<body>
+</body>
+<script src="index.js"></script>
+</html>

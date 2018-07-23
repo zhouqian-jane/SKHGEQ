@@ -1,0 +1,617 @@
+{
+    "features": [
+        {
+            "type": "bigship",
+            "table": [
+                {
+                    "title": "船名",
+                    "dataIndex": "SHIPNAME"
+                },
+                {
+                    "title": "船中文名",
+                    "dataIndex": "CSHIPNAME"
+                },
+                {
+                    "title": "终点",
+                    "dataIndex": "TERMINAL"
+                },
+                {
+                    "title": "泊位",
+                    "dataIndex": "BERTH"
+                },
+                {
+                    "title": "经度",
+                    "dataIndex": "LONGITUDE"
+                },
+                {
+                    "title": "纬度",
+                    "dataIndex": "LATITUDE"
+                },
+                {
+                    "title": "进口航次",
+                    "dataIndex": "VOYAGE"
+                },
+                {
+                    "title": "航线",
+                    "dataIndex": "SERVICE"
+                },
+                {
+                    "title": "船公司",
+                    "dataIndex": "SHIPOWNER"
+                },
+                {
+                    "title": "ETA",
+                    "dataIndex": "ETATIME"
+                },
+                {
+                    "title": "ETD",
+                    "dataIndex": "ETDTIME"
+                },
+                {
+                    "title": "ATD",
+                    "dataIndex": "ATDTIME"
+                },
+                {
+                    "title": "装卸",
+                    "dataIndex": "LDDS"
+                },
+                {
+                    "title": "状态",
+                    "dataIndex": "CURSTATUS"
+                },
+                {
+                    "title": "船长",
+                    "dataIndex": "VESSELLENGTH"
+                },
+                {
+                    "title": "船高",
+                    "dataIndex": "VESSELHEIGHT"
+                },{
+                    "title": "分线",
+                    "dataIndex": "QCNUMS"
+                },{
+                    "title": "POB",
+                    "dataIndex": "POBTIME"
+                },{
+                    "title": "左右泊位",
+                    "dataIndex": "BERTHWAY"
+                },{
+                    "title": "吃水",
+                    "dataIndex": "DEPTH"
+                },{
+                    "title": "航道",
+                    "dataIndex": "FAIRWAYNAME"
+                },{
+                    "title": "航迹向",
+                    "dataIndex": "COURSE"
+                },{
+                    "title": "船首向",
+                    "dataIndex": "HEADING"
+                },{
+                    "title": "速度",
+                    "dataIndex": "SPEED"
+                },{
+                    "title": "记录时间",
+                    "dataIndex": "RECORDDATE"
+                }
+            ]
+        },
+        {
+            "type": "bargeship",
+            "table": [
+                {
+                    "title": "船中文名",
+                    "dataIndex": "CSHIPNAME"
+                },
+                {
+                    "title": "船公司",
+                    "dataIndex": "SHIPOWNER"
+                },
+                {
+                    "title": "经度",
+                    "dataIndex": "LONGITUDE"
+                },
+                {
+                    "title": "纬度",
+                    "dataIndex": "LATITUDE"
+                },
+                {
+                    "title": "进口航次",
+                    "dataIndex": "VOYAGEIN"
+                },{
+                    "title": "出口航次",
+                    "dataIndex": "VOYAGEOUT"
+                },
+                {
+                    "title": "ETA",
+                    "dataIndex": "ETATIME"
+                },
+                {
+                    "title": "ETD",
+                    "dataIndex": "ETDTIME"
+                },
+                {
+                    "title": "ATD",
+                    "dataIndex": "ATDTIME"
+                },{
+                    "title": "状态",
+                    "dataIndex": "CURSTATUS"
+                },{
+                    "title": "LOG",
+                    "dataIndex": "LOG"
+                },{
+                    "title": "LAT",
+                    "dataIndex": "LAT"
+                },{
+                    "title": "航迹向",
+                    "dataIndex": "COURSE"
+                },{
+                    "title": "船首向",
+                    "dataIndex": "HEADING"
+                },{
+                    "title": "速度",
+                    "dataIndex": "SPEED"
+                },{
+                    "title": "记录时间",
+                    "dataIndex": "RECORDDATE"
+                }
+            ]
+        },
+        {
+            "type": "onyard",
+            "table": [
+                {
+                    "title": "箱号",
+                    "dataIndex": "CONTAINERNO"
+                },
+                {
+                    "title": "场位",
+                    "dataIndex": "YARDCELL"
+                },
+                {
+                    "title": "栏位",
+                    "dataIndex": "YARDLANENO"
+                },
+                {
+                    "title": "贝位",
+                    "dataIndex": "YARDBAYNO"
+                },
+                {
+                    "title": "列号",
+                    "dataIndex": "YARDROWNO"
+                },
+                {
+                    "title": "层高",
+                    "dataIndex": "YARDTIERNO"
+                },
+                {
+                    "title": "ISO代码",
+                    "dataIndex": "ISOCODE"
+                },
+                {
+                    "title": "箱主",
+                    "dataIndex": "CONTAINEROWNER"
+                },
+                {
+                    "title": "堆存天数",
+                    "dataIndex": "POOLDAYS"
+                },
+                {
+                    "title": "总重(kg)",
+                    "dataIndex": "GROSSWEIGHT"
+                },
+                {
+                    "title": "空(E)重(F)",
+                    "dataIndex": "EMPTYFULL"
+                },
+                {
+                    "title": "尺寸",
+                    "dataIndex": "CONTAINERSIZE"
+                },
+                {
+                    "title": "类型",
+                    "dataIndex": "CONTAINERTYPE"
+                },
+                {
+                    "title": "高度",
+                    "dataIndex": "CONTAINERHEIGHT"
+                },
+                {
+                    "title": "内(I)外(E)贸",
+                    "dataIndex": "TRADETYPE"
+                },
+                {
+                    "title": "装货港",
+                    "dataIndex": "POL"
+                },
+                {
+                    "title": "卸货港",
+                    "dataIndex": "POD"
+                },
+                {
+                    "title": "目的地",
+                    "dataIndex": "FINALPORT"
+                },
+                {
+                    "title": "海关铅封",
+                    "dataIndex": "CIQSEALNO"
+                },
+                {
+                    "title": "中转箱海关放行标示",
+                    "dataIndex": "CIQSTATE"
+                },
+                {
+                    "title": "船公司铅封",
+                    "dataIndex": "VESSELCOMPANYSEALNO"
+                },
+                {
+                    "title": "反偷渡原因代码",
+                    "dataIndex": "ANTIIMMIGRATION"
+                },
+                {
+                    "title": "进场订舱号",
+                    "dataIndex": "INBILLNO"
+                },
+                {
+                    "title": "出场订舱号",
+                    "dataIndex": "OUTBILLNO"
+                },
+                {
+                    "title": "订舱号",
+                    "dataIndex": "BL"
+                },
+                {
+                    "title": "提单号",
+                    "dataIndex": "DO"
+                },
+                {
+                    "title": "单证锁",
+                    "dataIndex": "FORMLOCK"
+                },
+                {
+                    "title": "查验锁",
+                    "dataIndex": "CHECKLOCK"
+                },
+                {
+                    "title": "码头锁",
+                    "dataIndex": "TERMINALLOCK"
+                },
+                {
+                    "title": "进场时间",
+                    "dataIndex": "INTIME"
+                },
+                {
+                    "title": "进场方式",
+                    "dataIndex": "INTYPE"
+                },
+                {
+                    "title": "进口船代码",
+                    "dataIndex": "INEVESSELNAME"
+                },
+                {
+                    "title": "进口航线",
+                    "dataIndex": "INVESSELLINECODE"
+                },
+                {
+                    "title": "进口航次",
+                    "dataIndex": "INBOUNDVOY"
+                },
+                {
+                    "title": "进口船公司",
+                    "dataIndex": "INVESSELOWNER"
+                },
+                {
+                    "title": "出场时间",
+                    "dataIndex": "OUTTIME"
+                },
+                {
+                    "title": "出场方式",
+                    "dataIndex": "OUTTYPE"
+                },
+                {
+                    "title": "出口船代码",
+                    "dataIndex": "OUTEVESSELNAME"
+                },
+                {
+                    "title": "出口航线",
+                    "dataIndex": "OUTVESSELLINECODE"
+                },
+                {
+                    "title": "出口航次",
+                    "dataIndex": "OUTBOUNDVOY"
+                },
+                {
+                    "title": "出口船公司",
+                    "dataIndex": "OUTVESSELOWNER"
+                },
+                {
+                    "title": "计划装船位置",
+                    "dataIndex": "PLANVESSELCELL"
+                }
+            ]
+        },
+        {
+            "type": "onyardFlds",
+            "table": [
+                {
+                    "title": "码头",
+                    "dataIndex": "TERMINALCODE"
+                },
+                {
+                    "title": "堆场位置",
+                    "dataIndex": "YARD"
+                },
+                {
+                    "title": "堆存柜量",
+                    "dataIndex": "CNTRCOUNT"
+                }
+            ]
+        },
+        {
+            "type": "scctyardFlds",
+            "table": [
+                {
+                    "title": "场位",
+                    "dataIndex": "YARDCELL"
+                },
+                {
+                    "title": "堆存天数",
+                    "dataIndex": "POOLDAYS"
+                }
+            ]
+        },
+        {
+            "type": "berthsFlds",
+            "table": [
+                {
+                    "title": "港区",
+                    "dataIndex": "TERMINALCODE"
+                },
+                {
+                    "title": "船舶类型",
+                    "dataIndex": "VESSELTYPE"
+                },
+                {
+                    "title": "泊位",
+                    "dataIndex": "BERTHNO"
+                },
+                {
+                    "title": "船舶中文名",
+                    "dataIndex": "CVESSELNAME"
+                },
+                {
+                    "title": "船舶编码",
+                    "dataIndex": "EVESSELNAME"
+                }
+            ]
+        },
+        {
+            "type": "shipsFlds",
+            "table": [
+                {
+                    "title": "柜号",
+                    "dataIndex": "vfdsvds"
+                },
+                {
+                    "title": "场位",
+                    "dataIndex": "fdaf"
+                },
+                {
+                    "title": "进场时间",
+                    "dataIndex": "fdsafdas"
+                },
+                {
+                    "title": "一程船",
+                    "dataIndex": "fdsafdsa"
+                },
+                {
+                    "title": "二程船",
+                    "dataIndex": "fdsafdsa"
+                },{
+                    "title": "预计装配时间",
+                    "dataIndex": "dsafdsafdsa"
+                }
+            ]
+        },
+        {
+            "type": "warehouseFlds",
+            "table": [
+                {
+                    "title": "仓库名称",
+                    "dataIndex": "NAME"
+                },
+                {
+                    "title": "当前库存量",
+                    "dataIndex": "COUNT"
+                }
+            ]
+        },
+        {
+            "type": "parkFlds",
+            "table": [
+                {
+                    "title": "进闸车辆数",
+                    "dataIndex": "a"
+                },
+                {
+                    "title": "出闸车辆数",
+                    "dataIndex": "b"
+                },
+                {
+                    "title": "入库数量",
+                    "dataIndex": "c"
+                },
+                {
+                    "title": "出库数量",
+                    "dataIndex": "d"
+                },
+                {
+                    "title": "区内仓库数",
+                    "dataIndex": "e"
+                },
+                {
+                    "title": "驻区企业数",
+                    "dataIndex": "f"
+                },
+                {
+                    "title": "申报进出区单量",
+                    "dataIndex": "g"
+                }
+            ]
+        },{
+            "type" : "tableyardFlds",
+            "table" : [
+                {
+                    "title": "栏位",
+                    "dataIndex": "YARDLANENO"
+                },{
+                    "title": "内外贸",
+                    "dataIndex": "abccc"
+                },{
+                    "title": "吨数",
+                    "dataIndex": "dsacc"
+                }
+            ]
+        },{
+            "type" : "anchorFlds",
+            "table" : [
+                {
+                    "title": "泊位",
+                    "dataIndex": "berth"
+                },{
+                    "title": "内外贸",
+                    "dataIndex": "fsaafd"
+                },{
+                    "title": "船舶中文名",
+                    "dataIndex": "CVESSELNAME"
+                },{
+                    "title": "航线",
+                    "dataIndex": "service"
+                },{
+                    "title": "装/卸吨数",
+                    "dataIndex": "numbwes"
+                }
+            ] 
+        },{
+            "type" : "berthShip",
+            "table" : [
+                {
+                    "title": "港区",
+                    "dataIndex": "TERMINALCODE"
+                },{
+                    "title": "船舶类型",
+                    "dataIndex": "VESSELTYPE"
+                },{
+                    "title": "泊位",
+                    "dataIndex": "BERTHNO"
+                },{
+                    "title": "船舶编码",
+                    "dataIndex": "EVESSELNAM"
+                },{
+                    "title": "船舶中文名",
+                    "dataIndex": "CVESSELNAME"
+                },{
+                    "title": "卸船箱量",
+                    "dataIndex": "DISCHARGE"
+                },{
+                    "title": "装船箱量",
+                    "dataIndex": "LOADING"
+                },{
+                    "title": "卸船空箱量",
+                    "dataIndex": "DISCHARGE_E"
+                },{
+                    "title": "卸船重箱量",
+                    "dataIndex": "DISCHARGE_F"
+                },{
+                    "title": "装船空箱量",
+                    "dataIndex": "LOADING_E"
+                },{
+                    "title": "装船重箱量",
+                    "dataIndex": "LOADING_F"
+                }
+            ] 
+        },{
+            "type" : "ShipTrackFlds",
+            "table" : [
+                {
+                    "title": "港区",
+                    "dataIndex": "DbId"
+                },{
+                    "title": "船公司",
+                    "dataIndex": "ContainerOwner"
+                },{
+                    "title": "操作",
+                    "dataIndex": "OpType"
+                },{
+                    "title": "操作时间",
+                    "dataIndex": "OpTime"
+                },{
+                    "title": "操作服务",
+                    "dataIndex": "ColumnName"
+                },{
+                    "title": "从",
+                    "dataIndex": "OldValue"
+                },{
+                    "title": "到",
+                    "dataIndex": "NewValue"
+                }
+            ] 
+        },{
+            "type" : "cruise",
+            "table" : [
+                {
+                    "title": "船公司",
+                    "dataIndex": "SHIPOWNER"
+                },{
+                    "title": "船中文名",
+                    "dataIndex": "SHIPNAME_CN"
+                },{
+                    "title": "船英文名",
+                    "dataIndex": "SHIPNAME_EN"
+                },{
+                    "title": "MMSI",
+                    "dataIndex": "MMSI"
+                },{
+                    "title": "IMO编号",
+                    "dataIndex": "IMO"
+                },{
+                    "title": "呼叫号",
+                    "dataIndex": "CALLS"
+                },{
+                    "title": "总吨",
+                    "dataIndex": "WEIGHT"
+                },{
+                    "title": "净吨",
+                    "dataIndex": "WEIGHT_NET"
+                },{
+                    "title": "长度",
+                    "dataIndex": "SHIPLONG"
+                },{
+                    "title": "宽度",
+                    "dataIndex": "SHIPWIDTH"
+                },{
+                    "title": "经度",
+                    "dataIndex": "LONGITUDE"
+                },{
+                    "title": "纬度",
+                    "dataIndex": "LATITUDE"
+                },{
+                    "title": "标题",
+                    "dataIndex": "HEADING"
+                },{
+                    "title": "速度",
+                    "dataIndex": "SPEED"
+                },{
+                    "title": "记录日期",
+                    "dataIndex": "RECORDDATE"
+                },{
+                    "title": "DTM",
+                    "dataIndex": "DTM"
+                },{
+                    "title": "船舶状态",
+                    "dataIndex": "SHIPSTATUS"
+                }
+            ]
+        }
+    ]
+}
