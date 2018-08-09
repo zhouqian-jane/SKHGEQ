@@ -1,6 +1,6 @@
 .ic-box {
-    width: 3820px;
-    height: 3110px;
+    width: 3720px;
+    height: 2600px;
     background: url('../images/11.png') no-repeat;
     background-size: 100% 100%;
     display: flex;
@@ -10,7 +10,7 @@
 }
 
 .ic-box>div {
-    height: 2930px;
+    height: 2465px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,7 @@
 .ic-video {
     margin-top: 30px;
     width: 3450px;
-    height: 1180px;
+    height: 1000px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -50,7 +50,7 @@
 
 .ic-record {
     width: 3450px;
-    height: 1410px;
+    height: 1125px;
     background: url('../images/33.png') no-repeat;
     background-size: 100% 100%;
     overflow: auto;

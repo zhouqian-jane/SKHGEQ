@@ -26,25 +26,16 @@ import 'animate.css';
 
 
 class Logins extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this._jgcsjk = this._jgcsjk.bind(this);
-    //     this._tgsxjk = this._tgsxjk.bind(this);
-    //     this._sjzhcx = this._sjzhcx.bind(this);
-    // }
     jgcsjk() {
-        console.log('1')
         publish('changeiframe', { index: 1, props: {} });
     }
 
     tgsxjk() {
-        console.log('2')
-        publish('changeiframe', { index: 1, props: {} });
+        publish('changeiframe', { index: 2, props: {} });
     }
 
     sjzhcx() {
-        console.log('3')
-        publish('changeiframe', { index: 1, props: {} });
+        publish('changeiframe', { index: 3, props: {} });
     }
 
     render() {
@@ -68,43 +59,12 @@ export default class App extends React.Component {
 
     layers = {}
     componentDidMount() {
-        this.sub_changeLayer = subscribe('changeLayer', this.changeLayer);
         this.sub_changeiframe = subscribe('changeiframe', this.changeiframe);
         publish('changeiframe', { index: 4, props: {} });
     }
 
     componentWillUnmount() {
-        if (this.sub_changeLayer) unsubscribe(this.sub_changeLayer);
         if (this.sub_changeiframe) unsubscribe(this.sub_changeiframe);
-    }
-
-    changeLayer = (ops) => {
-        let idx = this.state.dtindex;
-        let curProps = ops.props;
-        let index = ops.index;
-        if (index != idx || curProps.defaultLayer) {
-            let curLayer = null;
-            switch (index) {
-                case 1:
-                    curLayer = <Port {...curProps} />;
-                    break;
-                case 2:
-                    curLayer = <Pier {...curProps} />;
-                    break;
-                case 3:
-                    curLayer = <WareHouse {...curProps} />;
-                    break;
-                case 4:
-                    curLayer = <IWarning {...curProps} />;
-                    break;
-                default:
-                    curLayer = <Home {...curProps} />;
-            }
-            this.layers[index] = { layerIndex: index, props: curProps };
-            $('.mbody-content').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.mbody-content').removeClass('zoomIn animated'));
-            this.setState({ curLayer: null });
-            this.setState({ dtindex: index, curLayer: curLayer, curProps: curProps });
-        }
     }
 
     changeiframe = (ops) => {
@@ -115,7 +75,7 @@ export default class App extends React.Component {
             let curLayer = null;
             switch (index) {
                 case 1:
-                    curLayer = <Home {...curProps} />;
+                    curLayer = <Login {...curProps} />;
                     break;
                 case 2:
                     curLayer = <AgingControl {...curProps} />;
@@ -133,18 +93,10 @@ export default class App extends React.Component {
             this.setState({ index: index, curLayer: curLayer, curProps: curProps });
         }
     }
-
-    handeBack() {
-        console.log('123');
-        publish('changeiframe', { index: 4, props: {} });
-    }
-
+    
     render() {
         return (
             <div className='mbody'>
-                {
-                    this.state.index < 4 ? <div className="mbody-btn" onClick={() => this.handeBack()}> 主页 </div> : <div />
-                }
                 <div className='mbody-content'>
                     {this.state.curLayer}
                 </div>

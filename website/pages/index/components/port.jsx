@@ -597,7 +597,6 @@ export default class Port extends React.Component {
 
     state = { map: null }
     componentDidMount() {
-        console.log('123');
         this.changeIframe($(ReactDOM.findDOMNode(this.refs.iframe)), '../map/index.html?mtype=two_layer');
     }
 

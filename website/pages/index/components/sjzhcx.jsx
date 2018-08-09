@@ -27,8 +27,8 @@ class FastQuery extends React.Component {
         let index = this.state.index;
         let id1 = 'a', id2 = 'b';
         let flds = [];
-        let width = 1750, height = 1625;
-        let h = 772;
+        let width = 1750, height = 2765;
+        let h = 1370;
         if (index === 0) {
             flds = [
                 { 'title': '港区', 'dataIndex': 'TERMINALCODE' },
@@ -230,9 +230,9 @@ class FastQuery extends React.Component {
                         <div className='query-t-t'>
                             {items.map((e, i) => <div key={i} className={'hvr-pulse-shrink query-t-t-item' + (i === this.state.index ? '-select' : '-noselect')} onClick={() => this.chooseItem(i)}>{e}</div>)}
                         </div>
-                        {/* <div className='query-t-b'>
+                        <div className='query-t-b'>
                             {content}
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -312,15 +312,15 @@ class FastLink extends React.Component {
     }
     render() {
         return (
-            <div className='warningTip' style={{ position: 'absolute', top: 50, left: 3926, zIndex: 99999 }}>
+            <div className='warningTip' style={{ position: 'absolute', top: 50, left: 3926, zIndex: 99999, height: 3135 }}>
                 {/* <div className='warningTip-t'></div> */}
                 <div className='warningTip-b'>
-                    <Panel style={{ padding: '20px 25px', width: 3365, height: 1071 }}>
+                    <Panel style={{ padding: '20px 25px', width: 3365, height: 3090 }}>
                         <div className='warningTip-b-title'>
                             {this.state.items.map((e, i) => <div onClick={() => this.clickTitle(i)} className={e.show ? 'warningTip-b-title-1' : 'warningTip-b-title-2'} key={i}>{e.name}</div>)}
                         </div>
                         <div className='warningTip-b-body'>
-                            <Table style={{ width: 3361, height: 954, overflow: 'auto' }} id={'bb'} selectedIndex={null} flds={this.state.flds} datas={this.state.datas} trClick={null} trDbclick={null} myTd={this.myTd} />
+                            <Table style={{ width: 3361, height: 2940, overflow: 'auto' }} id={'bb'} selectedIndex={null} flds={this.state.flds} datas={this.state.datas} trClick={null} trDbclick={null} myTd={this.myTd} />
                         </div>
                     </Panel>
                 </div>
@@ -334,19 +334,12 @@ class EmbedIframe extends React.Component {
 
     render() {
         return (
-            <div></div>
-        )
-    }
-}
-
-/** 智能指挥 */
-class FastCommand extends React.Component {
-    render() {
-        return (
-            <div className='ic' style={{ overflow: 'hidden' }}>
-                <iframe src='../icommand/index.html'/>
-                {/* <div className='ic-close' onClick={this.props.close}></div> */}
-            </div>
+            <div className='embed'>
+                <div className='embed-l' onClick={() => publish('changeiframe', { index: 4, props: {} })}>
+                    <div className='embed-l-t'></div>
+                    <span className='embed-l-s'>返回主页</span>
+                </div>
+            </div >
         )
     }
 }
@@ -358,11 +351,8 @@ export default class sjzhcx extends React.Component {
         return (
             <div>
                 <FastQuery />
-                <div>
-                    <FastLink />
-                    <EmbedIframe />
-                </div>
-                <FastCommand />
+                <FastLink />
+                <EmbedIframe />
             </div>
         )
     }
