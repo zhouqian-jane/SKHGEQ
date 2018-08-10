@@ -283,6 +283,7 @@ export default class ZNYBJ extends React.Component {
                                 <div className={this.state.btn.lj ? 'znybj_top_btn_ljR' : 'znybj_top_btn_lj'} onClick={() => this.handleBtn('5')}>旅检</div>
                             </div>
                     }
+                    <div className='znybj_top_gb' onClick={this.props.gb}></div>
                 </div>
                 <div className="znybj_bot">
                     <Znyj yj={this.state.ybj[0]} yjjson={yjsl} click={this.handleClik}></Znyj>

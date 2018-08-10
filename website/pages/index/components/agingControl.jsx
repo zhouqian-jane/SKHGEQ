@@ -8,6 +8,23 @@ import { publish, subscribe, unsubscribe } from '../../../frame/core/arbiter';
 import { Table } from '../../../frame/componets/index';
 import ZNYBJ from './ZNYBJ';
 
+var Mock = require('mockjs')
+var Nowdata = Mock.mock({
+    // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
+    'list|15-45': [{
+        // 属性 id 是一个自增数，起始值为 1，每次增 1
+        'BgNum|+1': '@string("number", 4, 8)',
+        'CabinetNum': /^1[498][1-9]\d{8}/,
+        'CYKS': '科室名称',
+        'CYLX': '查验类型名',
+        'ZT|1': ['已处理', '未处理'],
+        'TW': '台位',
+        'BGMC': '报关行',
+        'DGSJ': '@date("yyyy-MM-dd")',
+        'ZTCXSJ': '@date("yyyy-MM-dd")',
+    }],
+});
+
 // tip组件
 export default class AgingControl extends React.Component {
     state = {
@@ -494,20 +511,23 @@ class CK extends React.Component {
 
     /** 环节时效  --》 预报警信息  -->打开报警面板 */
     handleYBJChange(e) {
-        if (this.state.hthjsx < 3) {
-            this.setState({ hthjsx: this.state.hthjsx + 1 });
+        if (this.state.hthjsx < 1) {
+            this.setState({ hthjsx: this.state.hthjsx + 1, htcysx: 0 });
         } else {
-            this.setState({ hthjsx: 3, htcysx: 0 });
+            this.setState({ hthjsx: 2, htcysx: 0 }, () => {
+                $('.znybj').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.znybj').removeClass('zoomIn animated'));
+            });
         }
     }
 
     /** 查验时效  --》实时动态 -->实时查验作业数据 */
     handleCYSXChange() {
-        console.log('1')
-        if (this.state.htcysx < 3) {
-            this.setState({ htcysx: this.state.htcysx + 1 });
+        if (this.state.htcysx < 1) {
+            this.setState({ htcysx: this.state.htcysx + 1, hthjsx: 0 });
         } else {
-            this.setState({ htcysx: 3, hthjsx: 0 });
+            this.setState({ htcysx: 2, hthjsx: 0 }, () => {
+                $('.sycyzyTab').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.sycyzyTab').removeClass('zoomIn animated'));
+            });
         }
     }
 
@@ -516,16 +536,14 @@ class CK extends React.Component {
         return (
             <div className='ac-ckbox'>
                 <div className='ac-back' onClick={this.back}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
-                <div className='ac-backout' onClick={ () => this.setState({ htcysx: 0, hthjsx: 0 })}></div>
-                {/* <div className='ac-close' onClick={() => publish('closeAC', false)}></div> */}
+                {this.state.htcysx > 0 ? <div className='ac-lbackout' onClick={() => this.setState({ htcysx: 0 })}></div> : null}
+                {this.state.hthjsx > 0 ? <div className='ac-rbackout' onClick={() => this.setState({ hthjsx: 0 })}></div> : null}
                 <div className='ac-ckbox-title'>{this.props.data + (this.props.layer == 'ck' ? '出口' : '进口') + '通关时效分析'}</div>
                 <div style={{ width: 3, height: 630, position: 'absolute', top: 360, left: 7705, background: '#1f9bff', zIndex: 999 }}></div>
-                {/* <div style={{ width: 3, height: 630, position: 'absolute', top: 360, left: 9580, background: '#1f9bff', zIndex: 999 }}></div> */}
                 <div style={{ position: 'absolute', top: 180, left: 5700, zIndex: 999, color: 'white', fontSize: '65px' }}>{this.props.layer == 'ck' ? '出口' : '进口'}通关整体时效</div>
                 <div className='ac-ckbox-hthjxs' onClick={() => this.handleYBJChange()}>环节时效</div>
                 <div style={{ position: 'absolute', top: 180, left: 8100, zIndex: 999, color: 'white', fontSize: '65px' }}>海关作业</div>
                 <div className='ac-ckbox-htcysx' onClick={() => this.handleCYSXChange()}>查验时效</div>
-                {/* <div style={{ position: 'absolute', top: 180, left: 9770, zIndex: 999, color: 'white', fontSize: '65px' }}>海关查验</div> */}
                 <div className='ac-ckbox-t'>
                     <div style={{ background: "url('../agingControl/" + this.props.layer + ".png') no-repeat", backgroundSize: '100% 100%' }}></div>
                     <div>
@@ -539,8 +557,8 @@ class CK extends React.Component {
                             <CY datas={datas[1]} setPropsState={this.setPropsState} updateTop10={this.updateTop10} />
                         </div>
                     </div>
-                    {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' onClick={() => this.setState({ hthjsx: 1 })}> <div className='ac-ckbox-znybjs-btn' /> <ZNYBJ /> </div> : <div />}
-                    {this.state.htcysx > 1 ? <div className='ac-ckbox-znybjs' onClick={() => this.setState({ htcysx: 1 })}> <div className='ac-ckbox-znybjs-btn' /> <ZNYBJ /> </div> : <div />}
+                    {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' > <ZNYBJ gb={() => this.setState({ hthjsx: 1 })} /> </div> : <div />}
+                    {this.state.htcysx > 1 ? <div className='ac-ckbox-znybjs' > <Sycyzy gb={() => this.setState({ htcysx: 1 })} /> </div> : <div />}
                 </div>
                 <div className='ac-ckbox-c'><div>诊断结论：</div><div>2018年{this.props.data}出口时效......</div></div>
                 <div className='ac-ckbox-b'>
@@ -669,6 +687,30 @@ class Cysj extends React.Component {
     }
 }
 
+
+/** 实验查验作业数据 */
+class Sycyzy extends React.Component {
+    render() {
+        const flds2 = [
+            { title: '报关单号', dataIndex: 'BgNum' },
+            { title: '柜号', dataIndex: 'CabinetNum' },
+            { title: '查验科室', dataIndex: 'CYKS' },
+            { title: '查验类型', dataIndex: 'CYLX' },
+            { title: '状态', dataIndex: 'ZT' },
+            { title: '台位', dataIndex: 'TW' },
+            { title: '报关行名称', dataIndex: 'BGMC' },
+            { title: '调柜时间', dataIndex: 'DGSJ' },
+            { title: '状态持续时间', dataIndex: 'ZTCXSJ' },
+        ];
+        return (
+            <div className='sycyzyTab'>
+                <div className='sycyzyTab-gb' onClick={this.props.gb}></div>
+                <div className='sycyzyTab-ti'>实时查验作业数据</div>
+                <Table rowNo={true} title={null} style={{ width: 3860, height: 2160 }} id={'id5'} selectedIndex={null} flds={flds2} datas={Nowdata.list} trClick={null} trDbclick={null} />
+            </div>
+        )
+    }
+}
 
 // 海关作业时效
 class HG extends React.Component {

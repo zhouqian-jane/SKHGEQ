@@ -5,15 +5,7 @@ import React from 'react';
 /** 引入页面 ： */
 import Login from './login';
 import AgingControl from './agingControl';//  通关时效
-import Home from './home';// 地图首页
 import Sjzhcx from './sjzhcx';// 数据查询综合
-import Port from './port';
-import Pier from './pier';
-import WareHouse from './wareHouse';
-import IWarning from './iWarning';
-import IWarningNew from './iWarningNew';
-import ZNYBJ from './ZNYBJ';
-import ICommand from './iCommand';
 
 /** 引入订阅 */
 import { publish, subscribe, unsubscribe } from '../../../frame/core/arbiter';

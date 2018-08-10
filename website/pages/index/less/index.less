@@ -1374,7 +1374,17 @@ body>div:nth-of-type(1) {
         background-size: 100% 100%;
         cursor: pointer;
     }
-    &-backout{
+    &-rbackout{
+        position: absolute;
+        top: 160px;
+        right: 3800px;
+        width: 102px;
+        height: 86px;
+        background: url('../images/返回.png') no-repeat;
+        background-size: 100% 100%;
+        cursor: pointer;
+    }
+    &-lbackout{
         position: absolute;
         top: 160px;
         right: 190px;
@@ -1428,16 +1438,6 @@ body>div:nth-of-type(1) {
             position: absolute;
             top: 610px;
             z-index: 9999;
-            &-btn{
-                right: 120px;
-                top: 60px;
-                position: absolute;
-                width: 60px;
-                height: 60px;
-                background: url('../images/关闭.png') no-repeat;
-                background-size: 100% 100%;
-                cursor: pointer;
-            }
         }
         &-hthjxs{
             width: 598px;
@@ -4134,6 +4134,37 @@ body>div:nth-of-type(1) {
     -webkit-text-fill-color: transparent;
   }
 
+  /** 实时查验作业数据  */
+  .sycyzyTab{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 3865px;
+    height: 2420px;
+    border: 1px solid #1E7ACE;
+    background: rgba(0, 0, 0, 1);
+    &-ti{
+        background: url('../images/agingControl/弹出框标题底块.png') no-repeat;
+        background-size: 100% 100%;
+        font-size: 70px;
+        color: #fff;
+        width: 831px;
+        height: 172px;
+        line-height: 172px;
+        text-align: center;
+    }
+    &-gb {
+        right: 120px;
+        top: 60px;
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background: url('../images/关闭.png') no-repeat;
+        background-size: 100% 100%;
+        cursor: pointer;
+        z-index: 9999;
+    }
+  }
 
 
   // 智能预报警
@@ -4231,6 +4262,17 @@ body>div:nth-of-type(1) {
                 font-size: 60px;
                 padding-top: 22px;
             }
+        }
+        &_gb {
+            right: 120px;
+            top: 60px;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: url('../images/关闭.png') no-repeat;
+            background-size: 100% 100%;
+            cursor: pointer;
+            z-index: 9999;
         }
     }
 
