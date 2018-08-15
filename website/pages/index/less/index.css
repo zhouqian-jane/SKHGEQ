@@ -35,7 +35,7 @@ body > div:nth-of-type(1) {
   width: 1300px;
   height: 220px;
   position: absolute;
-  top: 1335px;
+  top: 1260px;
   left: 2650px;
   cursor: pointer;
 }
@@ -44,7 +44,7 @@ body > div:nth-of-type(1) {
   width: 1230px;
   height: 200px;
   position: absolute;
-  top: 1078px;
+  top: 1020px;
   right: 2739px;
 }
 .iframe-sj {
@@ -52,7 +52,7 @@ body > div:nth-of-type(1) {
   width: 1220px;
   height: 200px;
   position: absolute;
-  bottom: 708px;
+  bottom: 670px;
   left: 3650px;
 }
 .mframe {
@@ -134,6 +134,7 @@ body > div:nth-of-type(1) {
 }
 .mbody {
   width: 11520px;
+  height: 3090px;
   flex-grow: 1;
   position: relative;
   display: flex;
