@@ -63,10 +63,10 @@ class MapOperation extends React.Component {
 
     componentDidMount() {
         let mapExtent = {
-            xmax: 113.96063309,
-            xmin: 113.81710400,
-            ymax: 22.49214402,
-            ymin: 22.44131873,
+            xmin: 113.821099658,
+            ymin: 22.444926626,
+            xmax: 113.963486604,
+            ymax: 22.495485413
         };
         // console.log(this.props.map);
         this.props.map.mapOper.setMapExtent(mapExtent);

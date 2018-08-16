@@ -54,7 +54,9 @@ class FastQuery extends React.Component {
             let trClick = (data, index, datas) => {
                 window.openLoading();
                 publish('webAction', { svn: 'skhg_service', path: 'getAreaByWhere', data: { where: "CODE='" + data.TERMINALCODE + "'" } }).then((res) => {
-                    publish('changeLayer', { index: 2, props: { datas: res[0].data[0], defaultLayer: { ship: data } } });
+                    publish('changeiframe', { index: 1, props: {} }).then( e => {
+                         publish('changeLayer', { index: 2, props: { datas: res[0].data[0], defaultLayer: { ship: data } } })
+                    }) ;
                 });
             }
             content = [
@@ -133,7 +135,9 @@ class FastQuery extends React.Component {
                 let zymt = datas.filter((e) => e.key == '作业码头')[0].value;
                 let cno = datas.filter((e) => e.key == '箱号')[0].value;
                 publish('webAction', { svn: 'skhg_service', path: 'getAreaByWhere', data: { where: "CODE='" + zymt + "'" } }).then((res) => {
-                    publish('changeLayer', { index: 2, props: { datas: res[0].data[0], defaultLayer: { container: cno } } });
+                    publish('changeiframe', { index: 1, props: {} }).then( e => {
+                        publish('changeLayer', { index: 2, props: { datas: res[0].data[0], defaultLayer: { container: cno } } });
+                   }) ;
                 })
             }
             content = [
@@ -143,17 +147,17 @@ class FastQuery extends React.Component {
                 </div>,
             ];
         }
+        // else if (index === 2) {
+        //     flds = [
+        //         { title: '仓库名', dataIndex: 'a' },
+        //         { title: '当前库存量', dataIndex: 'b' },
+        //         { title: '所属单位', dataIndex: 'c' },
+        //     ];
+        //     content = [
+        //         <Table key={1} rowNo={true} title={{ name: '仓库信息', export: false, items: [<QueryBox key={1} name='' query={(e) => alert(e)} />] }} style={{ width: '100%', height: height }} id={id1} selectedIndex={null} flds={flds} datas={this.state.wareHouse.datas1} trClick={null} trDbclick={null} />,
+        //     ];
+        // }
         else if (index === 2) {
-            flds = [
-                { title: '仓库名', dataIndex: 'a' },
-                { title: '当前库存量', dataIndex: 'b' },
-                { title: '所属单位', dataIndex: 'c' },
-            ];
-            content = [
-                <Table key={1} rowNo={true} title={{ name: '仓库信息', export: false, items: [<QueryBox key={1} name='' query={(e) => alert(e)} />] }} style={{ width: '100%', height: height }} id={id1} selectedIndex={null} flds={flds} datas={this.state.wareHouse.datas1} trClick={null} trDbclick={null} />,
-            ];
-        }
-        else if (index === 3) {
             flds = [
                 { title: '港口代码', dataIndex: 'TERMINALCODE' },
                 { title: '提单号', dataIndex: 'BL_NBR' },
@@ -188,7 +192,7 @@ class FastQuery extends React.Component {
                 <Table key={1} rowNo={true} title={{ name: '提单信息', export: false, items: [<QueryBox key={1} name='提单号' query={query} />] }} style={{ width: '100%', height: height }} id={id1} selectedIndex={null} flds={flds} datas={this.state.list.datas1} trClick={null} trDbclick={null} />,
             ];
         }
-        else if (index === 4) {
+        else if (index === 3) {
             let query = (tableName, isHandled, dateFromTo) => {
                 if (dateFromTo == '') {
                     layer.tips('日期范围不能为空', '#dateFromTo', { tips: [3, '#F2AE4A'], area: ['350px', '60px'] });
@@ -341,6 +345,89 @@ class EmbedIframe extends React.Component {
                 </div>
             </div >
         )
+    }
+}
+
+
+/**  智能预报警 */
+class MySelect extends React.Component {
+    state = {
+        lx: 'jk',
+        dateFromTo: '',
+    }
+    componentDidMount() {
+        laydate.render({
+            elem: '#dateFromTo',
+            range: true,
+            change: (value, date, endDate) => this.setState({ dateFromTo: value }),
+        });
+    }
+    onChange = () => {
+        let val = $('#bjlx option:selected').val();// 选中的值
+        this.setState({ lx: val });
+    }
+    render() {
+        let lx = [
+            { key: 'jk', name: '进口时效' },
+            { key: 'ck', name: '出口时效' },
+            { key: 'mt', name: '管控运行-码头' },
+            // { key: 'cic', name: '管控运行-CIC' },
+            // { key: 'dbcl', name: '管控运行-调拨车辆' },
+            // { key: 'xzcl', name: '管控运行-行政车辆' },
+            { key: 'lj', name: '管控运行-旅检' },
+        ];
+        let lx2 = {
+            jk: [
+                { key: 'IMAP_WARNING_01', name: '国际中转集装箱滞港超90天' },
+                { key: 'IMAP_WARNING_02', name: '国际中转集装箱滞港超180天' },
+            ],
+            ck: [
+                { key: 'IMAP_WARNING_02', name: '出口提前申报后超3天未抵运' },
+                { key: 'IMAP_WARNING_02', name: '装载舱单数据发送不及时' },
+                { key: 'IMAP_WARNING_02', name: '船舶离港后超24小时未发送理货报告' },
+            ],
+            mt: [
+                { key: 'IMAP_WARNING_06', name: '海关未放行集装箱装船' },
+                { key: 'IMAP_WARNING_07', name: '海关未放行集装箱出闸' },
+                { key: 'IMAP_WARNING_08', name: '整船换装货物异常提离堆场' },
+                { key: 'IMAP_WARNING_09', name: '整船换装货物异常预配载' },
+                { key: 'IMAP_WARNING_10', name: '同船运输集装箱异常装卸' },
+                { key: 'IMAP_WARNING_22', name: '船舶抵港时间异常报警' },
+                { key: 'IMAP_WARNING_23', name: '船舶离港时间异常报警' },
+                { key: 'IMAP_WARNING_24', name: '退运柜15天内复进境' }
+            ],
+            // cic: [
+            //     { key: 'IMAP_WARNING_16', name: '收到查验指令72小时未调入CIC' },
+            //     { key: 'IMAP_WARNING_17', name: '查验完毕超24小时未调离CIC' },
+            // ],
+            // dbcl: [
+            //     { key: 'IMAP_WARNING_12', name: '调拨车辆超时停留' },
+            //     { key: 'IMAP_WARNING_13', name: '调拨车辆偏离路线' },
+            //     { key: 'IMAP_WARNING_14', name: '调拨车辆运行超时' },
+            // ],
+            // xzcl: [
+            //     { key: 'IMAP_WARNING_18', name: '行政通道车辆识别异常' },
+            //     { key: 'IMAP_WARNING_19', name: '行政通道车辆布控中控' },
+            // ],
+            lj: [
+                { key: 'IMAP_WARNING_20', name: '旅检船舶未确认即移泊' },
+                { key: 'IMAP_WARNING_21', name: '旅检船舶夜间异常' },
+            ],
+        };
+        return (<div className='bjxx'>
+            <select id='bjlx' onChange={this.onChange}>
+                {lx.map((e, i) => <option key={i} value={e.key}>{e.name}</option>)}
+            </select>
+            <select id='bjlx2'>
+                {lx2[this.state.lx].map((e, i) => <option key={i} value={e.key}>{e.name}</option>)}
+            </select>
+            <select id='bjlx3'>
+                <option value='N'>未处理</option>
+                <option value='Y'>已处理</option>
+            </select>
+            <input id='dateFromTo' placeholder='请输入日期范围' />
+            <div className='hvr-pulse-shrink' onClick={() => this.props.query($('#bjlx2 option:selected').val(), $('#bjlx3 option:selected').val(), this.state.dateFromTo)}></div>
+        </div>)
     }
 }
 

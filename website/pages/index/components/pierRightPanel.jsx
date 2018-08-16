@@ -108,14 +108,14 @@ export default class PierRightPanel extends React.Component {
                             });
                         });
                     }
-                    else {
-                        publish('pire_right_yq_axis', { value: Nowdata }).then((res) => {
-                            if (this.chart) this.chart.dispose();
-                            this.chart = echarts.init(ReactDOM.findDOMNode(this.refs.echart1));
-                            this.chart.setOption(res[0]);
-                        });
-                        this.setState({ vedios: vedios[this.props.datas.code.toLowerCase()], vediosHeight: 930 });
-                    }
+                    // else {
+                    //     publish('pire_right_yq_axis', { value: Nowdata }).then((res) => {
+                    //         if (this.chart) this.chart.dispose();
+                    //         this.chart = echarts.init(ReactDOM.findDOMNode(this.refs.echart1));
+                    //         this.chart.setOption(res[0]);
+                    //     });
+                    //     this.setState({ vedios: vedios[this.props.datas.code.toLowerCase()], vediosHeight: 930 });
+                    // }
                 } else if (this.props.datas.type == 2) {
                     publish('port_2_bar').then((res) => {
                         if (this.chart2) this.chart2.dispose();

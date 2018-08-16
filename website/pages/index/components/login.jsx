@@ -3,6 +3,7 @@ import 'animate.css';
 import $ from 'jquery';
 import moment from 'moment';
 import React from 'react';
+import { Vedio} from '../../../frame/componets/index';
 import { publish, subscribe, unsubscribe } from '../../../frame/core/arbiter';
 import Home from './home';
 import Port from './port';
@@ -55,6 +56,7 @@ export default class App extends React.Component {
         viwePager: null,
         layerName: null,
         agingControl: false,
+        cv: {},
     }
     layers = {}
     componentDidMount() {
@@ -106,6 +108,33 @@ export default class App extends React.Component {
         publish('changeiframe', { index: 4, props: {} });
     }
 
+    playVedio = (vedio) => {
+
+        let data = [
+            { name: 'SCT大楼12F大厅', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032172&rtmp=rtmp://playrtmp.simope.com:1935/live/07f39deff1?liveID=100032172&hls=http://playhls.simope.com/live/07f39deff1/playlist.m3u8?liveID=100032172' },
+            { name: 'SCT4号泊位', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032166&rtmp=rtmp://playrtmp.simope.com:1935/live/e4b0c82c15?liveID=100032166&hls=http://playhls.simope.com/live/e4b0c82c15/playlist.m3u8?liveID=100032166' },
+            { name: 'SCT工程部维修车间', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032170&rtmp=rtmp://playrtmp.simope.com:1935/live/89619ada51?liveID=100032170&hls=http://playhls.simope.com/live/89619ada51/playlist.m3u8?liveID=100032170' },
+            { name: 'SCT大楼1F监控室', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032167&rtmp=rtmp://playrtmp.simope.com:1935/live/105c2009a0?liveID=100032167&hls=http://playhls.simope.com/live/105c2009a0/playlist.m3u8?liveID=100032167' },
+            { name: 'CCT操作部中控室', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032173&rtmp=rtmp://playrtmp.simope.com:1935/live/ee2e705054?liveID=100032173&hls=http://playhls.simope.com/live/ee2e705054/playlist.m3u8?liveID=100032173' },
+            { name: 'CCT工程部维修车间', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032171&rtmp=rtmp://playrtmp.simope.com:1935/live/d37820f07a?liveID=100032171&hls=http://playhls.simope.com/live/d37820f07a/playlist.m3u8?liveID=100032171' },
+            { name: 'MCT闸口安保室', url: 'http://www.cheluyun.com/javascript/zsg/?id=100032174&rtmp=rtmp://playrtmp.simope.com:1935/live/28110b959b?liveID=100032174&hls=http://playhls.simope.com/live/28110b959b/playlist.m3u8?liveID=100032174' },
+            { name: 'SCT 1# 2#堆场', url: 'http://www.cheluyun.com/javascript/zsg/?id=100031600&rtmp=rtmp://playrtmp.simope.com:1935/live/524622521d?liveID=100031600&hls=http://playhls.simope.com/live/524622521d/playlist.m3u8?liveID=100031600' },
+        ];
+        try {
+            if (vedio) {
+                this.setState({ cv: {} }, () => this.setState({ cv: vedio }));
+            }
+            else {
+                this.setState({ cv: {} }, () => this.setState({ cv: data[7] }));
+            }
+        } catch (e) {
+            alert('没有接入到视频信息');
+        }
+    }
+    closeVedio = () => {
+        this.setState({ cv: {} });
+    }
+
     goBack = () => {
         let index = this.state.index;
         if (index >= 1) this.changeLayer({ index: index - 1, props: this.layers[index - 1].props });
@@ -131,6 +160,7 @@ export default class App extends React.Component {
                 </div>
                 <div className='mbody'><div className='mbody-content'>{this.state.curLayer}</div></div>
                 <div className='mfooter' />
+                {this.state.cv.url ? <Vedio close={this.closeVedio} video={this.state.cv} scale={this.scaleCv} style={this.state.scaleCv ? { width: 3022, height: 1070, top: 460, left: 98 } : { width: 3026, height: 1075, top: 1265, left: 98, transform: 'scale(2.5)' }} /> : null}
             </div>
         )
     }

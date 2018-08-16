@@ -23,7 +23,7 @@ class Logins extends React.Component {
     }
 
     tgsxjk() {
-        publish('changeiframe', { index: 2, props: {} });
+        publish('changeiframe', { index: 1, props: {} });
     }
 
     sjzhcx() {
