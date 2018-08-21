@@ -86,15 +86,18 @@ export default class ZNYBJ extends React.Component {
                 Object.keys(res[0][0].data[0]).map((e) => { yjsl[e] ? yjsl[e].num = res[0][0].data[0][e] : null });
                 Object.keys(res[1][0].data[0]).map((e) => { bjsl[e] ? bjsl[e].wcl = res[1][0].data[0][e] : null });
                 Object.keys(res[1][0].data[1]).map((e) => { bjsl[e] ? bjsl[e].ycl = res[1][0].data[1][e] : null });
-                this.setState({ loading: true });
+                this.setState({ loading: true, gkyxBtn: this.props.xz }, this.handleSel());
             });
-        })
+        });
     }
 
     /** 下拉框==》按钮事件 */
     handleSel = (e) => {
-        this.setState({ sel: e.target.value, gkyxBtn: e.target.selectedIndex });
-        switch (e.target.selectedIndex) {
+        e ? this.setState({ sel: e.target.value, gkyxBtn: Number(e.target.selectedOptions[0].id) }, () => this.gkyxBtn(this.state.gkyxBtn)) : this.gkyxBtn(this.state.gkyxBtn)
+    }
+
+    gkyxBtn(n) {
+        switch (n) {
             case 1:
                 this.setState({ ybj: [['ALTER02', 'ALTER04'], ['WARNING01', 'WARNING02']] })
                 break;
@@ -104,9 +107,7 @@ export default class ZNYBJ extends React.Component {
             case 3:
                 this.setState({
                     ybj: [['ALTER08', 'ALTER09', 'ALTER14', 'ALTER15'],
-                    ['WARNING06', 'WARNING07', 'WARNING08', 'WARNING09', 'WARNING10', 'WARNING11', 'WARNING15',
-                        'WARNING20', 'WARNING21', 'WARNING22', 'WARNING23', 'WARNING24',
-                    ]],
+                    ['WARNING06', 'WARNING07', 'WARNING08', 'WARNING09', 'WARNING10', 'WARNING11', 'WARNING15', 'WARNING20', 'WARNING21', 'WARNING22', 'WARNING23', 'WARNING24']],
                 })
                 break;
             default:
@@ -123,8 +124,8 @@ export default class ZNYBJ extends React.Component {
         switch (Number(e)) {
             case 1:
                 this.setState({
-                    ybj: [['ALTER02', 'ALTER04', 'ALTER06', 'ALTER07', 'ALTER08', 'ALTER09', 'ALTER14', 'ALTER15'],
-                    ['WARNING01', 'WARNING02', 'WARNING03', 'WARNING04', 'WARNING05', 'WARNING06', 'WARNING07', 'WARNING08', 'WARNING09', 'WARNING10', 'WARNING11', 'WARNING15', 'WARNING22', 'WARNING23', 'WARNING24']],
+                    ybj: [['ALTER08', 'ALTER09', 'ALTER14', 'ALTER15'],
+                    ['WARNING06', 'WARNING07', 'WARNING08', 'WARNING09', 'WARNING10', 'WARNING11', 'WARNING15', 'WARNING22', 'WARNING23', 'WARNING24']],
                     btn: {
                         mt: true,
                         cic: false,
@@ -260,15 +261,18 @@ export default class ZNYBJ extends React.Component {
 
     render() {
         return (
-            <div className="znybj">
+            <div className="znybj" style={this.props.ys}>
                 <div className="znybj_top">
                     <div className="znybj_top_sel">
                         <div className="znybj_top_sel_span">预报警类型</div>
                         <select className="znybj_top_sel_select" value={this.state.sel} onChange={this.handleSel} >
-                            <option value="--请选择--">--请选择--</option>
-                            <option key="1" value="进口时效">进口时效</option>
-                            <option key="2" value="出口时效">出口时效</option>
-                            <option key="3" value="管控运行">管控运行</option>
+                            {/* <option value="--请选择--">--请选择--</option> */}
+                            {/* {this.props.xz === 1 ? <option key="1" id="1" value="进口时效">进口时效</option> : null}
+                            {this.props.xz === 1 ? <option key="2" id="2" value="出口时效">出口时效</option> : null}
+                            {this.props.xz === 3 ? <option key="3" id="3" value="管控运行">管控运行</option> : null} */}
+                            <option key="1" id="1" value="进口时效" disabled={this.props.xz !== 1} >进口时效</option>
+                            <option key="2" id="2" value="出口时效" disabled={this.props.xz !== 1} >出口时效</option>
+                            <option key="3" id="3" value="管控运行" disabled={this.props.xz !== 3}>管控运行</option>
                         </select>
                     </div>
                     {
@@ -283,12 +287,13 @@ export default class ZNYBJ extends React.Component {
                                 <div className={this.state.btn.lj ? 'znybj_top_btn_ljR' : 'znybj_top_btn_lj'} onClick={() => this.handleBtn('5')}>旅检</div>
                             </div>
                     }
-                    <div className='znybj_top_gb' onClick={this.props.gb}></div>
+                    {this.props.xz === 3 ? null : <div className='znybj_top_gb' onClick={this.props.gb}></div>}
+
                 </div>
                 <div className="znybj_bot">
-                    <Znyj yj={this.state.ybj[0]} yjjson={yjsl} click={this.handleClik}></Znyj>
+                    <Znyj xz={this.props.xz} yj={this.state.ybj[0]} yjjson={yjsl} click={this.handleClik}></Znyj>
                     <div className="znybj_bot_fgx">分割线</div>
-                    <Znbj bj={this.state.ybj[1]} bjjson={bjsl} click={this.handleClik}></Znbj>
+                    <Znbj xz={this.props.xz} bj={this.state.ybj[1]} bjjson={bjsl} click={this.handleClik}></Znbj>
                 </div>
                 {this.state.table ? <div id='warningDesc' style={{ position: 'absolute', top: 65, right: 3821, background: '#051658' }}>
                     {

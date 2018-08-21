@@ -35,7 +35,7 @@ body > div:nth-of-type(1) {
   width: 1300px;
   height: 220px;
   position: absolute;
-  top: 1260px;
+  top: 1335px;
   left: 2650px;
   cursor: pointer;
 }
@@ -44,7 +44,7 @@ body > div:nth-of-type(1) {
   width: 1230px;
   height: 200px;
   position: absolute;
-  top: 1020px;
+  top: 1078px;
   right: 2739px;
 }
 .iframe-sj {
@@ -52,7 +52,7 @@ body > div:nth-of-type(1) {
   width: 1220px;
   height: 200px;
   position: absolute;
-  bottom: 670px;
+  bottom: 708px;
   left: 3650px;
 }
 .mframe {
@@ -64,7 +64,7 @@ body > div:nth-of-type(1) {
 }
 .mheader {
   margin-top: 65px;
-  height: 334px;
+  height: 370px;
   width: 11450px;
   display: flex;
   flex-direction: row;
@@ -134,7 +134,7 @@ body > div:nth-of-type(1) {
 }
 .mbody {
   width: 11520px;
-  height: 3090px;
+  height: 100%;
   flex-grow: 1;
   position: relative;
   display: flex;
@@ -365,7 +365,7 @@ body > div:nth-of-type(1) {
   background-size: 100% 100%;
 }
 .warningTip-b {
-  width: 3475px;
+  width: 3766px;
   height: 3150px;
   display: flex;
   flex-direction: row;
@@ -375,15 +375,15 @@ body > div:nth-of-type(1) {
 .warningTip-b-title {
   display: flex;
   flex-direction: row;
-  height: 112px;
+  height: 290px;
 }
 .warningTip-b-title-1 {
   flex-grow: 1;
   background: #002E73;
-  font-size: 60px;
+  font-size: 75px;
   color: white;
   text-align: center;
-  line-height: 110px;
+  line-height: 290px;
   cursor: pointer;
   border: 1px solid #1890ff;
 }
@@ -392,10 +392,10 @@ body > div:nth-of-type(1) {
 }
 .warningTip-b-title-2 {
   flex-grow: 1;
-  font-size: 60px;
+  font-size: 75px;
   color: rgba(255, 255, 255, 0.6);
   text-align: center;
-  line-height: 110px;
+  line-height: 290px;
   cursor: pointer;
   border: 1px solid #1890ff;
 }
@@ -1154,7 +1154,7 @@ body > div:nth-of-type(1) {
   justify-content: space-between;
 }
 .query-t {
-  width: 3840px;
+  width: 3766px;
   height: 3135px;
   background: url('../images/面板底框.png') no-repeat;
   background-size: 100% 100%;
@@ -4056,13 +4056,14 @@ body > div:nth-of-type(1) {
 *************************数据监控开始**************************
 ***************************************************************/
 .embed {
-  width: 4029px;
+  width: 3766px;
   height: 2850px;
   background: #000A32;
   position: absolute;
   right: 50px;
   top: 335px;
-  border: solid 2px #1f9bff;
+  background: url('../images/面板底框.png') no-repeat;
+  background-size: 100% 100%;
 }
 .embed-l {
   display: flex;
@@ -4332,9 +4333,6 @@ body > div:nth-of-type(1) {
 }
 .znybj {
   background: #000000;
-  left: 7711px;
-  width: 3740px;
-  height: 2030px;
   display: flex;
   flex-direction: column;
   border: 1px solid #1E7ACE;
@@ -4447,7 +4445,7 @@ body > div:nth-of-type(1) {
   z-index: 9999;
 }
 .znybj_bot {
-  height: 1810px;
+  height: 90%;
   border-style: solid;
   border-width: 30px 30px 30px 30px;
   border-image: url("../images/bg.png") 30 30 30 30 fill;

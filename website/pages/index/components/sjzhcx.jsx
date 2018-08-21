@@ -54,7 +54,7 @@ class FastQuery extends React.Component {
             let trClick = (data, index, datas) => {
                 window.openLoading();
                 publish('webAction', { svn: 'skhg_service', path: 'getAreaByWhere', data: { where: "CODE='" + data.TERMINALCODE + "'" } }).then((res) => {
-                    publish('changeiframe', { index: 1, props: {} }).then( e => {
+                    publish('changeiframe', { index: 1, props: {} }).then((e) => {
                          publish('changeLayer', { index: 2, props: { datas: res[0].data[0], defaultLayer: { ship: data } } })
                     }) ;
                 });
@@ -135,7 +135,7 @@ class FastQuery extends React.Component {
                 let zymt = datas.filter((e) => e.key == '作业码头')[0].value;
                 let cno = datas.filter((e) => e.key == '箱号')[0].value;
                 publish('webAction', { svn: 'skhg_service', path: 'getAreaByWhere', data: { where: "CODE='" + zymt + "'" } }).then((res) => {
-                    publish('changeiframe', { index: 1, props: {} }).then( e => {
+                    publish('changeiframe', { index: 1, props: {} }).then((e) => {
                         publish('changeLayer', { index: 2, props: { datas: res[0].data[0], defaultLayer: { container: cno } } });
                    }) ;
                 })
@@ -316,15 +316,15 @@ class FastLink extends React.Component {
     }
     render() {
         return (
-            <div className='warningTip' style={{ position: 'absolute', top: 50, left: 3926, zIndex: 99999, height: 3135 }}>
+            <div className='warningTip' style={{ position: 'absolute', top: 50, left: 3866, zIndex: 99999, height: 3135 }}>
                 {/* <div className='warningTip-t'></div> */}
                 <div className='warningTip-b'>
-                    <Panel style={{ padding: '20px 25px', width: 3365, height: 3090 }}>
+                    <Panel style={{ padding: '20px 25px', width: 3766, height: 3090 }}>
                         <div className='warningTip-b-title'>
                             {this.state.items.map((e, i) => <div onClick={() => this.clickTitle(i)} className={e.show ? 'warningTip-b-title-1' : 'warningTip-b-title-2'} key={i}>{e.name}</div>)}
                         </div>
                         <div className='warningTip-b-body'>
-                            <Table style={{ width: 3361, height: 2940, overflow: 'auto' }} id={'bb'} selectedIndex={null} flds={this.state.flds} datas={this.state.datas} trClick={null} trDbclick={null} myTd={this.myTd} />
+                            <Table style={{ width: 3710, height: 2755, overflow: 'auto' }} id={'bb'} selectedIndex={null} flds={this.state.flds} datas={this.state.datas} trClick={null} trDbclick={null} myTd={this.myTd} />
                         </div>
                     </Panel>
                 </div>
@@ -394,7 +394,7 @@ class MySelect extends React.Component {
                 { key: 'IMAP_WARNING_10', name: '同船运输集装箱异常装卸' },
                 { key: 'IMAP_WARNING_22', name: '船舶抵港时间异常报警' },
                 { key: 'IMAP_WARNING_23', name: '船舶离港时间异常报警' },
-                { key: 'IMAP_WARNING_24', name: '退运柜15天内复进境' }
+                { key: 'IMAP_WARNING_24', name: '退运柜15天内复进境' },
             ],
             // cic: [
             //     { key: 'IMAP_WARNING_16', name: '收到查验指令72小时未调入CIC' },

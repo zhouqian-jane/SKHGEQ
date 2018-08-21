@@ -1,8 +1,9 @@
 .ic-box {
     width: 3720px;
-    height: 2600px;
-    background: url('../images/11.png') no-repeat;
-    background-size: 100% 100%;
+    height: 3015px;
+    border-style: solid;
+    border-width: 50px 50px 50px 50px;
+    border-image: url("../images/bg.png") 10 10 10 10 fill;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +11,7 @@
 }
 
 .ic-box>div {
-    height: 2465px;
+    height: 3000px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,8 +20,8 @@
 
 .ic-video {
     margin-top: 30px;
-    width: 3450px;
-    height: 1000px;
+    width: 3720px;
+    height: 1155px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -28,7 +29,7 @@
 }
 
 .ic-video-v {
-    width: 1715px;
+    width: 1850px;
     height: 100%;
     background: url('../images/22.png') no-repeat;
     background-size: 100% 100%;
@@ -49,8 +50,8 @@
 }
 
 .ic-record {
-    width: 3450px;
-    height: 1125px;
+    width: 3720px;
+    height: 1480px;
     background: url('../images/33.png') no-repeat;
     background-size: 100% 100%;
     overflow: auto;
@@ -113,7 +114,7 @@
 }
 
 .ic-msg {
-    width: 3450px;
+    width: 3720px;
     height: 265px;
     background: url('../images/44.png') no-repeat;
     background-size: 100% 100%;

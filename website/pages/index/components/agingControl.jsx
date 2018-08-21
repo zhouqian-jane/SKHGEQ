@@ -533,6 +533,11 @@ class CK extends React.Component {
 
     render() {
         let datas = this.state[this.props.layer];
+        const ys = {
+            left: 7711,
+            width: 3740,
+            height: 2030,
+        }
         return (
             <div className='ac-ckbox'>
                 <div className='ac-back' onClick={this.back}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
@@ -557,7 +562,7 @@ class CK extends React.Component {
                             <CY datas={datas[1]} setPropsState={this.setPropsState} updateTop10={this.updateTop10} />
                         </div>
                     </div>
-                    {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' > <ZNYBJ gb={() => this.setState({ hthjsx: 1 })} /> </div> : <div />}
+                    {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' > <ZNYBJ ys={ys} xz={1} gb={() => this.setState({ hthjsx: 1 })} /> </div> : <div />}
                     {this.state.htcysx > 1 ? <div className='ac-ckbox-znybjs' > <Sycyzy gb={() => this.setState({ htcysx: 1 })} /> </div> : <div />}
                 </div>
                 <div className='ac-ckbox-c'><div>诊断结论：</div><div>2018年{this.props.data}出口时效......</div></div>

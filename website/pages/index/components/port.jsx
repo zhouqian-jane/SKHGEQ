@@ -11,6 +11,7 @@ import { Desc, Details } from '../../../frame/componets/details/index';
 import BigShipIcon from '../../../res/mapIcon/bigShip.png';
 import BargeIcon from '../../../res/mapIcon/Barge.png';
 import yl from '../../../res/mapIcon/游轮.png';
+import Znybj from './ZNYBJ';
 
 /** 计算数量得到小数点和前面加0 */
 function toArray(str) {
@@ -66,7 +67,7 @@ class MapOperation extends React.Component {
             xmin: 113.821099658,
             ymin: 22.444926626,
             xmax: 113.963486604,
-            ymax: 22.495485413
+            ymax: 22.495485413,
         };
         // console.log(this.props.map);
         this.props.map.mapOper.setMapExtent(mapExtent);
@@ -665,13 +666,20 @@ export default class Port extends React.Component {
     }
     render() {
         let { tview = [], idx = 0 } = this.state;
+        const styles = {
+            left: 7741,
+            width: 3740,
+            height: 2760,
+            'position': 'absolute',
+        }
         return (
             <div className='portMap' style={{ overflow: 'hidden', height: '100%' }}>
                 <div className='portleft'>
                     <div ref="iframe"></div>
                     {this.state.map ? <MapOperation map={this.state.map} /> : null}
                 </div>
-                <PortRightPanel></PortRightPanel>
+                <Znybj ys={styles} xz={3} />
+                {/* <PortRightPanel></PortRightPanel> */}
                 {/* <div className='portRight'></div> */}
                 {/* <div className='portRight' style={{ marginLeft: 30 }}>
                     <div className='portRight-1' onClick={() => publish('playVedio')}></div>

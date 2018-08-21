@@ -1,0 +1,37 @@
+@import '../../../frame/less/common.less';
+body>div:nth-of-type(1) {
+    width: @scale * 3840px;
+    height: @scale * 1080px;
+    background: #000e46;
+}
+
+.mbody {
+    width: 11520px;
+    height: 100%;
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    &-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 0 35px;
+        >div {
+            flex-grow: 1;
+        }
+    }
+}
+
+.ic {
+    background: rgba(0, 0, 0, 0.8);
+    // z-index: 9999;
+    position: absolute;
+    top: 50px;
+    left: 35%;
+    >iframe {
+        width: 3840px;
+        height: 3135px;
+        border: none;
+    }
+}
