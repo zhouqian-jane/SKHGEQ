@@ -340,7 +340,7 @@ export default class AgingControl extends React.Component {
             res[0].features.forEach((e) => pjz[e.attributes.CATEGORY == 'E' ? 'ck' : 'jk'] = e.attributes);
             this.setState({ pjz: pjz }, this.update);
         });
-        publish('getData', { svn: 'skhg_stage', tableName: 'imap_skhg_sxfx', data: { where: "EFFECTDATE LIKE to_char(sysdate,'yyyy')-1||'%' OR EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
+        publish('getData', { svn: 'skhg_loader', tableName: 'imap_skhg_sxfx', data: { where: "EFFECTDATE LIKE to_char(sysdate,'yyyy')-1||'%' OR EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
             let year = new Date().getFullYear() + '';
             let thisyear = {};
             let jk = 0;
@@ -396,7 +396,7 @@ class CK extends React.Component {
             let month = Number(props.data.replace('月', ''));
             let year = new Date().getFullYear();
             let time = year + (month < 10 ? '0' : '') + month;
-            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='" + (props.layer == 'ck' ? 'E' : 'I') + "' and EFFECTDATE='" + time + "'" } }).then((res) => {
+            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category = '" + (props.layer == 'ck' ? 'E' : 'I') + "' and EFFECTDATE='" + time + "'" } }).then((res) => {
                 let e = res[0].features[0].attributes;
                 let xc_sb = (((Number(e.DATAB) * 24) - Number(props.hgpjz.data[time][props.layer])) / 24).toFixed(2);
                 e.DATAA = Number(e.DATAA);
@@ -479,9 +479,9 @@ class CK extends React.Component {
     /** 查验时效  --》实时动态 -->实时查验作业数据 */
     handleCYSXChange() {
         if (this.state.htcysx < 1) {
-            this.setState({ htcysx: this.state.htcysx + 1, hthjsx: this.state.hthjsx > 1 ? this.state.hthjsx - 1 : this.state.hthjsx  });
+            this.setState({ htcysx: this.state.htcysx + 1, hthjsx: this.state.hthjsx > 1 ? this.state.hthjsx - 1 : this.state.hthjsx });
         } else {
-            this.setState({ htcysx: 2, hthjsx: this.state.hthjsx > 1 ? this.state.hthjsx - 1 : this.state.hthjsx  }, () => {
+            this.setState({ htcysx: 2, hthjsx: this.state.hthjsx > 1 ? this.state.hthjsx - 1 : this.state.hthjsx }, () => {
                 $('.sycyzyTab').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.sycyzyTab').removeClass('zoomIn animated'));
             });
         }
@@ -494,7 +494,6 @@ class CK extends React.Component {
             width: 3740,
             height: 2030,
         };
-        console.log(this.state.hthjsx);
         return (
             <div className='ac-ckbox'>
                 <div className='ac-back' onClick={this.back}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
@@ -592,20 +591,18 @@ class Cysj extends React.Component {
         })
         this.update = (props) => {
             let dt = [];
-            for (let i in props.da) {
-                dt.push({ name: props.da[i].name, value: props.da[i].time, num: i })
+            let a = (props.da).sort((a, b) => a.time - b.time);
+            for (let i in a) {
+                dt.push({ name: a[i].name, value: a[i].time, num: i })
             }
             let month = props.month.replace('月', '');
             let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
-            let data = props.datas.data[time] ? Number(props.datas.data[time][props.layer]) : 0;
+            // let data = props.datas.data[time] ? Number(props.datas.data[time][props.layer]) : 0;
             let option = {
-                color: ['#70e100', '#1890FF', '#0A3C77'],
+                color: ['#1890FF', '#0A3C77', '#70e100',],
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{b} :{c}小时",
-                    // formatter: (params) => {
-                    //     formatter: "{b} :{c}%",
-                    // },
+                    formatter: "{b} :{c}%",
                     textStyle: {
                         fontSize: 50,
                         color: '#70E100',

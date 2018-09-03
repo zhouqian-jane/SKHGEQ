@@ -269,7 +269,7 @@ export default class ZNYBJ extends React.Component {
                             {/* <option value="--请选择--">--请选择--</option> */}
                             {this.props.xz === 1 ? <option key="1" id="1" value="进口时效">进口时效</option> : null}
                             {this.props.xz === 1 ? <option key="2" id="2" value="出口时效">出口时效</option> : null}
-                            {this.props.xz === 3 ? <option key="3" id="3" value="管控运行">管控运行</option> : null}
+                            {this.props.xz === 3 ? <option key="3" id="3" value="运行管控">运行管控</option> : null}
                             {/* <option key="1" id="1" value="进口时效" disabled={this.props.xz !== 1} >进口时效</option>
                             <option key="2" id="2" value="出口时效" disabled={this.props.xz !== 1} >出口时效</option>
                             <option key="3" id="3" value="管控运行" disabled={this.props.xz !== 3}>管控运行</option> */}
