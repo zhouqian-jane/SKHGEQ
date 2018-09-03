@@ -1439,6 +1439,7 @@ body>div:nth-of-type(1) {
             position: absolute;
             top: 610px;
             z-index: 9999;
+            right: 1200px;
         }
         &-hthjxs{
             width: 598px;
@@ -1539,7 +1540,7 @@ body>div:nth-of-type(1) {
     }
     &-hg {
         position: relative;
-        left: 390px;
+        left: -160px;
         width: 3110px;
         height: 628px;
         display: flex;
@@ -1619,7 +1620,7 @@ body>div:nth-of-type(1) {
     }
     &-chg{
         position: relative;
-        left: 390px;
+        left: 0;
         width: 3110px;
         height: 628px;
         display: flex;
@@ -1668,6 +1669,12 @@ body>div:nth-of-type(1) {
             &-house {
                 display: flex;
                 flex-direction: row;
+                justify-content: space-between;
+                width: 1200px;
+                &-name{
+                    font-size: 100px;
+                    color: #ebf7df;
+                }
                 &-num {
                     font-size: 200px;
                     color: #70e100;
@@ -1702,6 +1709,7 @@ body>div:nth-of-type(1) {
     height: 628px;
     position: relative;
     left: 150px;
+    display: flex;
     &-ck{
         background: url('../images/agingControl/环节时效-出口.png') no-repeat;
         background-size: 100% 100%;
@@ -1713,6 +1721,82 @@ body>div:nth-of-type(1) {
         background-size: 100% 100%;
         width: 90%;
         height: 100%;
+    }
+    &-jck{
+        width: 2180px;
+        height: 628px;
+        position : absolute;;
+        color : #fff;
+    }
+    &-sjjk{
+        width: 2180px;
+        height: 628px;
+        position : absolute;;
+        color : #fff;
+        font-size: 75px;
+        &-0{
+            position: absolute;
+            top: 90px;
+            left: 250px;
+        }
+        &-1{
+            position: absolute;
+            top: 90px;
+            left: 670px;
+        }
+        &-2{
+            position: absolute;
+            top: 90px;
+            left: 1185px;
+        }
+        &-3{
+            position: absolute;
+            top: 560px;
+            left: 350px;
+        }
+        &-4{
+            position: absolute;
+            top: 560px;
+            left: 1320px;
+        }
+        
+    }
+    &-sjck{
+        width: 2180px;
+        height: 628px;
+        position : absolute;;
+        color : #fff;
+        font-size: 75px;
+        &-0{
+            position: absolute;
+            top: 90px;
+            left: 240px;
+        }
+        &-1{
+            position: absolute;
+            top: 90px;
+            left: 660px;
+        }
+        &-2{
+            position: absolute;
+            top: 90px;
+            left: 1300px;
+        }
+        &-3 {
+            position: absolute;
+            top: 360px;
+            left: 260px;
+        }
+        &-4{
+            position: absolute;
+            top: 360px;
+            left: 665px;
+        }
+        &-5 {
+            position: absolute;
+            top: 360px;
+            left: 1050px;
+        }
     }
 }
 
@@ -2107,8 +2191,9 @@ body>div:nth-of-type(1) {
     justify-content: space-between;
     //width: 500px;
     &-btn1{
-        width: 150px;
+        // width: 150px;
         height: 90px;
+        padding: 12px;
         background: #D48265;
         border-radius: 10px;
         color: white;
@@ -2122,8 +2207,9 @@ body>div:nth-of-type(1) {
     }
     
     &-btn2{
-        width: 150px;
+        // width: 150px;
         height: 90px;
+        padding: 12px;
         background: #61A0A8;
         border-radius: 10px;
         color: white;
@@ -2136,8 +2222,9 @@ body>div:nth-of-type(1) {
         }
     }
     &-btn3{
-        width: 150px;
+        // width: 150px;
         height: 90px;
+        padding: 12px;
         background: #0682ce;
         border-radius: 10px;
         color: white;
@@ -2150,8 +2237,9 @@ body>div:nth-of-type(1) {
         }
     }
     &-btn4{
-        width: 150px;
+        // width: 150px;
         height: 90px;
+        padding: 12px;
         background: #D48265;
         border-radius: 10px;
         color: white;
@@ -2164,7 +2252,8 @@ body>div:nth-of-type(1) {
         }
     }
     &-noSelected {
-        width: 150px;
+        // width: 150px;
+        padding: 12px;
         height: 90px;
         background: #C0C0C0;
         border-radius: 10px;
@@ -3999,15 +4088,22 @@ body>div:nth-of-type(1) {
     background: #000A32;
     position: absolute;
     right: 50px;
-    top: 335px;
+    top: 50px;
     // border: solid 2px #1f9bff;
     background: url('../images/面板底框.png') no-repeat;
     background-size: 100% 100%;
+    &-s{
+        font-size: 145px;
+        line-height: 307px;
+        height : 307px;
+        color:  #fff;
+        margin-left: 85px;
+    }
     &-l {
         display: flex;
         flex-direction: row;
         position: absolute;
-        top: -205px;
+        top: 105px;
         right: 50px;
         &-t {
             width: 165px;

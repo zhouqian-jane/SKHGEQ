@@ -75,7 +75,11 @@ export default class App extends React.Component {
                 case 3:
                     curLayer = <Sjzhcx {...curProps} />;
                     break;
+                case 5 : 
+                    window.location.reload();
+                    break;
                 default:
+                    // window.location.reload();
                     curLayer = <Logins {...curProps} />;
             }
             this.layers[index] = { layerIndex: index, props: curProps };

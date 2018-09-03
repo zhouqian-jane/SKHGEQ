@@ -64,7 +64,7 @@ export default class PierRightPanel extends React.Component {
             cmbl: [
                 [[{name: '招商保税101库球机', url: 'http://172.28.1.65:8020/?ip=10.131.16.12'}], [{name: '招商保税102库球机', url: 'http://172.28.1.65:8020/?ip=10.131.16.16'}]],
                 [[{name: '招商保税103库球机', url: 'http://172.28.1.65:8020/?ip=10.131.16.19'}], [{name: '招商保税104库球机', url: 'http://172.28.1.65:8020/?ip=10.131.16.22'}]], 
-                [data, data]
+                [[{name: '园区内正对闸口球机', url: 'http://172.28.1.65:8020/?ip=10.131.16.189'}], [{name: '闸口行人通道', url: 'http://172.28.1.65:8020/?ip=10.131.15.57'}]], 
             ],
             cic: [],
             yth: [[data, data], [data, data]],
@@ -99,7 +99,6 @@ export default class PierRightPanel extends React.Component {
                             publish('getData', { svn: 'skhg_loader', tableName: 'V_IMAP_ALERTING_12', data: { pageno: 1, pagesize: 10000, where: '1=1' } }),
                             publish('getData', { svn: 'skhg_loader', tableName: 'V_IMAP_ALERTING_13', data: { pageno: 1, pagesize: 10000, where: '1=1' } }),
                         ]).then((res) => {
-                            console.log(res);
                             res.forEach((r, i) => {
                                 this.setState({['cic' + i]: {
                                     flds: res[i][0].fields.map((e) => {return {title: e.alias, dataIndex: e.name}}),
@@ -108,14 +107,14 @@ export default class PierRightPanel extends React.Component {
                             });
                         });
                     }
-                    // else {
-                    //     publish('pire_right_yq_axis', { value: Nowdata }).then((res) => {
-                    //         if (this.chart) this.chart.dispose();
-                    //         this.chart = echarts.init(ReactDOM.findDOMNode(this.refs.echart1));
-                    //         this.chart.setOption(res[0]);
-                    //     });
-                    //     this.setState({ vedios: vedios[this.props.datas.code.toLowerCase()], vediosHeight: 930 });
-                    // }
+                    else {
+                        // publish('pire_right_yq_axis', { value: Nowdata }).then((res) => {
+                        //     if (this.chart) this.chart.dispose();
+                        //     this.chart = echarts.init(ReactDOM.findDOMNode(this.refs.echart1));
+                        //     this.chart.setOption(res[0]);
+                        // });
+                        this.setState({ vedios: vedios[this.props.datas.code.toLowerCase()], vediosHeight: 930 });
+                    }
                 } else if (this.props.datas.type == 2) {
                     publish('port_2_bar').then((res) => {
                         if (this.chart2) this.chart2.dispose();
@@ -346,48 +345,6 @@ export default class PierRightPanel extends React.Component {
                     </div>
                 ];
             }
-            else{
-
-            }
-            // else {
-            //     items = [
-            //         <div className="houseView" key='1'>
-            //             <div className="houseView-leftspan">
-            //                 仓<br />库<br />库<br />存<br />情<br />况
-            //            </div>
-            //             <div className="houseView-view test-1">
-            //                 <div className="houseView-view-cendiv">
-            //                     {Nowdata.list.map((value, key) => { return <div key={key}>仓库{value.cname}</div> })}
-            //                 </div>
-            //                 <div className="houseView-view-ec">
-            //                     <div className='houseView-view-ec-row' style={{ height: '100%', width: '100%' }} ref="echart1"></div>
-            //                 </div>
-            //                 <div className="houseView-view-rig">
-            //                     <div className="houseView-view-rig-top">
-            //                         <div>今日</div>
-            //                         <div>昨日</div>
-            //                         <div>同比</div>
-            //                     </div>
-            //                     <div className="houseView-view-rig-num">
-            //                         {Nowdata.list.map((value, key) => {
-            //                             if (value.today > value.yesterday) {
-            //                                 return <div key={key}>
-            //                                     <div>{value.today}</div>
-            //                                     <div>{value.yesterday}</div>
-            //                                     <div className="houseView-view-rig-num-green">{Math.abs((value.today - value.yesterday) / value.yesterday * 100).toFixed(2)}%</div>
-            //                                 </div>
-            //                             } else return <div key={key}>
-            //                                 <div>{value.today}</div>
-            //                                 <div>{value.yesterday}</div>
-            //                                 <div className="houseView-view-rig-num-red">{Math.abs((value.today - value.yesterday) / value.yesterday * 100).toFixed(2)}%</div>
-            //                             </div>
-            //                         })}
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     ];
-            // }
         }
         else {
             let fld = [

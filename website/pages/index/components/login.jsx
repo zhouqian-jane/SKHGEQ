@@ -105,7 +105,7 @@ export default class App extends React.Component {
     }
 
     gologin = () => {
-        publish('changeiframe', { index: 4, props: {} });
+        publish('changeiframe', { index: 5, props: {} });
     }
 
     playVedio = (vedio) => {

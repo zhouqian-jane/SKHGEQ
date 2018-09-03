@@ -267,12 +267,12 @@ export default class ZNYBJ extends React.Component {
                         <div className="znybj_top_sel_span">预报警类型</div>
                         <select className="znybj_top_sel_select" value={this.state.sel} onChange={this.handleSel} >
                             {/* <option value="--请选择--">--请选择--</option> */}
-                            {/* {this.props.xz === 1 ? <option key="1" id="1" value="进口时效">进口时效</option> : null}
+                            {this.props.xz === 1 ? <option key="1" id="1" value="进口时效">进口时效</option> : null}
                             {this.props.xz === 1 ? <option key="2" id="2" value="出口时效">出口时效</option> : null}
-                            {this.props.xz === 3 ? <option key="3" id="3" value="管控运行">管控运行</option> : null} */}
-                            <option key="1" id="1" value="进口时效" disabled={this.props.xz !== 1} >进口时效</option>
+                            {this.props.xz === 3 ? <option key="3" id="3" value="管控运行">管控运行</option> : null}
+                            {/* <option key="1" id="1" value="进口时效" disabled={this.props.xz !== 1} >进口时效</option>
                             <option key="2" id="2" value="出口时效" disabled={this.props.xz !== 1} >出口时效</option>
-                            <option key="3" id="3" value="管控运行" disabled={this.props.xz !== 3}>管控运行</option>
+                            <option key="3" id="3" value="管控运行" disabled={this.props.xz !== 3}>管控运行</option> */}
                         </select>
                     </div>
                     {
@@ -282,9 +282,9 @@ export default class ZNYBJ extends React.Component {
                         </div> : <div className="znybj_top_btn">
                                 <div className={this.state.btn.mt ? 'znybj_top_btn_mtR' : 'znybj_top_btn_mt'} onClick={() => this.handleBtn('1')}>码头</div>
                                 <div className={this.state.btn.cic ? 'znybj_top_btn_cicR' : 'znybj_top_btn_cic'} onClick={() => this.handleBtn('2')}>CIC</div>
-                                <div className={this.state.btn.dbcl ? 'znybj_top_btn_dbclR' : 'znybj_top_btn_dbcl'} onClick={() => this.handleBtn('3')}>调拨车辆</div>
+                                {/* <div className={this.state.btn.dbcl ? 'znybj_top_btn_dbclR' : 'znybj_top_btn_dbcl'} onClick={() => this.handleBtn('3')}>调拨车辆</div>
                                 <div className={this.state.btn.xztd ? 'znybj_top_btn_xztdR' : 'znybj_top_btn_xztd'} onClick={() => this.handleBtn('4')}>行政通道</div>
-                                <div className={this.state.btn.lj ? 'znybj_top_btn_ljR' : 'znybj_top_btn_lj'} onClick={() => this.handleBtn('5')}>旅检</div>
+                                <div className={this.state.btn.lj ? 'znybj_top_btn_ljR' : 'znybj_top_btn_lj'} onClick={() => this.handleBtn('5')}>旅检</div> */}
                             </div>
                     }
                     {this.props.xz === 3 ? null : <div className='znybj_top_gb' onClick={this.props.gb}></div>}
@@ -295,7 +295,7 @@ export default class ZNYBJ extends React.Component {
                     <div className="znybj_bot_fgx">分割线</div>
                     <Znbj xz={this.props.xz} bj={this.state.ybj[1]} bjjson={bjsl} click={this.handleClik}></Znbj>
                 </div>
-                {this.state.table ? <div id='warningDesc' style={{ position: 'absolute', top: 65, right: 3821, background: '#051658' }}>
+                {this.state.table ? <div id='warningDesc' style={{ position: 'absolute', top: 65, right: 3816, background: '#051658' }}>
                     {
                         this.state.btn.Updown ? <div className="znybj_ud">
                             <div className="znybj_ud_up" onClick={this.handleBtnUp}>上一页</div>
@@ -305,7 +305,7 @@ export default class ZNYBJ extends React.Component {
                     <Table
                         rowNo={true}
                         title={{ name: this.state.data.data.title, export: true, close: () => this.setState({ table: false }) }}
-                        style={{ height: 2600, width: 7500 }}
+                        style={{ height: 2600, width: 6130 }}
                         id={'qqq'}
                         selectedIndex={null}
                         flds={this.state.tableJson.flds}

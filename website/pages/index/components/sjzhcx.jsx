@@ -252,9 +252,9 @@ class FastLink extends React.Component {
             { name: '旅检移泊确认', show: true },
             { name: '旅检到泊确认', show: false },
             { name: '整船换装确认', show: false },
-            { name: '行政通道系统', show: false },
-            { name: '调拨通道系统', show: false },
-            { name: '远程抬闸系统', show: false },
+            // { name: '行政通道系统', show: false },
+            // { name: '调拨通道系统', show: false },
+            // { name: '远程抬闸系统', show: false },
         ],
         flds: [],
         datas: [],
@@ -339,7 +339,9 @@ class EmbedIframe extends React.Component {
     render() {
         return (
             <div className='embed'>
-                <div className='embed-l' onClick={() => publish('changeiframe', { index: 4, props: {} })}>
+            <div className='embed-s'>监管态势监测</div>
+            <iframe src="http://customsdemo.scctcn.com/" frameborder="0" width='3766px' height='2828px'></iframe>
+                <div className='embed-l' onClick={() => publish('changeiframe', { index: 5, props: {} })}>
                     <div className='embed-l-t'></div>
                     <span className='embed-l-s'>返回主页</span>
                 </div>

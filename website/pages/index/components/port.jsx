@@ -59,6 +59,7 @@ class MapOperation extends React.Component {
         SHIP_CRUISE: true,
         SHIP_LAYER: true,
         BARGE_SHIP_LAYER: true,
+        QUERY_BOX: true,
         map: true,
     }
 
@@ -74,42 +75,75 @@ class MapOperation extends React.Component {
 
         /** 港口码头划分 */
         publish('webAction', { svn: 'skhg_service', path: 'getAreaByWhere', data: { where: 'LAYER=2' } }).then((res) => {
-            // publish('webAction', { svn: 'skhg_service', path: 'queryTableByWhere', data: { tableName: 'SK_AREA', where: 'LAYER=2' } }).then((res) => {
-            console.log(res)
-            let color = {
-                1: [250, 22, 80, 1],       // 红色
-                2: [57, 255, 95, 1],       // 绿色
-                3: [255, 255, 255, 1],       // 蓝色
-                4: [251, 251, 0, 1],       // 黄色
-            };
-            res[0].data.forEach((data, i) => {
-                let dots = data.geom.rings[0].map((p) => { return { x: p[0], y: p[1] }; });
-                let fillColor = color[data.type];
-                let params = {
-                    id: 'port_view_' + i,
-                    linecolor: fillColor,
-                    layerId: 'port_view',
-                    dots: dots,
-                    attr: { ...data },
-                    click: (e) => publish('changeLayer', { index: 2, props: { datas: e.attributes, layerName: e.attributes.name } }),
-                    linewidth: 6,
-                    mouseover: (g) => {
-                        this.toolTipIn(g)
-                    },
-                    mouseout: (g) => {
-                        this.setState({
-                            showMT: false,
-                            Amap: false,
-                        });
-                        this.props.map.mapDisplay.clearLayer('port_view1');
-                    },
-                }
-                this.props.map.mapDisplay.polygon(params);
-            });
+            /** 查验集装箱 */
+            let o = [];
+            publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CHK_CHECK_COUNT', where: '1=1' } }).then((ors) => {
+                console.log(ors)
+                o.push(ors[0]);
+                let color = {
+                    1: [250, 22, 80, 1],       // 红色
+                    2: [57, 255, 95, 1],       // 绿色
+                    3: [255, 255, 255, 1],       // 蓝色
+                    4: [251, 251, 0, 1],       // 黄色
+                };
+                res[0].data.forEach((data, i) => {
+                    let dots = data.geom.rings[0].map((p) => { return { x: p[0], y: p[1] }; });
+                    let fillColor = color[data.type];
+                    let params = {
+                        id: 'port_view_' + i,
+                        linecolor: fillColor,
+                        layerId: 'port_view',
+                        dots: dots,
+                        attr: { ...data },
+                        click: (e) => publish('changeLayer', { index: 2, props: { datas: e.attributes, layerName: e.attributes.name } }),
+                        linewidth: 6,
+                        mouseover: (g) => {
+                            this.toolTipIn(g)
+                        },
+                        mouseout: (g) => {
+                            this.setState({
+                                showMT: false,
+                                Amap: false,
+                            });
+                            this.props.map.mapDisplay.clearLayer('port_view1');
+                        },
+                    }
+                    this.props.map.mapDisplay.polygon(params);
+                    // this.handleCYbox([data, o[0]]);
+                });
+            })
         });
 
+        /** 查验集装箱显示  */
+        this.handleCYbox = (e) => {
+            let maps = [{ name: 'SCT', x: '113.88888574283962', y: '22.45840389291108', dc: '0', dw: '1' },
+            { name: 'CCT', x: '113.87693133074633', y: '22.46944459197813', dc: '2', dw: '3' },
+            { name: 'MCT', x: '113.86825105699707', y: '22.48794728075947', dc: '4', dw: '5' },
+            { name: 'CIC', x: '113.87068762506703', y: '22.50759211082361', dc: '6', dw: '7' }]
+            maps.map((i) => {
+                if (i.name == (e[0].ssdw)) {
+                    // let y = points[0].y;
+                    let mText = {
+                        id: 'text' + Math.random(10000),
+                        layerId: 'textLayer',
+                        x: i.x,
+                        y: i.y,
+                        color : '#fff',
+                        // attr: { ...attr },
+                        text: "待查箱数：" + e[1].data[i.dc].COUNT_NUM,
+                        // text: '待查箱数：',
+                        offsetX: 0,
+                        offsetY: 0,
+                        layerIndex: 10,
+                    };
+                    this.props.map.mapDisplay.text(mText);
+                }
+            })
+        }
+
+
         // let insertArea = () => {// 插入区域信息
-        //     $.ajax({
+        //     $.ajax({ 
         //         dataType: 'json', url: '../test.json', async: false, success: (res) => {
         //             let a = res.features.map((e, i) => {
         //                 return {
@@ -412,6 +446,7 @@ class MapOperation extends React.Component {
                     <div onClick={() => this.mapItemsDisplay('SHIP_CRUISE')} style={{ margin: '20px' }} className={this.state.SHIP_CRUISE ? 'mapbtn-noSelected' : 'mapbtn-btn1'}>客轮</div>
                     <div onClick={() => this.mapItemsDisplay('SHIP_LAYER')} style={{ margin: '20px' }} className={this.state.SHIP_LAYER ? 'mapbtn-noSelected' : 'mapbtn-btn2'}>班轮</div>
                     <div onClick={() => this.mapItemsDisplay('BARGE_SHIP_LAYER')} style={{ margin: '20px' }} className={this.state.BARGE_SHIP_LAYER ? 'mapbtn-noSelected' : 'mapbtn-btn3'}>驳船</div>
+                    <div onClick={() => this.mapItemsDisplay('QUERY_BOX')} style={{ margin: '20px' }} className={this.state.QUERY_BOX ? 'mapbtn-noSelected' : 'mapbtn-btn4'} >查验集装箱</div>
                     {/* <div className={this.state.map ? 'mapbtn-btn4' : 'mapbtn-noSelected'}>地图</div> */}
                 </div>
                 {
@@ -424,6 +459,7 @@ class MapOperation extends React.Component {
                 }
                 {this.state.Amap ? <Tables flds={this.state.tip.mapDesc.name} datas={this.state.tip.mtJson}></Tables> : null}
                 {this.state.isShowDes ? <Desc className='descTip' style={StyleView} title={this.state.desTitle} content={descmsg} close={() => this.setState({ isShowDes: false })} /> : null}
+              
             </div>
         )
     }

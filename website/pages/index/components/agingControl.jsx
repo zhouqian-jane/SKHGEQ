@@ -309,7 +309,7 @@ export default class AgingControl extends React.Component {
                                     value: e,
                                     itemStyle: {
                                         normal: {
-                                            color: e < mbjkData[0] ? '#1890ff' : e < jkData[0] ? '#dbcf01' : '#f00',
+                                            color: Number(e) < Number(mbjkData[0]) ? '#1890ff' : Number(e) < Number(jkData[0]) ? '#dbcf00' : '#f00',
                                             label: {
                                                 textStyle: {
                                                     color: '#fff',
@@ -341,7 +341,6 @@ export default class AgingControl extends React.Component {
             this.setState({ pjz: pjz }, this.update);
         });
         publish('getData', { svn: 'skhg_stage', tableName: 'imap_skhg_sxfx', data: { where: "EFFECTDATE LIKE to_char(sysdate,'yyyy')-1||'%' OR EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
-            console.log(res);
             let year = new Date().getFullYear() + '';
             let thisyear = {};
             let jk = 0;
@@ -388,110 +387,67 @@ class CK extends React.Component {
         dataa: 0,
         hthjsx: 0,
         htcysx: 0,
-    }
-
-    componentWillReceiveProps(pro) {
-        console.log('123');
-        let layer = pro.layer;
-        let month = Number(pro.data.replace('月', ''));
-        let year = new Date().getFullYear();
-        let time = year + (month < 10 ? '0' : '') + month;
-        publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='" + (pro.layer == 'ck' ? 'E' : 'I') + "' and EFFECTDATE='" + time + "'" } }).then((res) => {
-            let e = res[0].features[0].attributes;
-            e.DATAA = Number(e.DATAA);
-            e.DATAB = (Number(e.DATAB) - Number(pro.hgpjz.data[time][pro.layer]) / 24).toFixed(2);
-            e.DATAC = Number(e.DATAC);
-            e.DATAD = Number(e.DATAD);
-            e.DATAE = Number(e.DATAE);
-            e.DATAF = Number(e.DATAF);
-            let data206 = (data) => (data * 2 / 3).toFixed(2);
-            let mdata = [];
-            let temp = pro.pjz;
-            temp.DATAA = Number(temp.DATAA);
-            temp.DATAB = Number(temp.DATAB);
-            temp.DATAC = Number(temp.DATAC);
-            temp.DATAD = Number(temp.DATAD);
-            temp.DATAE = Number(temp.DATAE);
-            temp.DATAF = Number(temp.DATAF);
-            if (pro.layer == 'ck') {
-                mdata = [
-                    [
-                        { layer: 'ck', name: '通关准备', top10Table: 'v_imap_scct_sxfx_e_b', style: { width: 1090, height: 630 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
-                        { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
-                    ],
-                    [
-                        // { layer: 'ck', name: '查验准备', top10Table: 'v_imap_scct_sxfx_e_d', style: { width: 1090, height: 630 }, type: e.DATAD > temp.DATAD ? 0 : 1, time: e.DATAD, items: [{ name: (e.DATAD > temp.DATAD ? '超' : '低') + '去年均值', value: Math.abs(e.DATAD - temp.DATAD).toFixed(2), rate: (Math.abs(e.DATAD - temp.DATAD) / temp.DATAD * 100).toFixed(0) }, { name: (e.DATAD > data206(temp.DATAD) ? '超' : '低') + '目标值', value: Math.abs(e.DATAD - data206(temp.DATAD)).toFixed(2), rate: (Math.abs(e.DATAD - data206(temp.DATAD)) / data206(temp.DATAD) * 100).toFixed(0) }] },
-                        // { layer: 'ck', name: '查验作业', top10Table: 'v_imap_scct_sxfx_e_e', style: { width: 1090, height: 630 }, type: e.DATAE > temp.DATAE ? 0 : 1, time: e.DATAE, items: [{ name: (e.DATAE > temp.DATAE ? '超' : '低') + '去年均值', value: Math.abs(e.DATAE - temp.DATAE).toFixed(2), rate: (Math.abs(e.DATAE - temp.DATAE) / temp.DATAE * 100).toFixed(0) }, { name: (e.DATAE > data206(temp.DATAE) ? '超' : '低') + '目标值', value: Math.abs(e.DATAE - data206(temp.DATAE)).toFixed(2), rate: (Math.abs(e.DATAE - data206(temp.DATAE)) / data206(temp.DATAE) * 100).toFixed(0) }] },
-                        // { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_f', style: { width: 1090, height: 630 }, type: e.DATAF > temp.DATAF ? 0 : 1, time: e.DATAF, items: [{ name: (e.DATAF > temp.DATAF ? '超' : '低') + '去年均值', value: Math.abs(e.DATAF - temp.DATAF).toFixed(2), rate: (Math.abs(e.DATAF - temp.DATAF) / temp.DATAF * 100).toFixed(0) }, { name: (e.DATAF > data206(temp.DATAF) ? '超' : '低') + '目标值', value: Math.abs(e.DATAF - data206(temp.DATAF)).toFixed(2), rate: (Math.abs(e.DATAF - data206(temp.DATAF)) / data206(temp.DATAF) * 100).toFixed(0) }] },
-                    ],
-                ];
-            }
-            else {
-                mdata = [
-                    [
-                        { layer: 'jk', name: '通关准备', top10Table: 'v_imap_scct_sxfx_i_b', style: { width: 1090, height: 630, marginRight: 50 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
-                        { layer: 'jk', name: '货物提离', top10Table: 'v_imap_scct_sxfx_i_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
-                    ],
-                    [
-                        // { layer: 'jk', name: '查验准备', top10Table: 'v_imap_scct_sxfx_i_d', style: { width: 1090, height: 630 }, type: e.DATAD > temp.DATAD ? 0 : 1, time: e.DATAD, items: [{ name: (e.DATAD > temp.DATAD ? '超' : '低') + '去年均值', value: Math.abs(e.DATAD - temp.DATAD).toFixed(2), rate: (Math.abs(e.DATAD - temp.DATAD) / temp.DATAD * 100).toFixed(0) }, { name: (e.DATAD > data206(temp.DATAD) ? '超' : '低') + '目标值', value: Math.abs(e.DATAD - data206(temp.DATAD)).toFixed(2), rate: (Math.abs(e.DATAD - data206(temp.DATAD)) / data206(temp.DATAD) * 100).toFixed(0) }] },
-                        // { layer: 'jk', name: '查验作业', top10Table: 'v_imap_scct_sxfx_i_e', style: { width: 1090, height: 630 }, type: e.DATAE > temp.DATAE ? 0 : 1, time: e.DATAE, items: [{ name: (e.DATAE > temp.DATAE ? '超' : '低') + '去年均值', value: Math.abs(e.DATAE - temp.DATAE).toFixed(2), rate: (Math.abs(e.DATAE - temp.DATAE) / temp.DATAE * 100).toFixed(0) }, { name: (e.DATAE > data206(temp.DATAE) ? '超' : '低') + '目标值', value: Math.abs(e.DATAE - data206(temp.DATAE)).toFixed(2), rate: (Math.abs(e.DATAE - data206(temp.DATAE)) / data206(temp.DATAE) * 100).toFixed(0) }] },
-                    ],
-                ];
-            }
-            this.updateTop10({ tab: 'v_imap_scct_sxfx_e_b', cjk: mdata, datas: e.DATAA })
-        });
+        sjhxsj: [],
     }
 
     componentDidMount() {
-        console.log('456');
-        let layer = this.props.layer;
-        let month = Number(this.props.data.replace('月', ''));
-        let year = new Date().getFullYear();
-        let time = year + (month < 10 ? '0' : '') + month;
-        publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='" + (this.props.layer == 'ck' ? 'E' : 'I') + "' and EFFECTDATE='" + time + "'" } }).then((res) => {
-            let e = res[0].features[0].attributes;
-            e.DATAA = Number(e.DATAA);
-            e.DATAB = (Number(e.DATAB) - Number(this.props.hgpjz.data[time][this.props.layer]) / 24).toFixed(2);
-            e.DATAC = Number(e.DATAC);
-            e.DATAD = Number(e.DATAD);
-            e.DATAE = Number(e.DATAE);
-            e.DATAF = Number(e.DATAF);
-            let data206 = (data) => (data * 2 / 3).toFixed(2);
-            let mdata = [];
-            let temp = this.props.pjz;
-            temp.DATAA = Number(temp.DATAA);
-            temp.DATAB = Number(temp.DATAB);
-            temp.DATAC = Number(temp.DATAC);
-            temp.DATAD = Number(temp.DATAD);
-            temp.DATAE = Number(temp.DATAE);
-            temp.DATAF = Number(temp.DATAF);
-            if (this.props.layer == 'ck') {
-                mdata = [
-                    [
-                        { layer: 'ck', name: '通关准备', top10Table: 'v_imap_scct_sxfx_e_b', style: { width: 1090, height: 630 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
-                        { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
-                    ],
-                    [
-                        // { layer: 'ck', name: '查验准备', top10Table: 'v_imap_scct_sxfx_e_d', style: { width: 1090, height: 630 }, type: e.DATAD > temp.DATAD ? 0 : 1, time: e.DATAD, items: [{ name: (e.DATAD > temp.DATAD ? '超' : '低') + '去年均值', value: Math.abs(e.DATAD - temp.DATAD).toFixed(2), rate: (Math.abs(e.DATAD - temp.DATAD) / temp.DATAD * 100).toFixed(0) }, { name: (e.DATAD > data206(temp.DATAD) ? '超' : '低') + '目标值', value: Math.abs(e.DATAD - data206(temp.DATAD)).toFixed(2), rate: (Math.abs(e.DATAD - data206(temp.DATAD)) / data206(temp.DATAD) * 100).toFixed(0) }] },
-                        // { layer: 'ck', name: '查验作业', top10Table: 'v_imap_scct_sxfx_e_e', style: { width: 1090, height: 630 }, type: e.DATAE > temp.DATAE ? 0 : 1, time: e.DATAE, items: [{ name: (e.DATAE > temp.DATAE ? '超' : '低') + '去年均值', value: Math.abs(e.DATAE - temp.DATAE).toFixed(2), rate: (Math.abs(e.DATAE - temp.DATAE) / temp.DATAE * 100).toFixed(0) }, { name: (e.DATAE > data206(temp.DATAE) ? '超' : '低') + '目标值', value: Math.abs(e.DATAE - data206(temp.DATAE)).toFixed(2), rate: (Math.abs(e.DATAE - data206(temp.DATAE)) / data206(temp.DATAE) * 100).toFixed(0) }] },
-                        // { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_f', style: { width: 1090, height: 630 }, type: e.DATAF > temp.DATAF ? 0 : 1, time: e.DATAF, items: [{ name: (e.DATAF > temp.DATAF ? '超' : '低') + '去年均值', value: Math.abs(e.DATAF - temp.DATAF).toFixed(2), rate: (Math.abs(e.DATAF - temp.DATAF) / temp.DATAF * 100).toFixed(0) }, { name: (e.DATAF > data206(temp.DATAF) ? '超' : '低') + '目标值', value: Math.abs(e.DATAF - data206(temp.DATAF)).toFixed(2), rate: (Math.abs(e.DATAF - data206(temp.DATAF)) / data206(temp.DATAF) * 100).toFixed(0) }] },
-                    ],
-                ];
-            }
-            else {
-                mdata = [
-                    [
-                        { layer: 'jk', name: '通关准备', top10Table: 'v_imap_scct_sxfx_i_b', style: { width: 1090, height: 630, marginRight: 50 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
-                        { layer: 'jk', name: '货物提离', top10Table: 'v_imap_scct_sxfx_i_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
-                    ],
-                    [
-                        // { layer: 'jk', name: '查验准备', top10Table: 'v_imap_scct_sxfx_i_d', style: { width: 1090, height: 630 }, type: e.DATAD > temp.DATAD ? 0 : 1, time: e.DATAD, items: [{ name: (e.DATAD > temp.DATAD ? '超' : '低') + '去年均值', value: Math.abs(e.DATAD - temp.DATAD).toFixed(2), rate: (Math.abs(e.DATAD - temp.DATAD) / temp.DATAD * 100).toFixed(0) }, { name: (e.DATAD > data206(temp.DATAD) ? '超' : '低') + '目标值', value: Math.abs(e.DATAD - data206(temp.DATAD)).toFixed(2), rate: (Math.abs(e.DATAD - data206(temp.DATAD)) / data206(temp.DATAD) * 100).toFixed(0) }] },
-                        // { layer: 'jk', name: '查验作业', top10Table: 'v_imap_scct_sxfx_i_e', style: { width: 1090, height: 630 }, type: e.DATAE > temp.DATAE ? 0 : 1, time: e.DATAE, items: [{ name: (e.DATAE > temp.DATAE ? '超' : '低') + '去年均值', value: Math.abs(e.DATAE - temp.DATAE).toFixed(2), rate: (Math.abs(e.DATAE - temp.DATAE) / temp.DATAE * 100).toFixed(0) }, { name: (e.DATAE > data206(temp.DATAE) ? '超' : '低') + '目标值', value: Math.abs(e.DATAE - data206(temp.DATAE)).toFixed(2), rate: (Math.abs(e.DATAE - data206(temp.DATAE)) / data206(temp.DATAE) * 100).toFixed(0) }] },
-                    ],
-                ];
-            }
-            this.updateTop10({ tab: 'v_imap_scct_sxfx_e_b', cjk: mdata, datas: e.DATAA })
-        });
+        this.showtab = (props) => {
+            let layer = props.layer;
+            let month = Number(props.data.replace('月', ''));
+            let year = new Date().getFullYear();
+            let time = year + (month < 10 ? '0' : '') + month;
+            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='" + (props.layer == 'ck' ? 'E' : 'I') + "' and EFFECTDATE='" + time + "'" } }).then((res) => {
+                let e = res[0].features[0].attributes;
+                let xc_sb = (((Number(e.DATAB) * 24) - Number(props.hgpjz.data[time][props.layer])) / 24).toFixed(2);
+                e.DATAA = Number(e.DATAA);
+                e.DATAB = (Number(e.DATAB) - Number(props.hgpjz.data[time][props.layer]) / 24).toFixed(2);
+                e.DATAC = Number(e.DATAC);
+                e.DATAD = Number(e.DATAD);
+                e.DATAE = Number(e.DATAE);
+                e.DATAF = Number(e.DATAF);
+                let data206 = (data) => (data * 2 / 3).toFixed(2);
+                let mdata = [];
+                let temp = props.pjz;
+                temp.DATAA = Number(temp.DATAA);
+                temp.DATAB = Number(temp.DATAB);
+                temp.DATAC = Number(temp.DATAC);
+                temp.DATAD = Number(temp.DATAD);
+                temp.DATAE = Number(temp.DATAE);
+                temp.DATAF = Number(temp.DATAF);
+                this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time][props.layer], e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
+                if (props.layer == 'ck') {
+                    mdata = [
+                        [
+                            { layer: 'ck', name: '通关准备', top10Table: 'v_imap_scct_sxfx_e_b', style: { width: 1090, height: 630 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
+                            { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
+                        ],
+                        [
+                            { layer: 'ck', name: '查验准备', top10Table: 'v_imap_scct_sxfx_e_d', style: { width: 1090, height: 630 }, type: e.DATAD > temp.DATAD ? 0 : 1, time: e.DATAD, items: [{ name: (e.DATAD > temp.DATAD ? '超' : '低') + '去年均值', value: Math.abs(e.DATAD - temp.DATAD).toFixed(2), rate: (Math.abs(e.DATAD - temp.DATAD) / temp.DATAD * 100).toFixed(0) }, { name: (e.DATAD > data206(temp.DATAD) ? '超' : '低') + '目标值', value: Math.abs(e.DATAD - data206(temp.DATAD)).toFixed(2), rate: (Math.abs(e.DATAD - data206(temp.DATAD)) / data206(temp.DATAD) * 100).toFixed(0) }] },
+                            { layer: 'ck', name: '查验作业', top10Table: 'v_imap_scct_sxfx_e_e', style: { width: 1090, height: 630 }, type: e.DATAE > temp.DATAE ? 0 : 1, time: e.DATAE, items: [{ name: (e.DATAE > temp.DATAE ? '超' : '低') + '去年均值', value: Math.abs(e.DATAE - temp.DATAE).toFixed(2), rate: (Math.abs(e.DATAE - temp.DATAE) / temp.DATAE * 100).toFixed(0) }, { name: (e.DATAE > data206(temp.DATAE) ? '超' : '低') + '目标值', value: Math.abs(e.DATAE - data206(temp.DATAE)).toFixed(2), rate: (Math.abs(e.DATAE - data206(temp.DATAE)) / data206(temp.DATAE) * 100).toFixed(0) }] },
+                            { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_f', style: { width: 1090, height: 630 }, type: e.DATAF > temp.DATAF ? 0 : 1, time: e.DATAF, items: [{ name: (e.DATAF > temp.DATAF ? '超' : '低') + '去年均值', value: Math.abs(e.DATAF - temp.DATAF).toFixed(2), rate: (Math.abs(e.DATAF - temp.DATAF) / temp.DATAF * 100).toFixed(0) }, { name: (e.DATAF > data206(temp.DATAF) ? '超' : '低') + '目标值', value: Math.abs(e.DATAF - data206(temp.DATAF)).toFixed(2), rate: (Math.abs(e.DATAF - data206(temp.DATAF)) / data206(temp.DATAF) * 100).toFixed(0) }] },
+                        ],
+                    ];
+                }
+                else {
+                    mdata = [
+                        [
+                            { layer: 'jk', name: '通关准备', top10Table: 'v_imap_scct_sxfx_i_b', style: { width: 1090, height: 630, marginRight: 50 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
+                            { layer: 'jk', name: '货物提离', top10Table: 'v_imap_scct_sxfx_i_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
+                        ],
+                        [
+                            { layer: 'jk', name: '查验准备', top10Table: 'v_imap_scct_sxfx_i_d', style: { width: 1090, height: 630 }, type: e.DATAD > temp.DATAD ? 0 : 1, time: e.DATAD, items: [{ name: (e.DATAD > temp.DATAD ? '超' : '低') + '去年均值', value: Math.abs(e.DATAD - temp.DATAD).toFixed(2), rate: (Math.abs(e.DATAD - temp.DATAD) / temp.DATAD * 100).toFixed(0) }, { name: (e.DATAD > data206(temp.DATAD) ? '超' : '低') + '目标值', value: Math.abs(e.DATAD - data206(temp.DATAD)).toFixed(2), rate: (Math.abs(e.DATAD - data206(temp.DATAD)) / data206(temp.DATAD) * 100).toFixed(0) }] },
+                            { layer: 'jk', name: '查验作业', top10Table: 'v_imap_scct_sxfx_i_e', style: { width: 1090, height: 630 }, type: e.DATAE > temp.DATAE ? 0 : 1, time: e.DATAE, items: [{ name: (e.DATAE > temp.DATAE ? '超' : '低') + '去年均值', value: Math.abs(e.DATAE - temp.DATAE).toFixed(2), rate: (Math.abs(e.DATAE - temp.DATAE) / temp.DATAE * 100).toFixed(0) }, { name: (e.DATAE > data206(temp.DATAE) ? '超' : '低') + '目标值', value: Math.abs(e.DATAE - data206(temp.DATAE)).toFixed(2), rate: (Math.abs(e.DATAE - data206(temp.DATAE)) / data206(temp.DATAE) * 100).toFixed(0) }] },
+                        ],
+                    ];
+                }
+                this.updateTop10({ tab: 'v_imap_scct_sxfx_e_b', cjk: mdata, datas: e.DATAA })
+            });
+        };
+        this.showtab(this.props);
+    };
+
+    componentWillReceiveProps(pro) {
+        this.showtab(pro);
     }
 
     updateTop10 = (top10Table) => {
@@ -506,15 +462,15 @@ class CK extends React.Component {
         this.setState({ selectIndex: selectIndex });
     }
     back = () => {
-        publish('changeiframe', { index: 4, props: {} });
+        publish('changeiframe', { index: 5, props: {} });
     }
 
     /** 环节时效  --》 预报警信息  -->打开报警面板 */
     handleYBJChange(e) {
         if (this.state.hthjsx < 1) {
-            this.setState({ hthjsx: this.state.hthjsx + 1, htcysx: 0 });
+            this.setState({ hthjsx: this.state.hthjsx + 1, htcysx: this.state.htcysx > 1 ? this.state.htcysx - 1 : this.state.htcysx });
         } else {
-            this.setState({ hthjsx: 2, htcysx: 0 }, () => {
+            this.setState({ hthjsx: 2, htcysx: this.state.htcysx > 1 ? this.state.htcysx - 1 : this.state.htcysx }, () => {
                 $('.znybj').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.znybj').removeClass('zoomIn animated'));
             });
         }
@@ -523,9 +479,9 @@ class CK extends React.Component {
     /** 查验时效  --》实时动态 -->实时查验作业数据 */
     handleCYSXChange() {
         if (this.state.htcysx < 1) {
-            this.setState({ htcysx: this.state.htcysx + 1, hthjsx: 0 });
+            this.setState({ htcysx: this.state.htcysx + 1, hthjsx: this.state.hthjsx > 1 ? this.state.hthjsx - 1 : this.state.hthjsx  });
         } else {
-            this.setState({ htcysx: 2, hthjsx: 0 }, () => {
+            this.setState({ htcysx: 2, hthjsx: this.state.hthjsx > 1 ? this.state.hthjsx - 1 : this.state.hthjsx  }, () => {
                 $('.sycyzyTab').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.sycyzyTab').removeClass('zoomIn animated'));
             });
         }
@@ -537,7 +493,8 @@ class CK extends React.Component {
             left: 7711,
             width: 3740,
             height: 2030,
-        }
+        };
+        console.log(this.state.hthjsx);
         return (
             <div className='ac-ckbox'>
                 <div className='ac-back' onClick={this.back}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
@@ -546,21 +503,21 @@ class CK extends React.Component {
                 <div className='ac-ckbox-title'>{this.props.data + (this.props.layer == 'ck' ? '出口' : '进口') + '通关时效分析'}</div>
                 <div style={{ width: 3, height: 630, position: 'absolute', top: 360, left: 7705, background: '#1f9bff', zIndex: 999 }}></div>
                 <div style={{ position: 'absolute', top: 180, left: 5700, zIndex: 999, color: 'white', fontSize: '65px' }}>{this.props.layer == 'ck' ? '出口' : '进口'}通关整体时效</div>
-                <div className='ac-ckbox-hthjxs' onClick={() => this.handleYBJChange()}>环节时效</div>
+                <div className='ac-ckbox-hthjxs' onClick={() => this.handleYBJChange()}>{this.state.hthjsx < 1 ? '环节时效' : '预报警信息'}</div>
                 <div style={{ position: 'absolute', top: 180, left: 8100, zIndex: 999, color: 'white', fontSize: '65px' }}>海关作业</div>
-                <div className='ac-ckbox-htcysx' onClick={() => this.handleCYSXChange()}>查验时效</div>
+                <div className='ac-ckbox-htcysx' onClick={() => this.handleCYSXChange()}>{this.state.htcysx < 1 ? '查验时效' : '实时动态'}</div>
                 <div className='ac-ckbox-t'>
                     <div style={{ background: "url('../agingControl/" + this.props.layer + ".png') no-repeat", backgroundSize: '100% 100%' }}></div>
                     <div>
                         <div>
-                            {this.state.hthjsx > 0 ? <HT jck={this.props.layer} /> : datas[0].map((e, i) => <JD key={i} index={i + 1} datas={e} selected={this.state.selectIndex == e.top10Table} click={() => { this.setState({ selectIndex: e.top10Table }); this.updateTop10(e.top10Table); publish('noSelectCy'); }} />)}
+                            {this.state.hthjsx > 0 ? <HT jck={this.props.layer} sj={this.state.sjhxsj} /> : datas[0].map((e, i) => <JD key={i} index={i + 1} datas={e} selected={this.state.selectIndex == e.top10Table} click={() => { this.setState({ selectIndex: e.top10Table }); this.updateTop10(e.top10Table); publish('noSelectCy'); }} />)}
                         </div>
                         <div>
-                            {this.state.htcysx > 0 ? <Cysj datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} /> : <HG datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} />}
+                            {this.state.htcysx > 0 ? <Cysj da={datas[1]} datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} /> : <HG datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} />}
                         </div>
-                        <div>
+                        {/* <div>
                             <CY datas={datas[1]} setPropsState={this.setPropsState} updateTop10={this.updateTop10} />
-                        </div>
+                        </div> */}
                     </div>
                     {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' > <ZNYBJ ys={ys} xz={1} gb={() => this.setState({ hthjsx: 1 })} /> </div> : <div />}
                     {this.state.htcysx > 1 ? <div className='ac-ckbox-znybjs' > <Sycyzy gb={() => this.setState({ htcysx: 1 })} /> </div> : <div />}
@@ -599,17 +556,45 @@ class JD extends React.Component {
 /** 出进口环节时效 */
 class HT extends React.Component {
     render() {
+        const { jck, sj } = this.props;
         return (
             <div className='ht'>
-                <div className={'ht-' + this.props.jck}></div>
+                <div className={'ht-' + jck}></div>
+                <div className={'ht-sj' + jck}>
+                    {
+                        sj.map((e, i) => {
+                            if (e !== '') {
+                                return <span key={Math.random(100)} className={'ht-sj' + jck + '-' + i}>{e}{e > 10 ? '小时' : '天'}</span>
+                            }
+                        })
+                    }
+                </div>
             </div>
         )
     }
 }
 
 class Cysj extends React.Component {
+
+    state = {
+        json: [],
+    }
+
     componentDidMount() {
+        this.setState({
+            json: {
+                name: this.props.da[0].name,
+                time: this.props.da[0].time,
+                num: this.props.da[0].items,
+                pjzys: this.props.da[0].items[0].name == '超目标值' ? '#ff0000' : this.props.da[0].items[0].name == '低目标值' ? '#70e100' : this.props.da[0].type == 1 ? '#70e100' : '#ff0000',
+                mbzys: this.props.da[0].items[1].name == '超目标值' ? '#ff0000' : this.props.da[0].items[1].name == '低目标值' ? '#70e100' : this.props.da[0].type == 1 ? '#70e100' : '#ff0000'
+            }
+        })
         this.update = (props) => {
+            let dt = [];
+            for (let i in props.da) {
+                dt.push({ name: props.da[i].name, value: props.da[i].time, num: i })
+            }
             let month = props.month.replace('月', '');
             let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
             let data = props.datas.data[time] ? Number(props.datas.data[time][props.layer]) : 0;
@@ -617,9 +602,10 @@ class Cysj extends React.Component {
                 color: ['#70e100', '#1890FF', '#0A3C77'],
                 tooltip: {
                     trigger: 'item',
-                    formatter: (params) => {
-                        return '时效占比：10%'
-                    },
+                    formatter: "{b} :{c}小时",
+                    // formatter: (params) => {
+                    //     formatter: "{b} :{c}%",
+                    // },
                     textStyle: {
                         fontSize: 50,
                         color: '#70E100',
@@ -631,11 +617,7 @@ class Cysj extends React.Component {
                         type: 'pie',
                         radius: '90%',
                         center: ['50%', '50%'],
-                        data: [
-                            { value: 10, name: '时效' },
-                            { value: 20, name: '1' },
-                            { value: 30, name: '2' },
-                        ],
+                        data: dt,
                         itemStyle: {
                             emphasis: {
                                 shadowBlur: 10,
@@ -663,6 +645,17 @@ class Cysj extends React.Component {
             if (this.chart) this.chart.dispose();
             this.chart = echarts.init(ReactDOM.findDOMNode(this.refs.echart));
             this.chart.setOption(option);
+            this.chart.on('click', (param) => {
+                if (param.seriesType === 'pie') this.setState({
+                    json: {
+                        name: this.props.da[param.data.num].name,
+                        time: this.props.da[param.data.num].time,
+                        num: this.props.da[param.data.num].items,
+                        pjzys: this.props.da[param.data.num].items[0].name == '超目标值' ? '#ff0000' : this.props.da[param.data.num].items[0].name == '低目标值' ? '#70e100' : this.props.da[param.data.num].type == 1 ? '#70e100' : '#ff0000',
+                        mbzys: this.props.da[param.data.num].items[1].name == '超目标值' ? '#ff0000' : this.props.da[param.data.num].items[1].name == '低目标值' ? '#70e100' : this.props.da[param.data.num].type == 1 ? '#70e100' : '#ff0000'
+                    }
+                })
+            });
         }
         this.update(this.props);
     }
@@ -671,6 +664,7 @@ class Cysj extends React.Component {
     }
 
     render() {
+        let { json = {} } = this.state;
         let month = this.props.month.replace('月', '');
         let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
         let data = this.props.datas.data[time] ? this.props.datas.data[time][this.props.layer] : 0;
@@ -681,10 +675,10 @@ class Cysj extends React.Component {
                     <div ref='echart'></div>
                 </div>
                 <div className='ac-chg-num'>
-                    <div style={{ color: '#70E100' }} className='ac-chg-num-house'><div className='ac-chg-num-house-num'>{data}</div><div className='ac-chg-num-house-ti'>小时</div></div>
+                    <div style={{ color: '#70E100' }} className='ac-chg-num-house'> <div className='ac-chg-num-house-name'>{json.name}</div> <div className='ac-chg-num-house-num'>{json.time}</div><div className='ac-chg-num-house-ti'>小时</div></div>
                     <div>
-                        <div><div>与平均值比：</div><div style={{ color: data > pjz ? '#FE0000' : '#70E100' }}>{data > pjz ? '高' : '低'}</div><div style={{ color: data > pjz ? '#FE0000' : '#70E100' }}>{Math.abs(data - pjz).toFixed(2)}小时</div></div>
-                        <div><div>与目标值比：</div><div style={{ color: data > pjz / 3 * 2 ? '#FE0000' : '#70E100' }}>{data > pjz / 3 * 2 ? '高' : '低'}</div><div style={{ color: data > pjz / 3 * 2 ? '#FE0000' : '#70E100' }}>{Math.abs(data - pjz / 3 * 2).toFixed(2)}小时</div></div>
+                        <div><div>与平均值比：</div><div style={{ color: json.pjzys }}>{data > pjz ? '高' : '低'}</div><div style={{ color: json.pjzys }}>{json.num ? json.num[0].value : 0}小时</div></div>
+                        <div><div>与目标值比：</div><div style={{ color: json.mbzys }}>{data > pjz / 3 * 2 ? '高' : '低'}</div><div style={{ color: json.mbzys }}>{json.num ? json.num[1].value : 0}小时</div></div>
                     </div>
                 </div>
             </div>

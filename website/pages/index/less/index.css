@@ -1651,6 +1651,7 @@ body > div:nth-of-type(1) {
   position: absolute;
   top: 610px;
   z-index: 9999;
+  right: 1200px;
 }
 .ac-ckbox-hthjxs {
   width: 598px;
@@ -1750,7 +1751,7 @@ body > div:nth-of-type(1) {
 }
 .ac-hg {
   position: relative;
-  left: 390px;
+  left: -160px;
   width: 3110px;
   height: 628px;
   display: flex;
@@ -1825,7 +1826,7 @@ body > div:nth-of-type(1) {
 }
 .ac-chg {
   position: relative;
-  left: 390px;
+  left: 0;
   width: 3110px;
   height: 628px;
   display: flex;
@@ -1875,6 +1876,12 @@ body > div:nth-of-type(1) {
 .ac-chg-num-house {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 1200px;
+}
+.ac-chg-num-house-name {
+  font-size: 100px;
+  color: #ebf7df;
 }
 .ac-chg-num-house-num {
   font-size: 200px;
@@ -1905,6 +1912,7 @@ body > div:nth-of-type(1) {
   height: 628px;
   position: relative;
   left: 150px;
+  display: flex;
 }
 .ht-ck {
   background: url('../images/agingControl/环节时效-出口.png') no-repeat;
@@ -1917,6 +1925,81 @@ body > div:nth-of-type(1) {
   background-size: 100% 100%;
   width: 90%;
   height: 100%;
+}
+.ht-jck {
+  width: 2180px;
+  height: 628px;
+  position: absolute;
+  color: #fff;
+}
+.ht-sjjk {
+  width: 2180px;
+  height: 628px;
+  position: absolute;
+  color: #fff;
+  font-size: 75px;
+}
+.ht-sjjk-0 {
+  position: absolute;
+  top: 90px;
+  left: 250px;
+}
+.ht-sjjk-1 {
+  position: absolute;
+  top: 90px;
+  left: 670px;
+}
+.ht-sjjk-2 {
+  position: absolute;
+  top: 90px;
+  left: 1185px;
+}
+.ht-sjjk-3 {
+  position: absolute;
+  top: 560px;
+  left: 350px;
+}
+.ht-sjjk-4 {
+  position: absolute;
+  top: 560px;
+  left: 1320px;
+}
+.ht-sjck {
+  width: 2180px;
+  height: 628px;
+  position: absolute;
+  color: #fff;
+  font-size: 75px;
+}
+.ht-sjck-0 {
+  position: absolute;
+  top: 90px;
+  left: 240px;
+}
+.ht-sjck-1 {
+  position: absolute;
+  top: 90px;
+  left: 660px;
+}
+.ht-sjck-2 {
+  position: absolute;
+  top: 90px;
+  left: 1300px;
+}
+.ht-sjck-3 {
+  position: absolute;
+  top: 360px;
+  left: 260px;
+}
+.ht-sjck-4 {
+  position: absolute;
+  top: 360px;
+  left: 665px;
+}
+.ht-sjck-5 {
+  position: absolute;
+  top: 360px;
+  left: 1050px;
 }
 .jd {
   display: flex;
@@ -2264,8 +2347,8 @@ body > div:nth-of-type(1) {
   justify-content: space-between;
 }
 .mapbtn-btn1 {
-  width: 150px;
   height: 90px;
+  padding: 12px;
   background: #D48265;
   border-radius: 10px;
   color: white;
@@ -2278,8 +2361,8 @@ body > div:nth-of-type(1) {
   background: #D48265;
 }
 .mapbtn-btn2 {
-  width: 150px;
   height: 90px;
+  padding: 12px;
   background: #61A0A8;
   border-radius: 10px;
   color: white;
@@ -2292,8 +2375,8 @@ body > div:nth-of-type(1) {
   background: #79B8C0;
 }
 .mapbtn-btn3 {
-  width: 150px;
   height: 90px;
+  padding: 12px;
   background: #0682ce;
   border-radius: 10px;
   color: white;
@@ -2306,8 +2389,8 @@ body > div:nth-of-type(1) {
   background: #04466f;
 }
 .mapbtn-btn4 {
-  width: 150px;
   height: 90px;
+  padding: 12px;
   background: #D48265;
   border-radius: 10px;
   color: white;
@@ -2320,7 +2403,7 @@ body > div:nth-of-type(1) {
   background: #E17954;
 }
 .mapbtn-noSelected {
-  width: 150px;
+  padding: 12px;
   height: 90px;
   background: #C0C0C0;
   border-radius: 10px;
@@ -4061,15 +4144,22 @@ body > div:nth-of-type(1) {
   background: #000A32;
   position: absolute;
   right: 50px;
-  top: 335px;
+  top: 50px;
   background: url('../images/面板底框.png') no-repeat;
   background-size: 100% 100%;
+}
+.embed-s {
+  font-size: 145px;
+  line-height: 307px;
+  height: 307px;
+  color: #fff;
+  margin-left: 85px;
 }
 .embed-l {
   display: flex;
   flex-direction: row;
   position: absolute;
-  top: -205px;
+  top: 105px;
   right: 50px;
 }
 .embed-l-t {
