@@ -24,7 +24,7 @@
             "id": "p1",
             "name": "SCT-SCT码头",
             "addr": "SCT",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -43,7 +43,7 @@
             "id": "p2",
             "name": "赤湾港航",
             "addr": "赤湾港航",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -62,7 +62,7 @@
             "id": "p3",
             "name": "东莞麻涌",
             "addr": "东莞麻涌",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -82,7 +82,7 @@
             "id": "p4",
             "name": "CHCC",
             "addr": "CHCC",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -102,7 +102,7 @@
             "id": "p5",
             "name": "招商港务",
             "addr": "招商港务",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -122,7 +122,7 @@
             "id": "p6",
             "name": "海星码头",
             "addr": "海星码头",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -142,7 +142,7 @@
             "id": "p7",
             "name": "妈湾码头",
             "addr": "MCT",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -162,7 +162,7 @@
             "id": "p8",
             "name": "珠江船务",
             "addr": "珠江船务",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [
@@ -182,7 +182,7 @@
             "id": "p9",
             "name": "顺德新港",
             "addr": "顺德新港",
-            "geo": [113.888, 22.478],
+            "geo": [],
             "color": "YELLOW",
             "tip": true,
             "events": [

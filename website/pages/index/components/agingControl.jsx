@@ -418,7 +418,7 @@ class CK extends React.Component {
                 if (props.layer == 'ck') {
                     mdata = [
                         [
-                            { layer: 'ck', name: '通关准备', top10Table: 'v_imap_scct_sxfx_e_b', style: { width: 1090, height: 630 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
+                            { layer: 'ck', name: '海关全口径（入闸到单证放行）', top10Table: 'v_imap_scct_sxfx_e_b', style: { width: 1090, height: 630 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
                             { layer: 'ck', name: '货物提离', top10Table: 'v_imap_scct_sxfx_e_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
                         ],
                         [
@@ -431,7 +431,7 @@ class CK extends React.Component {
                 else {
                     mdata = [
                         [
-                            { layer: 'jk', name: '通关准备', top10Table: 'v_imap_scct_sxfx_i_b', style: { width: 1090, height: 630, marginRight: 50 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
+                            { layer: 'jk', name: '海关全口径（卸船到实货放行）', top10Table: 'v_imap_scct_sxfx_i_b', style: { width: 1090, height: 630, marginRight: 50 }, type: e.DATAB > temp.DATAB ? 0 : 1, time: e.DATAB, items: [{ name: (e.DATAB > temp.DATAB ? '超' : '低') + '去年均值', value: Math.abs(e.DATAB - temp.DATAB).toFixed(2), rate: (Math.abs(e.DATAB - temp.DATAB) / temp.DATAB * 100).toFixed(0) }, { name: (e.DATAB > data206(temp.DATAB) ? '超' : '低') + '目标值', value: Math.abs(e.DATAB - data206(temp.DATAB)).toFixed(2), rate: (Math.abs(e.DATAB - data206(temp.DATAB)) / data206(temp.DATAB) * 100).toFixed(0) }] },
                             { layer: 'jk', name: '货物提离', top10Table: 'v_imap_scct_sxfx_i_c', style: { width: 1090, height: 630 }, type: e.DATAC > temp.DATAC ? 0 : 1, time: e.DATAC, items: [{ name: (e.DATAC > temp.DATAC ? '超' : '低') + '去年均值', value: Math.abs(e.DATAC - temp.DATAC).toFixed(2), rate: (Math.abs(e.DATAC - temp.DATAC) / temp.DATAC * 100).toFixed(0) }, { name: (e.DATAC > data206(temp.DATAC) ? '超' : '低') + '目标值', value: Math.abs(e.DATAC - data206(temp.DATAC)).toFixed(2), rate: (Math.abs(e.DATAC - data206(temp.DATAC)) / data206(temp.DATAC) * 100).toFixed(0) }] },
                         ],
                         [
@@ -672,10 +672,10 @@ class Cysj extends React.Component {
                     <div ref='echart'></div>
                 </div>
                 <div className='ac-chg-num'>
-                    <div style={{ color: '#70E100' }} className='ac-chg-num-house'> <div className='ac-chg-num-house-name'>{json.name}</div> <div className='ac-chg-num-house-num'>{json.time}</div><div className='ac-chg-num-house-ti'>小时</div></div>
+                    <div style={{ color: '#70E100' }} className='ac-chg-num-house'> <div className='ac-chg-num-house-name'>{json.name}</div> <div className='ac-chg-num-house-num'>{json.time}</div><div className='ac-chg-num-house-ti'>天</div></div>
                     <div>
-                        <div><div>与平均值比：</div><div style={{ color: json.pjzys }}>{data > pjz ? '高' : '低'}</div><div style={{ color: json.pjzys }}>{json.num ? json.num[0].value : 0}小时</div></div>
-                        <div><div>与目标值比：</div><div style={{ color: json.mbzys }}>{data > pjz / 3 * 2 ? '高' : '低'}</div><div style={{ color: json.mbzys }}>{json.num ? json.num[1].value : 0}小时</div></div>
+                        <div><div>与平均值比：</div><div style={{ color: json.pjzys }}>{data > pjz ? '高' : '低'}</div><div style={{ color: json.pjzys }}>{json.num ? json.num[0].value : 0}天</div></div>
+                        <div><div>与目标值比：</div><div style={{ color: json.mbzys }}>{data > pjz / 3 * 2 ? '高' : '低'}</div><div style={{ color: json.mbzys }}>{json.num ? json.num[1].value : 0}天</div></div>
                     </div>
                 </div>
             </div>
@@ -686,23 +686,67 @@ class Cysj extends React.Component {
 
 /** 实验查验作业数据 */
 class Sycyzy extends React.Component {
+    state = {
+        pageNum: 1,
+        btn: {
+            tab: [],
+            val: []
+        }
+    }
+
+    componentDidMount() {
+        let index = layer.load(1, { shade: [0.5, '#fff'] });
+        publish('getData', { svn: 'skhg_loader', tableName: 'V_IMAP_CHK_CONTA_MEG', data: { pageno: 1, pagesize: 100, where: '1=1' } }).then((res) => {
+            let flds = res[0].fields.map((e) => { return { title: e.alias, dataIndex: e.name }; });
+            let datas = res[0].features.map((e) => e.attributes);
+            this.setState({ btn: { tab: flds, val: datas } });
+            layer.close(index);
+        });
+    }
+
+    /** 上一页 */
+    handleBtnUp = (e) => {
+        if (this.state.pageNum > 1) {
+            this.setState({ pageNum: this.state.pageNum - 1 }, () => {
+                let index = layer.load(1, { shade: [0.5, '#fff'] });
+                publish('getData', { svn: 'skhg_loader', tableName: 'V_IMAP_CHK_CONTA_MEG', data: { pageno: this.state.pageNum, pagesize: 100, where: '1=1' } }).then((res) => {
+                    let flds = res[0].fields.map((e) => { return { title: e.alias, dataIndex: e.name }; });
+                    let datas = res[0].features.map((e) => e.attributes);
+                    this.setState({ btn: { tab: flds, val: datas } });
+                    layer.close(index);
+                });
+            });
+        }
+    }
+
+    /** 下一页 */
+    handleBtnDown = (e) => {
+        // console.log(((Number((this.state.btn.val).length) / 100) > (this.state.pageNum - 1)))
+        let a = (Number((this.state.btn.val).length) / 100);
+        let b = (this.state.pageNum - 1);
+        if ((Number((this.state.btn.val).length) / 100) >= 1) {
+            this.setState({ pageNum: this.state.pageNum + 1 }, () => {
+                let index = layer.load(1, { shade: [0.5, '#fff'] });
+                publish('getData', { svn: 'skhg_loader', tableName: 'V_IMAP_CHK_CONTA_MEG', data: { pageno: this.state.pageNum, pagesize: 100, where: '1=1' } }).then((res) => {
+                    let flds = res[0].fields.map((e) => { return { title: e.alias, dataIndex: e.name }; });
+                    let datas = res[0].features.map((e) => e.attributes);
+                    this.setState({ btn: { tab: flds, val: datas } });
+                    layer.close(index);
+                });
+            });
+        }
+    }
+
     render() {
-        const flds2 = [
-            { title: '报关单号', dataIndex: 'BgNum' },
-            { title: '柜号', dataIndex: 'CabinetNum' },
-            { title: '查验科室', dataIndex: 'CYKS' },
-            { title: '查验类型', dataIndex: 'CYLX' },
-            { title: '状态', dataIndex: 'ZT' },
-            { title: '台位', dataIndex: 'TW' },
-            { title: '报关行名称', dataIndex: 'BGMC' },
-            { title: '调柜时间', dataIndex: 'DGSJ' },
-            { title: '状态持续时间', dataIndex: 'ZTCXSJ' },
-        ];
         return (
             <div className='sycyzyTab'>
-                <div className='sycyzyTab-gb' onClick={this.props.gb}></div>
                 <div className='sycyzyTab-ti'>实时查验作业数据</div>
-                <Table rowNo={true} title={null} style={{ width: 3860, height: 2160 }} id={'id5'} selectedIndex={null} flds={flds2} datas={Nowdata.list} trClick={null} trDbclick={null} />
+                <div className='sycyzyTab-btn'>
+                    <div className='sycyzyTab-btn-up' onClick={this.handleBtnUp} >上一页</div>
+                    <div className='sycyzyTab-btn-down' onClick={this.handleBtnDown} >下一页</div>
+                </div>
+                <div className='sycyzyTab-gb' onClick={this.props.gb}></div>
+                <Table rowNo={true} title={null} style={{ width: 6200, height: 2160 }} id={'id5'} selectedIndex={null} flds={this.state.btn.tab} datas={this.state.btn.val} trClick={null} trDbclick={null} />
             </div>
         )
     }

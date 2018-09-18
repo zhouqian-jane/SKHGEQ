@@ -11,7 +11,10 @@ import { Desc, Details } from '../../../frame/componets/details/index';
 import BigShipIcon from '../../../res/mapIcon/bigShip.png';
 import BargeIcon from '../../../res/mapIcon/Barge.png';
 import yl from '../../../res/mapIcon/游轮.png';
+import jzx from '../../../res/mapIcon/集装箱hd.png';
+import qy from '../../../res/mapIcon/车位迁移.png';
 import Znybj from './ZNYBJ';
+import { Table } from '../../../frame/componets/index';
 
 /** 计算数量得到小数点和前面加0 */
 function toArray(str) {
@@ -38,6 +41,8 @@ function getNumberArr(num) {
     return nums;
 }
 
+const CHECK_COUNT_TYPES = { '1': 'SCT码头待查', '2': 'SCT码头调往CIC查验', '3': 'CCT码头待查', '4': 'CCT调往CIC查验', '5': 'MCT码头待查', '6': 'MCT调往CIC查验', '7': 'CIC待查', '8': '到CIC查验，但箱在途' };
+
 // 地图操作组件
 class MapOperation extends React.Component {
     state = {
@@ -60,6 +65,17 @@ class MapOperation extends React.Component {
         SHIP_LAYER: true,
         BARGE_SHIP_LAYER: true,
         QUERY_BOX: true,
+        box: {            //查验集装箱
+            tab: [],
+            val: [],
+            tit: '',
+        },
+        box_xq: {
+            QUERY_BOX_XQ: false,
+            tab: [],
+            val: [],
+            tit: '',
+        },
         map: true,
     }
 
@@ -78,7 +94,9 @@ class MapOperation extends React.Component {
             /** 查验集装箱 */
             let o = [];
             publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CHK_CHECK_COUNT', where: '1=1' } }).then((ors) => {
-                console.log(ors)
+                let flds = Object.keys(ors[0].attr).map((e, i) => { return { title: ors[0].attr[e], dataIndex: e }; });
+                ors[0].data.map((e, i) => e.CHECK_COUNT_TYPE = CHECK_COUNT_TYPES[e.CHECK_COUNT_TYPE]);
+                this.setState({ box: { tab: flds, val: ors[0].data, tit: '查验集装箱总数' } });
                 o.push(ors[0]);
                 let color = {
                     1: [250, 22, 80, 1],       // 红色
@@ -109,7 +127,7 @@ class MapOperation extends React.Component {
                         },
                     }
                     this.props.map.mapDisplay.polygon(params);
-                    // this.handleCYbox([data, o[0]]);
+                    this.handleCYbox([data, o[0]]);
                 });
             })
         });
@@ -125,18 +143,55 @@ class MapOperation extends React.Component {
                     // let y = points[0].y;
                     let mText = {
                         id: 'text' + Math.random(10000),
-                        layerId: 'textLayer',
+                        layerId: 'QUERY_BOX',
                         x: i.x,
                         y: i.y,
-                        color : '#fff',
-                        // attr: { ...attr },
+                        color: '#fff',
                         text: "待查箱数：" + e[1].data[i.dc].COUNT_NUM,
-                        // text: '待查箱数：',
                         offsetX: 0,
                         offsetY: 0,
                         layerIndex: 10,
                     };
+                    let param = {
+                        id: 'box' + Math.random(10000),
+                        layerId: 'QUERY_BOX_dc',
+                        src: jzx,
+                        width: 140,
+                        height: 140,
+                        x: (Number(i.x)) - 0.005,
+                        y: Number(i.y) + 0.0005,
+                    };
+                    let dwxs = {
+                        id: 'dwxs' + Math.random(10000),
+                        layerId: 'QUERY_BOX_dwxs',
+                        x: i.x,
+                        y: Number(i.y) - 0.003,
+                        color: '#fff',
+                        text: "调往箱数：" + e[1].data[i.dw].COUNT_NUM,
+                        offsetX: 0,
+                        offsetY: 0,
+                        layerIndex: 10,
+                    };
+                    let paramdw = {
+                        id: 'box' + Math.random(10000),
+                        layerId: 'QUERY_BOX_dw',
+                        src: qy,
+                        width: 140,
+                        height: 140,
+                        x: (Number(i.x)) - 0.005,
+                        y: Number(i.y) - 0.0025,
+                    };
                     this.props.map.mapDisplay.text(mText);
+                    this.props.map.mapDisplay.hide('QUERY_BOX');
+
+                    this.props.map.mapDisplay.text(dwxs);
+                    this.props.map.mapDisplay.hide('QUERY_BOX_dwxs');
+
+                    this.props.map.mapDisplay.image(param);
+                    this.props.map.mapDisplay.hide('QUERY_BOX_dc');
+
+                    this.props.map.mapDisplay.image(paramdw);
+                    this.props.map.mapDisplay.hide('QUERY_BOX_dw');
                 }
             })
         }
@@ -391,8 +446,8 @@ class MapOperation extends React.Component {
             MCT: temp,
             CWGH: { showMT: true, Amap: false, func: 'getData', param: { svn: 'skhg_stage', tableName: 'SCCT_2RD', data: { where: "TERMINALCODE='SCT'" } } },
             ZSGW: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_stage', tableName: 'SCCT_2RD', data: { where: "TERMINALCODE='" + datajson.code + "'" } } },
-            YLMG: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_stage', tableName: 'YLMG_2RD', data: { where: '1=1' } } },
-            YTH: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_stage', tableName: 'YTH_2RD', data: { where: '1=1' } } },
+            YLMG: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_loader', tableName: 'YLMG_DAY_PF_STAT', data: { where: 'trunc(d_date) =  trunc(sysdate - 1 )' } } },
+            YTH: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_loader', tableName: 'YTH_2RD', data: { where: 'trunc(d_date) =  trunc(sysdate -1 )' } } },
             SZMS_CK: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_stage', tableName: 'SZMS_2RD', data: { where: '1=1' } } },
             ZGMS_CK: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_stage', tableName: 'ZGMS_2RD', data: { where: '1=1' } } },
             CIC: { showMT: false, Amap: true, func: 'getData', param: { svn: 'skhg_stage', tableName: 'CIC_2RD', data: { where: '1=1' } } },
@@ -400,7 +455,7 @@ class MapOperation extends React.Component {
         };
 
         const keys = {
-            YLMG: { VF_ARR_TOT: '进港船舶', VF_DEP_TOT: '出港船舶' },
+            YLMG: { PF_ARR_D_TOT: '进港船舶', PF_DEP_D_TOT: '出港船舶' },
             YTH: { VF_ARR_TOT: '进港船舶', VF_DEP_TOT: '出港船舶' },
             SZMS_CK: { STORK_AMOUNT: '库存数量', OUT_STOR_NUM: '出库数量', IN_STOR_NUM: '入库数量', SECLARE_AMOUNT: '申报数量' },
             ZGMS_CK: { STORK_AMOUNT: '库存数量', OUT_STOR_NUM: '出库数量', IN_STOR_NUM: '入库数量', SECLARE_AMOUNT: '申报数量' },
@@ -429,6 +484,18 @@ class MapOperation extends React.Component {
         this.setState({ [key]: flag }, () => {
             flag ? this.props.map.mapDisplay.hide(key) : this.props.map.mapDisplay.show(key);
         });
+        if (key == 'QUERY_BOX') {
+            !this.state[key] ? [this.setState({ box_xq: { QUERY_BOX_XQ: false } }, this.props.map.mapDisplay.hide('QUERY_BOX_dwxs'), this.props.map.mapDisplay.hide('QUERY_BOX_dc'), this.props.map.mapDisplay.hide('QUERY_BOX_dw'))] : [this.props.map.mapDisplay.show('QUERY_BOX_dwxs'), this.props.map.mapDisplay.show('QUERY_BOX_dc'), this.props.map.mapDisplay.show('QUERY_BOX_dw')];
+        }
+    }
+
+
+    /** 查验集装箱切换信息  */
+    handleCYJZXXQ = (e) => {
+        publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CHK_CHECK_INFO', where: "STATUS = " + e.DETAILID } }).then((res) => {
+            let flds = Object.keys(res[0].attr).map((e, i) => { return { title: res[0].attr[e], dataIndex: e }; });
+            this.setState({ box_xq: { QUERY_BOX_XQ: true, tab: flds, val: res[0].data, tit: e.CHECK_COUNT_TYPE } });
+        })
     }
 
     render() {
@@ -446,7 +513,7 @@ class MapOperation extends React.Component {
                     <div onClick={() => this.mapItemsDisplay('SHIP_CRUISE')} style={{ margin: '20px' }} className={this.state.SHIP_CRUISE ? 'mapbtn-noSelected' : 'mapbtn-btn1'}>客轮</div>
                     <div onClick={() => this.mapItemsDisplay('SHIP_LAYER')} style={{ margin: '20px' }} className={this.state.SHIP_LAYER ? 'mapbtn-noSelected' : 'mapbtn-btn2'}>班轮</div>
                     <div onClick={() => this.mapItemsDisplay('BARGE_SHIP_LAYER')} style={{ margin: '20px' }} className={this.state.BARGE_SHIP_LAYER ? 'mapbtn-noSelected' : 'mapbtn-btn3'}>驳船</div>
-                    <div onClick={() => this.mapItemsDisplay('QUERY_BOX')} style={{ margin: '20px' }} className={this.state.QUERY_BOX ? 'mapbtn-noSelected' : 'mapbtn-btn4'} >查验集装箱</div>
+                    {/* <div onClick={() => this.mapItemsDisplay('QUERY_BOX')} style={{ margin: '20px' }} className={this.state.QUERY_BOX ? 'mapbtn-noSelected' : 'mapbtn-btn4'} >查验集装箱</div> */}
                     {/* <div className={this.state.map ? 'mapbtn-btn4' : 'mapbtn-noSelected'}>地图</div> */}
                 </div>
                 {
@@ -459,7 +526,36 @@ class MapOperation extends React.Component {
                 }
                 {this.state.Amap ? <Tables flds={this.state.tip.mapDesc.name} datas={this.state.tip.mtJson}></Tables> : null}
                 {this.state.isShowDes ? <Desc className='descTip' style={StyleView} title={this.state.desTitle} content={descmsg} close={() => this.setState({ isShowDes: false })} /> : null}
-              
+                {this.state.QUERY_BOX ? null : <div className='boxTs animated'>
+                    <Table
+                        rowNo={true}
+                        title={{ name: this.state.box.tit, export: false, close: false }}
+                        style={{ height: 965, width: 2400 }}
+                        id={'qqq'}
+                        selectedIndex={null}
+                        flds={this.state.box.tab}
+                        datas={this.state.box.val}
+                        trClick={null}
+                        trDbclick={e => this.handleCYJZXXQ(e)}
+                        myTd={null}
+                        hide={{ DETAILID: true }} />
+                </div>}
+                {
+                    this.state.box_xq.QUERY_BOX_XQ ? <div className='boxQXTs animated'>
+                        <Table
+                            rowNo={true}
+                            title={{ name: this.state.box_xq.tit, export: false, close: () => this.setState({ box_xq: { QUERY_BOX_XQ: false } }) }}
+                            style={{ height: 2240, width: 4600 }}
+                            id={'qqq2'}
+                            selectedIndex={null}
+                            flds={this.state.box_xq.tab}
+                            datas={this.state.box_xq.val}
+                            trClick={null}
+                            trDbclick={null}
+                            myTd={null}
+                            hide={{ DETAILID: true }} />
+                    </div> : null
+                }
             </div>
         )
     }

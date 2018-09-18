@@ -1942,7 +1942,7 @@ body > div:nth-of-type(1) {
 .ht-sjjk-0 {
   position: absolute;
   top: 90px;
-  left: 250px;
+  left: 200px;
 }
 .ht-sjjk-1 {
   position: absolute;
@@ -1957,12 +1957,12 @@ body > div:nth-of-type(1) {
 .ht-sjjk-3 {
   position: absolute;
   top: 560px;
-  left: 350px;
+  left: 310px;
 }
 .ht-sjjk-4 {
   position: absolute;
-  top: 560px;
-  left: 1320px;
+  top: 420px;
+  left: 768px;
 }
 .ht-sjck {
   width: 2180px;
@@ -1974,12 +1974,12 @@ body > div:nth-of-type(1) {
 .ht-sjck-0 {
   position: absolute;
   top: 90px;
-  left: 240px;
+  left: 210px;
 }
 .ht-sjck-1 {
   position: absolute;
   top: 90px;
-  left: 660px;
+  left: 640px;
 }
 .ht-sjck-2 {
   position: absolute;
@@ -1989,12 +1989,12 @@ body > div:nth-of-type(1) {
 .ht-sjck-3 {
   position: absolute;
   top: 360px;
-  left: 260px;
+  left: 200px;
 }
 .ht-sjck-4 {
   position: absolute;
-  top: 360px;
-  left: 665px;
+  top: 420px;
+  left: 630px;
 }
 .ht-sjck-5 {
   position: absolute;
@@ -2010,7 +2010,7 @@ body > div:nth-of-type(1) {
 .jd > div:nth-of-type(1) {
   color: white;
   font-size: 50px;
-  width: 691px;
+  width: 728px;
   text-align: center;
 }
 .jd > div:nth-of-type(2) {
@@ -3522,6 +3522,24 @@ body > div:nth-of-type(1) {
   height: 520px;
   border: 1px solid #0682ec;
 }
+.boxTs {
+  position: absolute;
+  z-index: 999;
+  left: 50px;
+  bottom: 220px;
+  background: #000e46;
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+.boxQXTs {
+  position: absolute;
+  z-index: 999;
+  right: 50px;
+  bottom: 220px;
+  background: #000e46;
+  -webkit-animation-name: fadeInRight;
+  animation-name: fadeInRight;
+}
 /** 右侧结束 */
 /***************************************************************
 *************************第二层页面结束**************************
@@ -4387,6 +4405,30 @@ body > div:nth-of-type(1) {
     transform: translate3d(0, 0, 0);
   }
 }
+@-webkit-keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
 /**
 * 渐变色
 */
@@ -4395,7 +4437,7 @@ body > div:nth-of-type(1) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 3865px;
+  width: 6200px;
   height: 2420px;
   border: 1px solid #1E7ACE;
   background: #000000;
@@ -4420,6 +4462,20 @@ body > div:nth-of-type(1) {
   background-size: 100% 100%;
   cursor: pointer;
   z-index: 9999;
+}
+.sycyzyTab-btn {
+  position: absolute;
+  left: 1200px;
+  width: 800px;
+  height: 172px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  font-size: 90px;
+  align-items: center;
+}
+.sycyzyTab-btn > div {
+  cursor: pointer;
 }
 .znybj {
   background: #000000;
