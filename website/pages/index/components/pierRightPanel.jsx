@@ -293,7 +293,7 @@ export default class PierRightPanel extends React.Component {
             }
         }
         window.closeLoading();
-        if (first) layer.msg('未匹配到定位数据，请联系管理员!');
+        // if (first) layer.msg('未匹配到定位数据，请联系管理员!');
     }
 
     render() {

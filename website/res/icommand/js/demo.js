@@ -33,7 +33,8 @@ var E_Role = {
 }
 
 //界面事件
-var g_serverUrl = "http://skhg.eor.cc/index.php";
+var g_serverUrl = "http://skhg.scctcn.com";
+// var g_serverUrl = "http://skhg.eor.cc/index.php";
 
 function ajaxPost(url, data, succ, err) {
     if (!window.XMLHttpRequest) {
@@ -50,6 +51,7 @@ function ajaxPost(url, data, succ, err) {
                 try {
                     rspJson = JSON.parse(ajax.responseText);
                 } catch (e) {
+                    console.log(ajax.responseText);
                     toastr.warning("json解析出错,服务器返回内容:\n" + ajax.responseText);
                     return;
                 }

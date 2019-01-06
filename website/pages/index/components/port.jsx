@@ -60,6 +60,7 @@ class MapOperation extends React.Component {
         tip: {
             mtJson: [],     // 后台请求的码头数据
             mapDesc: [],   // 勾画出码头页面信息
+            items: 1,
         },
         SHIP_CRUISE: true,
         SHIP_LAYER: true,
@@ -300,7 +301,8 @@ class MapOperation extends React.Component {
         let json = jsons.data;
         let that = this;
         for (let o in json) {
-            json[o].name = '班轮详情';
+            // json[o].name = '班轮详情';
+            json[o].name = [<div className='gjTitle' onClick={() => this.setState({ items: 1 })}>班轮详情</div>, <div className='gjTitle' onClick={() => this.clickTitle(json[o])}>历史轨迹</div>];
             json[o].colname = 'bigship';
             if (Number(json[o].LONGITUDE) !== 0 && Number(json[o].LATITUDE) !== 0) {
                 let param = {
@@ -422,6 +424,7 @@ class MapOperation extends React.Component {
                 desTitle: attr.name,
                 desItem: attr,
                 isShowDes: true,
+                items: 1,
             });
         });
     }
@@ -498,9 +501,22 @@ class MapOperation extends React.Component {
         })
     }
 
+    /** 班轮中途停泊靠船历史轨迹 */
+    clickTitle = (key) => {
+        console.log(key);
+        // publish('webAction', { svn: 'eportapisct', path: 'GContainerHistoryInfo', data: { System: '', PageIndex: 1, PageSize: 30, SortBy: '', IsDescending: false, ContainerNo: key.CONTAINERNO } }).then((res) => {
+        //     this.setState({ itemData: res[0].InnerList, items: 2 });
+        // });
+    }
+
     render() {
-        let { tip = {} } = this.state;
-        let descmsg = <Details columns={this.state.desColumns} columnTotal={2} item={this.state.desItem}></Details>;
+        let { tip = {} ,items = 1 } = this.state;
+        let descmsg = [];
+        if(items === 1){
+            descmsg = <Details columns={this.state.desColumns} columnTotal={2} item={this.state.desItem}></Details>;
+        }else{
+            descmsg = <Table rowNo={true} style={{ width: '100%', height: 1740 }} id={id2} selectedIndex={null} flds={this.state.ShipTrackFlds} datas={this.state.itemData} trClick={null} trDbclick={null} />
+        }
         let StyleView = {
             'bottom': '5%',
             'left': '0',
@@ -513,7 +529,7 @@ class MapOperation extends React.Component {
                     <div onClick={() => this.mapItemsDisplay('SHIP_CRUISE')} style={{ margin: '20px' }} className={this.state.SHIP_CRUISE ? 'mapbtn-noSelected' : 'mapbtn-btn1'}>客轮</div>
                     <div onClick={() => this.mapItemsDisplay('SHIP_LAYER')} style={{ margin: '20px' }} className={this.state.SHIP_LAYER ? 'mapbtn-noSelected' : 'mapbtn-btn2'}>班轮</div>
                     <div onClick={() => this.mapItemsDisplay('BARGE_SHIP_LAYER')} style={{ margin: '20px' }} className={this.state.BARGE_SHIP_LAYER ? 'mapbtn-noSelected' : 'mapbtn-btn3'}>驳船</div>
-                    {/* <div onClick={() => this.mapItemsDisplay('QUERY_BOX')} style={{ margin: '20px' }} className={this.state.QUERY_BOX ? 'mapbtn-noSelected' : 'mapbtn-btn4'} >查验集装箱</div> */}
+                    <div onClick={() => this.mapItemsDisplay('QUERY_BOX')} style={{ margin: '20px' }} className={this.state.QUERY_BOX ? 'mapbtn-noSelected' : 'mapbtn-btn4'} >查验集装箱</div>
                     {/* <div className={this.state.map ? 'mapbtn-btn4' : 'mapbtn-noSelected'}>地图</div> */}
                 </div>
                 {

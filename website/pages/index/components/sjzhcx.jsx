@@ -121,12 +121,12 @@ class FastQuery extends React.Component {
                             }
                             else {
                                 layer.close(index);
-                                layer.msg('没有查询到任何数据!');
+                                // layer.msg('没有查询到任何数据!');
                             }
                         }
                         catch (err) {
                             layer.close(index);
-                            layer.msg('获取数据失败，请联系管理员！');
+                            // layer.msg('获取数据失败，请联系管理员！');
                         }
                     });
                 }
@@ -183,7 +183,7 @@ class FastQuery extends React.Component {
                         }
                         else {
                             layer.close(index);
-                            layer.msg('获取数据失败，请联系管理员！');
+                            // layer.msg('获取数据失败，请联系管理员！');
                         }
                     });
                 }
@@ -217,7 +217,7 @@ class FastQuery extends React.Component {
                         }
                         else {
                             layer.close(index);
-                            layer.msg('获取数据失败，请联系管理员！');
+                            // layer.msg('获取数据失败，请联系管理员！');
                         }
                     });
                 }

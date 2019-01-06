@@ -35,22 +35,29 @@ export default class AgingControl extends React.Component {
             jk: 0,
         },
         pjz: {},
-        param: (Number(new Date().getMonth())) + '月',
+        param: (Number(new Date().getMonth()) + 1) + '月',
         sx: false,
+        selYear: new Date().getFullYear() - 1,
 
     }
     componentDidMount() {
+        this.newUpdate();
+    }
+
+    newUpdate = () => {
         this.update = () => {
             let pjz = this.state.pjz;
             let jkData = [];
             let ckData = [];
-            for (let i = 0; i < 12; i++) {
-                jkData.push(pjz.jk.DATAA);
-                ckData.push(pjz.ck.DATAA);
+            if(pjz.jk){
+                for (let i = 0; i < 12; i++) {
+                    jkData.push(pjz.jk.DATAA);
+                    ckData.push(pjz.ck.DATAA);
+                }
             }
             let mbckData = ckData.map((e) => (e / 3 * 2).toFixed(2));
             let mbjkData = jkData.map((e) => (e / 3 * 2).toFixed(2));
-            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='E' and EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
+            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: `category='E' and EFFECTDATE LIKE ${this.state.selYear} ||'%'` } }).then((res) => {
                 let data = res[0].features.map((e) => e.attributes.DATAA);
                 for (let i = 0; i < 12 - data.length; i++) {
                     data.push(0);
@@ -186,13 +193,14 @@ export default class AgingControl extends React.Component {
                     ],
                 };
                 if (this.chart1) this.chart1.dispose();
-                this.chart1 = echarts.init(ReactDOM.findDOMNode(this.refs.echart1));
+                this.chart1 = echarts.init(document.getElementById('echart1'));
                 this.chart1.setOption(ops);
                 this.chart1.on('click', (param) => {
                     if (param.seriesType == 'bar') this.setState({ layer: 'ck', param: param.name, sx: !this.state.sx });
                 });
             });
-            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='I' and EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
+            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: `category='I' and EFFECTDATE LIKE ${this.state.selYear} ||'%'` } }).then((res) => {
+                // publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='I' and EFFECTDATE LIKE '2018'" } }).then((res) => {
                 let data = res[0].features.map((e) => e.attributes.DATAA);
                 for (let i = 0; i < 12 - data.length; i++) {
                     data.push(0);
@@ -328,50 +336,73 @@ export default class AgingControl extends React.Component {
                     ],
                 };
                 if (this.chart2) this.chart2.dispose();
-                this.chart2 = echarts.init(ReactDOM.findDOMNode(this.refs.echart2));
+                // this.chart2 = echarts.init(ReactDOM.findDOMNode(this.refs.echart2));
+                this.chart2 = echarts.init(document.getElementById('echart2'));
                 this.chart2.setOption(ops);
                 this.chart2.on('click', (param) => {
                     if (param.seriesType == 'bar') this.setState({ layer: 'jk', param: param.name });
                 });
             });
         }
-        publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx', data: { where: "EFFECTYEAR=to_char(sysdate,'yyyy')-1" } }).then((res) => {
+        publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx', data: { where: `EFFECTYEAR = ${this.state.selYear}` } }).then((res) => {
             let pjz = {};
             res[0].features.forEach((e) => pjz[e.attributes.CATEGORY == 'E' ? 'ck' : 'jk'] = e.attributes);
-            this.setState({ pjz: pjz }, this.update);
+            this.setState({ pjz }, this.update);
         });
-        publish('getData', { svn: 'skhg_loader', tableName: 'imap_skhg_sxfx', data: { where: "EFFECTDATE LIKE to_char(sysdate,'yyyy')-1||'%' OR EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
-            let year = new Date().getFullYear() + '';
+        // publish('getData', { svn: 'skhg_loader', tableName: 'imap_skhg_sxfx', data: { where: "EFFECTDATE LIKE to_char(sysdate,'yyyy')-1||'%' OR EFFECTDATE LIKE to_char(sysdate,'yyyy')||'%'" } }).then((res) => {
+        publish('getData', { svn: 'skhg_loader', tableName: 'imap_skhg_sxfx', data: { where: `EFFECTDATE LIKE '${this.state.selYear - 1}%' or EFFECTDATE LIKE '${this.state.selYear}%'` } }).then((res) => {
+            let year = this.state.selYear + '';
             let thisyear = {};
             let jk = 0;
             let ck = 0;
             let count = 0;
             res[0].features.forEach((e) => {
-                if (e.attributes.EFFECTDATE.indexOf(year) >= 0) thisyear[e.attributes.EFFECTDATE] = { jk: e.attributes.CUSIN, ck: e.attributes.CUSOUT };
-                else {
+                if (e.attributes.EFFECTDATE.indexOf(year) >= 0) {
+                    thisyear[e.attributes.EFFECTDATE] = { jk: e.attributes.CUSIN, ck: e.attributes.CUSOUT };
+                } else {
                     count++;
                     jk = jk + Number(e.attributes.CUSIN);
                     ck = ck + Number(e.attributes.CUSOUT);
                 }
             });
-            jk = (jk / count).toFixed(2);
-            ck = (ck / count).toFixed(2);
+            jk = (jk / count).toFixed(2) || 0;
+            ck = (ck / count).toFixed(2) || 0;
             this.setState({ hgpjz: { jk: jk, ck: ck, data: thisyear } });
         });
     }
+    /** 下拉框==》按钮事件 */
+    handleSel = (e) => {
+        this.setState({
+            selYear: e.target.value,
+        }, () => this.newUpdate());
+    }
+
     render() {
+        const years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028'];
         return (
-            this.state.pjz.ck ? <div className='ac'>
+            <div className='ac'>
+                <div className="ac-find">
+                    <div className='ac-find-na'>选择年份</div>
+                    <select className="ac-find-year" onChange={this.handleSel.bind(this)} >
+                        {
+                            years.map(e => {
+                                if (Number(new Date().getFullYear()) >= Number(e)) {
+                                    return <option key={e} value={e}>{e}</option>
+                                }
+                            })
+                        }
+                    </select>
+                </div>
                 <div>
                     <div className='ac-box'>
-                        <div ref='echart1' className='ac-box-t'></div>
-                        <div ref='echart2' className='ac-box-b'></div>
+                        <div ref='echart1' id='echart1' className='ac-box-t'></div>
+                        <div ref='echart2' id='echart2' className='ac-box-b'></div>
                     </div>
                 </div>
                 {
-                    this.state.sx == true ? <CK layer={this.state.layer} data={this.state.param} hgpjz={this.state.hgpjz} pjz={this.state.pjz[this.state.layer]} /> : <CK layer={this.state.layer} data={this.state.param} hgpjz={this.state.hgpjz} pjz={this.state.pjz[this.state.layer]} />
+                    this.state.sx == true ? <CK selYear={this.state.selYear} layer={this.state.layer} data={this.state.param} hgpjz={this.state.hgpjz} pjz={this.state.pjz[this.state.layer]} /> : <CK selYear={this.state.selYear} layer={this.state.layer} data={this.state.param} hgpjz={this.state.hgpjz} pjz={this.state.pjz[this.state.layer]} />
                 }
-            </div> : <div />
+            </div>
         )
     }
 }
@@ -394,13 +425,25 @@ class CK extends React.Component {
         this.showtab = (props) => {
             let layer = props.layer;
             let month = Number(props.data.replace('月', ''));
-            let year = new Date().getFullYear();
+            let year = props.selYear;
             let time = year + (month < 10 ? '0' : '') + month;
             publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category = '" + (props.layer == 'ck' ? 'E' : 'I') + "' and EFFECTDATE='" + time + "'" } }).then((res) => {
-                let e = res[0].features[0].attributes;
-                let xc_sb = (((Number(e.DATAB) * 24) - Number(props.hgpjz.data[time][props.layer])) / 24).toFixed(2);
+                let e = {};
+                if (res[0].features.length > 0) {
+                    e = res[0].features[0].attributes;
+                } else {
+                    e.DATAA = 0;
+                    e.DATAB = 0;
+                    e.DATAC = 0;
+                    e.DATAD = 0;
+                    e.DATAE = 0;
+                    e.DATAF = 0;
+                }
+                let xc_sb = (((Number(e.DATAB) * 24) - (props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0)) / 24).toFixed(2);
+                // let xc_sb = '0.64';
                 e.DATAA = Number(e.DATAA);
-                e.DATAB = (Number(e.DATAB) - Number(props.hgpjz.data[time][props.layer]) / 24).toFixed(2);
+                e.DATAB = (Number(e.DATAB) - (props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0) / 24).toFixed(2);
+                // e.DATAB = '0.88';
                 e.DATAC = Number(e.DATAC);
                 e.DATAD = Number(e.DATAD);
                 e.DATAE = Number(e.DATAE);
@@ -414,7 +457,7 @@ class CK extends React.Component {
                 temp.DATAD = Number(temp.DATAD);
                 temp.DATAE = Number(temp.DATAE);
                 temp.DATAF = Number(temp.DATAF);
-                this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time][props.layer], e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
+                this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0, e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
                 if (props.layer == 'ck') {
                     mdata = [
                         [
@@ -452,10 +495,11 @@ class CK extends React.Component {
 
     updateTop10 = (top10Table) => {
         let month = Number(this.props.data.replace('月', ''));
-        let year = new Date().getFullYear();
+        let year = this.props.selYear;
+        // let year = "2018";
         publish('getData', { svn: 'skhg_stage', tableName: top10Table.tab, data: { pageno: 1, pagesize: 10, where: "EFFECTDATE='" + year + (month < 10 ? '0' : '') + month + "' ORDER BY DIS DESC" } }).then((res) => {
             let top10 = res[0].features.map((e) => e.attributes);
-            this.setState({ top10: [], containerNo: null, [this.props.layer]: top10Table.cjk, dataa: top10Table.datas }, () => this.setState({ top10: top10, containerNo: top10[0].CONTAINERNO }));
+            this.setState({ top10: [], containerNo: null, [this.props.layer]: top10Table.cjk, dataa: top10Table.datas }, () => this.setState({ top10: top10, containerNo: top10.length > 0 ? top10[0].CONTAINERNO : '' }));
         });
     }
     setPropsState = (selectIndex) => {
@@ -494,6 +538,7 @@ class CK extends React.Component {
             width: 3740,
             height: 2030,
         };
+
         return (
             <div className='ac-ckbox'>
                 <div className='ac-back' onClick={this.back}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
@@ -521,7 +566,7 @@ class CK extends React.Component {
                     {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' > <ZNYBJ ys={ys} xz={1} gb={() => this.setState({ hthjsx: 1 })} /> </div> : <div />}
                     {this.state.htcysx > 1 ? <div className='ac-ckbox-znybjs' > <Sycyzy gb={() => this.setState({ htcysx: 1 })} /> </div> : <div />}
                 </div>
-                <div className='ac-ckbox-c'><div>诊断结论：</div><div>2018年{this.props.data}出口时效......</div></div>
+                <div className='ac-ckbox-c'><div>诊断结论：</div><div>{this.props.selYear}{this.props.data}出口时效......</div></div>
                 <div className='ac-ckbox-b'>
                     {this.state.top10.length > 0 ? <Top10 datas={this.state.top10} click={(containerNo) => this.setState({ containerNo: containerNo })} /> : null}
                     {this.state.containerNo ? <DataDesc containerNo={this.state.containerNo} /> : null}
@@ -563,7 +608,7 @@ class HT extends React.Component {
                     {
                         sj.map((e, i) => {
                             if (e !== '') {
-                                return <span key={Math.random(100)} className={'ht-sj' + jck + '-' + i}>{e}{e > 10 ? '小时' : '天'}</span>
+                                return <span key={Math.random(100)} className={'ht-sj' + jck + '-' + i}>{e}{i == 1 ? '小时' : '天'}</span>
                             }
                         })
                     }
@@ -596,7 +641,7 @@ class Cysj extends React.Component {
                 dt.push({ name: a[i].name, value: a[i].time, num: i })
             }
             let month = props.month.replace('月', '');
-            let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
+            let time = (new Date().getFullYear() - 1) + (month < 10 ? '0' : '') + month;
             // let data = props.datas.data[time] ? Number(props.datas.data[time][props.layer]) : 0;
             let option = {
                 color: ['#1890FF', '#0A3C77', '#70e100',],
@@ -663,7 +708,7 @@ class Cysj extends React.Component {
     render() {
         let { json = {} } = this.state;
         let month = this.props.month.replace('月', '');
-        let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
+        let time = (new Date().getFullYear() - 1) + (month < 10 ? '0' : '') + month;
         let data = this.props.datas.data[time] ? this.props.datas.data[time][this.props.layer] : 0;
         let pjz = this.props.datas.data[time] ? this.props.datas[this.props.layer] : 0;
         return (
@@ -721,7 +766,6 @@ class Sycyzy extends React.Component {
 
     /** 下一页 */
     handleBtnDown = (e) => {
-        // console.log(((Number((this.state.btn.val).length) / 100) > (this.state.pageNum - 1)))
         let a = (Number((this.state.btn.val).length) / 100);
         let b = (this.state.pageNum - 1);
         if ((Number((this.state.btn.val).length) / 100) >= 1) {
@@ -757,7 +801,7 @@ class HG extends React.Component {
     componentDidMount() {
         this.update = (props) => {
             let month = props.month.replace('月', '');
-            let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
+            let time = (new Date().getFullYear() - 1) + (month < 10 ? '0' : '') + month;
             let data = props.datas.data[time] ? Number(props.datas.data[time][props.layer]) : 0;
             let option = {
                 color: ['#70e100', '#0A3C77'],
@@ -816,7 +860,7 @@ class HG extends React.Component {
     }
     render() {
         let month = this.props.month.replace('月', '');
-        let time = new Date().getFullYear() + (month < 10 ? '0' : '') + month;
+        let time = (new Date().getFullYear() - 1) + (month < 10 ? '0' : '') + month;
         let data = this.props.datas.data[time] ? this.props.datas.data[time][this.props.layer] : 0;
         let pjz = this.props.datas.data[time] ? this.props.datas[this.props.layer] : 0;
         return (
