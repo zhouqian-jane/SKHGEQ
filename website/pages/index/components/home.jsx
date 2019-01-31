@@ -62,7 +62,7 @@ export default class Home extends React.Component {
                 fullscreenButton: false, // 是否显示全屏按钮
                 baseLayerPicker: false, // 关闭图层选择器，不然还怎么指定呢
                 imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
-                    url: 'http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles',
+                    url: 'http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=cb2026b3004141dc1fc2163c1232e27e',
                     layer: 'tdtBasicLayer',
                     style: 'default',
                     format: 'image/jpeg',
