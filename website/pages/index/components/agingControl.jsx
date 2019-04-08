@@ -35,7 +35,7 @@ export default class AgingControl extends React.Component {
             jk: 0,
         },
         pjz: {},
-        param: (Number(new Date().getMonth()) + 1) + '月',
+        param: (Number(new Date().getMonth() === 0 ? new Date().getMonth() + 1 : new Date().getMonth())) + '月',
         sx: false,
         selYear: new Date().getFullYear() - 1,
 
@@ -49,7 +49,7 @@ export default class AgingControl extends React.Component {
             let pjz = this.state.pjz;
             let jkData = [];
             let ckData = [];
-            if(pjz.jk){
+            if (pjz.jk) {
                 for (let i = 0; i < 12; i++) {
                     jkData.push(pjz.jk.DATAA);
                     ckData.push(pjz.ck.DATAA);
@@ -344,7 +344,7 @@ export default class AgingControl extends React.Component {
                 });
             });
         }
-        publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx', data: { where: `EFFECTYEAR = ${this.state.selYear}` } }).then((res) => {
+        publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx', data: { where: `EFFECTYEAR = ${this.state.selYear - 1}` } }).then((res) => {
             let pjz = {};
             res[0].features.forEach((e) => pjz[e.attributes.CATEGORY == 'E' ? 'ck' : 'jk'] = e.attributes);
             this.setState({ pjz }, this.update);
@@ -450,13 +450,13 @@ class CK extends React.Component {
                 e.DATAF = Number(e.DATAF);
                 let data206 = (data) => (data * 2 / 3).toFixed(2);
                 let mdata = [];
-                let temp = props.pjz;
-                temp.DATAA = Number(temp.DATAA);
-                temp.DATAB = Number(temp.DATAB);
-                temp.DATAC = Number(temp.DATAC);
-                temp.DATAD = Number(temp.DATAD);
-                temp.DATAE = Number(temp.DATAE);
-                temp.DATAF = Number(temp.DATAF);
+                let temp = props.pjz || {};
+                temp.DATAA = Number( props.pjz ? temp.DATAA : 0);
+                temp.DATAB = Number( props.pjz ? temp.DATAB : 0);
+                temp.DATAC = Number( props.pjz ? temp.DATAC : 0);
+                temp.DATAD = Number( props.pjz ? temp.DATAD : 0);
+                temp.DATAE = Number( props.pjz ? temp.DATAE : 0);
+                temp.DATAF = Number( props.pjz ? temp.DATAF : 0);
                 this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0, e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
                 if (props.layer == 'ck') {
                     mdata = [
@@ -557,7 +557,7 @@ class CK extends React.Component {
                             {this.state.hthjsx > 0 ? <HT jck={this.props.layer} sj={this.state.sjhxsj} /> : datas[0].map((e, i) => <JD key={i} index={i + 1} datas={e} selected={this.state.selectIndex == e.top10Table} click={() => { this.setState({ selectIndex: e.top10Table }); this.updateTop10(e.top10Table); publish('noSelectCy'); }} />)}
                         </div>
                         <div>
-                            {this.state.htcysx > 0 ? <Cysj da={datas[1]} datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} /> : <HG datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} />}
+                            {this.state.htcysx > 0 ? <Cysj da={datas[1]} datas={this.props.hgpjz} dataa={this.state.dataa} month={this.props.data} layer={this.props.layer} /> : <HG datas={this.props.hgpjz} dataa={this.state.dataa} selYear={this.props.selYear} month={this.props.data} layer={this.props.layer} />}
                         </div>
                         {/* <div>
                             <CY datas={datas[1]} setPropsState={this.setPropsState} updateTop10={this.updateTop10} />
@@ -860,7 +860,7 @@ class HG extends React.Component {
     }
     render() {
         let month = this.props.month.replace('月', '');
-        let time = (new Date().getFullYear() - 1) + (month < 10 ? '0' : '') + month;
+        let time = this.props.selYear + (month < 10 ? '0' : '') + month;
         let data = this.props.datas.data[time] ? this.props.datas.data[time][this.props.layer] : 0;
         let pjz = this.props.datas.data[time] ? this.props.datas[this.props.layer] : 0;
         return (

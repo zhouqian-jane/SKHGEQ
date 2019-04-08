@@ -71,6 +71,7 @@ class PortRightArea extends React.Component {
 class PortRightBGDL extends React.Component {
     render() {
         let { leftGQ, rightGQ } = this.props;
+        console.log(leftGQ);
         return (
             <div className="BGDL">
                 <div className="BGDL_left">
@@ -255,6 +256,7 @@ export default class HomeRightPanel extends React.Component {
             publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'HZ2011', where: "EFFECTDATE=(SELECT MAX(EFFECTDATE) FROM HZ2011 WHERE CUSTOMSCODE='5349关区') AND CUSTOMSCODE='5349关区'" } }),
             publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CIC', where: '1=1' } }),
         ]).then((res) => {
+            console.log(res);
             let leftGQ = res[0][0].data[0];
             let rightGQ = res[1][0].data[0];
             let temp = res[2][0].data[0];
