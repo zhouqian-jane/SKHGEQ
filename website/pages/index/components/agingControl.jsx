@@ -9,21 +9,6 @@ import { Table } from '../../../frame/componets/index';
 import ZNYBJ from './ZNYBJ';
 
 var Mock = require('mockjs')
-var Nowdata = Mock.mock({
-    // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
-    'list|15-45': [{
-        // 属性 id 是一个自增数，起始值为 1，每次增 1
-        'BgNum|+1': '@string("number", 4, 8)',
-        'CabinetNum': /^1[498][1-9]\d{8}/,
-        'CYKS': '科室名称',
-        'CYLX': '查验类型名',
-        'ZT|1': ['已处理', '未处理'],
-        'TW': '台位',
-        'BGMC': '报关行',
-        'DGSJ': '@date("yyyy-MM-dd")',
-        'ZTCXSJ': '@date("yyyy-MM-dd")',
-    }],
-});
 
 // tip组件
 export default class AgingControl extends React.Component {
@@ -44,6 +29,7 @@ export default class AgingControl extends React.Component {
         this.newUpdate();
     }
 
+
     newUpdate = () => {
         this.update = () => {
             let pjz = this.state.pjz;
@@ -57,11 +43,14 @@ export default class AgingControl extends React.Component {
             }
             let mbckData = ckData.map((e) => (e / 3 * 2).toFixed(2));
             let mbjkData = jkData.map((e) => (e / 3 * 2).toFixed(2));
-            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: `category='E' and EFFECTDATE LIKE ${this.state.selYear} ||'%'` } }).then((res) => {
+            let otherMbcData = ckData.map((e) => (e / 2).toFixed(2));
+            let otherMbjData = jkData.map((e) => (e / 2).toFixed(2));
+            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: `category='E' and EFFECTDATE LIKE ${this.state.selYear} ||'%' order by EFFECTDATE` } }).then((res) => {
                 let data = res[0].features.map((e) => e.attributes.DATAA);
                 for (let i = 0; i < 12 - data.length; i++) {
                     data.push(0);
                 }
+                console.log(data);
                 let ops = {
                     calculable: true,
                     xAxis: [
@@ -138,7 +127,7 @@ export default class AgingControl extends React.Component {
                         {
                             name: '目标值',
                             type: 'line',
-                            data: mbckData,
+                            data: this.state.selYear > 2018 ? otherMbcData : mbckData,
                             symbolSize: 15,
                             itemStyle: {
                                 normal: {
@@ -174,7 +163,7 @@ export default class AgingControl extends React.Component {
                                     value: e,
                                     itemStyle: {
                                         normal: {
-                                            color: e < mbckData[0] ? '#1890ff' : e < ckData[0] ? '#dbcf01' : '#f00',
+                                            color: this.state.selYear > 2018 ? e < otherMbcData[0] ? '#1890ff' : e < ckData[0] ? '#dbcf01' : '#f00' : e < mbckData[0] ? '#1890ff' : e < ckData[0] ? '#dbcf01' : '#f00',
                                             label: {
                                                 textStyle: {
                                                     color: '#fff',
@@ -199,7 +188,7 @@ export default class AgingControl extends React.Component {
                     if (param.seriesType == 'bar') this.setState({ layer: 'ck', param: param.name, sx: !this.state.sx });
                 });
             });
-            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: `category='I' and EFFECTDATE LIKE ${this.state.selYear} ||'%'` } }).then((res) => {
+            publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: `category='I' and EFFECTDATE LIKE ${this.state.selYear} ||'%' ORDER BY EFFECTDATE` } }).then((res) => {
                 // publish('getData', { svn: 'skhg_stage', tableName: 'imap_scct_sxfx_01', data: { where: "category='I' and EFFECTDATE LIKE '2018'" } }).then((res) => {
                 let data = res[0].features.map((e) => e.attributes.DATAA);
                 for (let i = 0; i < 12 - data.length; i++) {
@@ -281,7 +270,7 @@ export default class AgingControl extends React.Component {
                         {
                             name: '目标值',
                             type: 'line',
-                            data: mbjkData,
+                            data: this.state.selYear > 2018 ? otherMbjData : mbjkData,
                             symbolSize: 15,
                             itemStyle: {
                                 normal: {
@@ -317,7 +306,7 @@ export default class AgingControl extends React.Component {
                                     value: e,
                                     itemStyle: {
                                         normal: {
-                                            color: Number(e) < Number(mbjkData[0]) ? '#1890ff' : Number(e) < Number(jkData[0]) ? '#dbcf00' : '#f00',
+                                            color: this.state.selYear > 2018 ? Number(e) < Number(otherMbjData[0]) ? '#1890ff' : Number(e) < Number(jkData[0]) ? '#dbcf00' : '#f00' : Number(e) < Number(mbjkData[0]) ? '#1890ff' : Number(e) < Number(jkData[0]) ? '#dbcf00' : '#f00',
                                             label: {
                                                 textStyle: {
                                                     color: '#fff',
@@ -451,12 +440,12 @@ class CK extends React.Component {
                 let data206 = (data) => (data * 2 / 3).toFixed(2);
                 let mdata = [];
                 let temp = props.pjz || {};
-                temp.DATAA = Number( props.pjz ? temp.DATAA : 0);
-                temp.DATAB = Number( props.pjz ? temp.DATAB : 0);
-                temp.DATAC = Number( props.pjz ? temp.DATAC : 0);
-                temp.DATAD = Number( props.pjz ? temp.DATAD : 0);
-                temp.DATAE = Number( props.pjz ? temp.DATAE : 0);
-                temp.DATAF = Number( props.pjz ? temp.DATAF : 0);
+                temp.DATAA = Number(props.pjz ? temp.DATAA : 0);
+                temp.DATAB = Number(props.pjz ? temp.DATAB : 0);
+                temp.DATAC = Number(props.pjz ? temp.DATAC : 0);
+                temp.DATAD = Number(props.pjz ? temp.DATAD : 0);
+                temp.DATAE = Number(props.pjz ? temp.DATAE : 0);
+                temp.DATAF = Number(props.pjz ? temp.DATAF : 0);
                 this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0, e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
                 if (props.layer == 'ck') {
                     mdata = [

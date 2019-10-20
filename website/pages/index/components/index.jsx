@@ -92,7 +92,7 @@ export default class App extends React.Component {
     
     render() {
         return (
-            <div className='mbody'>
+            <div className='mbody' style={{height: '100%'}}>
                 <div className='mbody-content'>
                     {this.state.curLayer}
                 </div>
