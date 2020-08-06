@@ -7,6 +7,8 @@ import echarts from 'echarts';
 import { publish, subscribe, unsubscribe } from '../../../frame/core/arbiter';
 import { Table } from '../../../frame/componets/index';
 import ZNYBJ from './ZNYBJ';
+import exportImg from '../../../frame/images/导出.png'
+import closeImg from '../../../frame/images/关闭表格.png'
 
 var Mock = require('mockjs')
 
@@ -359,6 +361,7 @@ export default class AgingControl extends React.Component {
             this.setState({ hgpjz: { jk: jk, ck: ck, data: thisyear } });
         });
     }
+
     /** 下拉框==》按钮事件 */
     handleSel = (e) => {
         this.setState({
@@ -374,7 +377,7 @@ export default class AgingControl extends React.Component {
                     <div className='ac-find-na'>选择年份</div>
                     <select className="ac-find-year" onChange={this.handleSel.bind(this)} >
                         {
-                            years.map(e => {
+                            years.map((e) => {
                                 if (Number(new Date().getFullYear()) >= Number(e)) {
                                     return <option key={e} value={e}>{e}</option>
                                 }
@@ -408,6 +411,7 @@ class CK extends React.Component {
         hthjsx: 0,
         htcysx: 0,
         sjhxsj: [],
+        showDiagnosisConclusionDialog: false,
     }
 
     componentDidMount() {
@@ -428,10 +432,10 @@ class CK extends React.Component {
                     e.DATAE = 0;
                     e.DATAF = 0;
                 }
-                let xc_sb = (((Number(e.DATAB) * 24) - (props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0)) / 24).toFixed(2);
+                let xc_sb = (((Number(e.DATAB) * 24) - (props.hgpjz.data[time] ? Number(props.hgpjz.data[time].ck) : 0)) / 24).toFixed(2);
                 // let xc_sb = '0.64';
                 e.DATAA = Number(e.DATAA);
-                e.DATAB = (Number(e.DATAB) - (props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0) / 24).toFixed(2);
+                e.DATAB = (Number(e.DATAB) - (props.hgpjz.data[time] ? Number(props.hgpjz.data[time].ck) : 0) / 24).toFixed(2);
                 // e.DATAB = '0.88';
                 e.DATAC = Number(e.DATAC);
                 e.DATAD = Number(e.DATAD);
@@ -446,7 +450,7 @@ class CK extends React.Component {
                 temp.DATAD = Number(props.pjz ? temp.DATAD : 0);
                 temp.DATAE = Number(props.pjz ? temp.DATAE : 0);
                 temp.DATAF = Number(props.pjz ? temp.DATAF : 0);
-                this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time] ? Number(props.hgpjz.data[time]['ck']) : 0, e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
+                this.setState({ sjhxsj: [xc_sb, props.hgpjz.data[time] ? Number(props.hgpjz.data[time].ck) : 0, e.DATAC, e.DATAD, e.DATAE, e.DATAF > 0 ? e.DATAF : ''] });
                 if (props.layer == 'ck') {
                     mdata = [
                         [
@@ -476,7 +480,7 @@ class CK extends React.Component {
             });
         };
         this.showtab(this.props);
-    };
+    }
 
     componentWillReceiveProps(pro) {
         this.showtab(pro);
@@ -520,8 +524,107 @@ class CK extends React.Component {
         }
     }
 
+    handleShowDiagnosisConclusionDialog = () => {
+        this.setState({
+            showDiagnosisConclusionDialog: true,
+        }, () => {
+            $('#diagnosisConclusionDialog').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('#diagnosisConclusionDialog').removeClass('zoomIn animated'));
+        })
+    }   
+
     render() {
+        const {showDiagnosisConclusionDialog, ck} = this.state;
         let datas = this.state[this.props.layer];
+        const fldsTest1 = [
+            {
+                title: '海关全口径(入闸到单证放行)',
+                children: [
+                    {
+                        title: '平均时间',
+                        dataIndex: 'data1',
+                    }, {
+                        title: '比去年均值',
+                        dataIndex: 'data2',
+                    }, {
+                        title: '比目标值',
+                        dataIndex: 'data3',
+                    }, 
+                ],
+            }, {
+                title: '货物提离',
+                children: [
+                    {
+                        title: '平均时间',
+                        dataIndex: 'data4',
+                    }, {
+                        title: '比去年均值',
+                        dataIndex: 'data5',
+                    }, {
+                        title: '比目标值',
+                        dataIndex: 'data6',
+                    },
+                ],
+            },
+        ]
+        const fldsTest2 = [
+            {
+                title: '',
+                dataIndex: 'data1',
+            },
+            {
+                title: '查验准备',
+                dataIndex: 'data2',
+            },
+            {
+                title: '与平均时间比',
+                dataIndex: 'data3',
+            },
+            {
+                title: '与目标值比',
+                dataIndex: 'data4',
+            },
+        ]
+        let dataTest1 = []
+        let dataTest2 = []
+
+        if (ck && ck[0] && ck[0][0] && ck[0][0].items) {
+            dataTest1 = [{
+                data1: `${ck[0][0].time}天`,
+                data2: `${ck[0][0].items[0].name.slice(0, 1)}${ck[0][0].items[0].value}天 ${ck[0][0].items[0].rate}%`,
+                data3: `${ck[0][0].items[1].name.slice(0, 1)}${ck[0][0].items[1].value}天 ${ck[0][0].items[1].rate}%`,
+                data4: `${ck[0][1].time}天`,
+                data5: `${ck[0][1].items[0].name.slice(0, 1)}${ck[0][1].items[0].value}天 ${ck[0][1].items[0].rate}%`,
+                data6: `${ck[0][1].items[1].name.slice(0, 1)}${ck[0][1].items[1].value}天 ${ck[0][1].items[1].rate}%`,
+            }]
+
+            let month = this.props.data.replace('月', '');
+            let time = this.props.selYear + (month < 10 ? '0' : '') + month;
+            let data = this.props.hgpjz.data[time] ? this.props.hgpjz.data[time][this.props.layer] : 0;
+            let pjz = this.props.hgpjz.data[time] ? this.props.hgpjz[this.props.layer] : 0;
+            dataTest2 = [
+                {
+                    data1: '查验准备',
+                    data2: `${ck[1][0].time}天`,
+                    data3: `${ck[1][0].items[0].name.slice(0, 1)}${ck[1][0].items[0].value}天 ${ck[1][0].items[0].rate}%`,
+                    data4: `${ck[1][0].items[1].name.slice(0, 1)}${ck[1][0].items[1].value}天 ${ck[1][0].items[1].rate}%`,
+                }, {
+                    data1: '查验作业',
+                    data2: `${ck[1][1].time}天`,
+                    data3: `${ck[1][1].items[0].name.slice(0, 1)}${ck[1][1].items[0].value}天 ${ck[1][1].items[0].rate}%`,
+                    data4: `${ck[1][1].items[1].name.slice(0, 1)}${ck[1][1].items[1].value}天 ${ck[1][1].items[1].rate}%`,
+                }, {
+                    data1: '货物提离',
+                    data2: `${ck[1][2].time}天`,
+                    data3: `${ck[1][2].items[0].name.slice(0, 1)}${ck[1][2].items[0].value}天 ${ck[1][2].items[0].rate}%`,
+                    data4: `${ck[1][2].items[1].name.slice(0, 1)}${ck[1][2].items[1].value}天 ${ck[1][2].items[1].rate}%`,
+                }, {
+                    data1: '申报到放行',
+                    data2: `${data}小时`,
+                    data3: `${data > pjz ? '高' : '低'}${Math.abs(data - pjz).toFixed(2)}小时`,
+                    data4: `${data > pjz / 3 * 2 ? '高' : '低'} ${Math.abs(data - pjz / 3 * 2).toFixed(2)}小时`,
+                },
+            ]
+        }
         const ys = {
             left: 7711,
             width: 3740,
@@ -555,11 +658,26 @@ class CK extends React.Component {
                     {this.state.hthjsx > 1 ? <div className='ac-ckbox-znybjs' > <ZNYBJ ys={ys} xz={1} gb={() => this.setState({ hthjsx: 1 })} /> </div> : <div />}
                     {this.state.htcysx > 1 ? <div className='ac-ckbox-znybjs' > <Sycyzy gb={() => this.setState({ htcysx: 1 })} /> </div> : <div />}
                 </div>
-                <div className='ac-ckbox-c'><div>诊断结论：</div><div>{this.props.selYear}{this.props.data}出口时效......</div></div>
+                <div className='ac-ckbox-c'><div>诊断结论：</div><div onClick={this.handleShowDiagnosisConclusionDialog}>{this.props.selYear}年{this.props.data}出口时效......</div></div>
                 <div className='ac-ckbox-b'>
                     {this.state.top10.length > 0 ? <Top10 datas={this.state.top10} click={(containerNo) => this.setState({ containerNo: containerNo })} /> : null}
                     {this.state.containerNo ? <DataDesc containerNo={this.state.containerNo} /> : null}
                 </div>
+                {
+                    showDiagnosisConclusionDialog && (
+                        <div id="diagnosisConclusionDialog" style={{position: 'absolute', width: '1900px', height: '2700px', zIndex: 9999, background: '#000', left: '5400px', top: '300px', border: '10px solid #219bff', padding: '0 80px'}}>
+                            <p style={{height: '150px', lineHeight: '150px', textAlign: 'right' }}>
+                                <img src={exportImg} style={{width: '70px', height: '70px', margin: '0 50px'}} />
+                                <img src={closeImg} style={{width: '70px', height: '70px'}} onClick={() => {this.setState({showDiagnosisConclusionDialog: false})}}/>
+                            </p>
+                            <p style={{color: '#fff', textAlign: 'center', fontSize: '80px', height: '200px', lineHeight: '200px'}}>通关时效诊断结论</p>
+                    <p style={{fontSize: '60px', height: '100px', lineHeight: '100px', color: '#fff', textAlign: 'right', borderBottom: '10px solid #219bff'}}>时间：{this.props.selYear}年{this.props.data}</p>
+                            <Table title={{name: '出口海关整体时效'}} multipleHeader style={{ width: 1900, height: 800 }} id={'a1'} flds={fldsTest1} datas={dataTest1} unFilter />
+                            <Table title={{name: '海关作业'}} style={{ width: 1900, height: 1000, margin: '80px 0' }} id={'a1'} flds={fldsTest2} datas={dataTest2} />
+                    <p style={{fontSize: '60px', height: '100px', lineHeight: '100px', marginTop: '80px', color: '#fff', textAlign: 'right', borderTop: '10px solid #219bff'}}>打印时间：{new Date().getFullYear()}/{new Date().getMonth()}/{new Date().getDate()} {new Date().getHours()}:{new Date().getMinutes()}:{new Date().getSeconds()}</p>
+                        </div>
+                    )
+                }
             </div>
         )
     }
@@ -620,8 +738,8 @@ class Cysj extends React.Component {
                 time: this.props.da[0].time,
                 num: this.props.da[0].items,
                 pjzys: this.props.da[0].items[0].name == '超目标值' ? '#ff0000' : this.props.da[0].items[0].name == '低目标值' ? '#70e100' : this.props.da[0].type == 1 ? '#70e100' : '#ff0000',
-                mbzys: this.props.da[0].items[1].name == '超目标值' ? '#ff0000' : this.props.da[0].items[1].name == '低目标值' ? '#70e100' : this.props.da[0].type == 1 ? '#70e100' : '#ff0000'
-            }
+                mbzys: this.props.da[0].items[1].name == '超目标值' ? '#ff0000' : this.props.da[0].items[1].name == '低目标值' ? '#70e100' : this.props.da[0].type == 1 ? '#70e100' : '#ff0000',
+            },
         })
         this.update = (props) => {
             let dt = [];
@@ -633,10 +751,10 @@ class Cysj extends React.Component {
             let time = (new Date().getFullYear() - 1) + (month < 10 ? '0' : '') + month;
             // let data = props.datas.data[time] ? Number(props.datas.data[time][props.layer]) : 0;
             let option = {
-                color: ['#1890FF', '#0A3C77', '#70e100',],
+                color: ['#1890FF', '#0A3C77', '#70e100'],
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{b} :{c}%",
+                    formatter: '{b} :{c}%',
                     textStyle: {
                         fontSize: 50,
                         color: '#70E100',
@@ -683,8 +801,8 @@ class Cysj extends React.Component {
                         time: this.props.da[param.data.num].time,
                         num: this.props.da[param.data.num].items,
                         pjzys: this.props.da[param.data.num].items[0].name == '超目标值' ? '#ff0000' : this.props.da[param.data.num].items[0].name == '低目标值' ? '#70e100' : this.props.da[param.data.num].type == 1 ? '#70e100' : '#ff0000',
-                        mbzys: this.props.da[param.data.num].items[1].name == '超目标值' ? '#ff0000' : this.props.da[param.data.num].items[1].name == '低目标值' ? '#70e100' : this.props.da[param.data.num].type == 1 ? '#70e100' : '#ff0000'
-                    }
+                        mbzys: this.props.da[param.data.num].items[1].name == '超目标值' ? '#ff0000' : this.props.da[param.data.num].items[1].name == '低目标值' ? '#70e100' : this.props.da[param.data.num].type == 1 ? '#70e100' : '#ff0000',
+                    },
                 })
             });
         }
@@ -724,8 +842,8 @@ class Sycyzy extends React.Component {
         pageNum: 1,
         btn: {
             tab: [],
-            val: []
-        }
+            val: [],
+        },
     }
 
     componentDidMount() {
