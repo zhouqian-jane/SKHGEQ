@@ -1,11 +1,13 @@
 
 import $ from 'jquery';
 import React from 'react';
+import 'antd/dist/antd.css';
 
 /** 引入页面 ： */
 import Login from './login';
 import AgingControl from './agingControl';//  通关时效
-import Sjzhcx from './sjzhcx';// 数据查询综合
+import Sjzhcx from './sjhzcx/inedx';// 数据查询综合
+
 
 /** 引入订阅 */
 import { publish, subscribe, unsubscribe } from '../../../frame/core/arbiter';
@@ -64,7 +66,7 @@ export default class App extends React.Component {
         let curProps = ops.props;
         let index = ops.index;
         if (index != idx || curProps.defaultLayer) {
-            let curLayer = null;
+            let curLayer = false;
             switch (index) {
                 case 1:
                     curLayer = <Login {...curProps} />;
@@ -93,10 +95,11 @@ export default class App extends React.Component {
     render() {
         return (
             <div className='mbody' style={{height: '100%'}}>
-                <div className='mbody-content'>
+                <div className='mbody-content' style={{width: '100%'}}>
                     {this.state.curLayer}
                 </div>
             </div>
         )
     }
 }
+

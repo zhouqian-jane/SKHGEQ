@@ -1,9 +1,10 @@
 import '../less';
 import 'animate.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { table2Excel } from '../core/table2Excel';
+import {Table, Input, Button, Icon} from 'antd';
+import Highlighter from 'react-highlight-words';
 
 // tip组件
 /**
@@ -15,93 +16,150 @@ import { table2Excel } from '../core/table2Excel';
  *      datas           : 接收的数据
  *      trClick         : 单击事件
  *      trDbclick       : 双击事件
+ *      
+ *      unFilter        : 不需要筛选
+ *      zebraCrossing   : 是否显示斑马线底纹,默认为true
+ *      classname       : 自定义类名
+ *      @description 之前版本中table组件为项目上封装的，现改为antd的Table组件，之前的参数依旧支持
  */
-export default class Table extends React.Component {
-    bindClick = () => {
-        if (this.props.trClick) {
-            let datas = this.props.datas;
-            $(ReactDOM.findDOMNode(this.refs.table)).find('tbody>tr').each((i, e) => {
-                e.onclick = (a) => {
-                    this.props.trClick(datas[i], i, datas);
-                }
-            });
-        }
-        if (this.props.trDbclick) {
-            let datas = this.props.datas;
-            $(ReactDOM.findDOMNode(this.refs.table)).find('tbody>tr').each((i, e) => {
-                e.ondblclick = () => {
-                    this.props.trDbclick(datas[i], i, datas);
-                }
-            });
-        }
+ 
+
+export default class MTable extends React.Component {
+    state = {
+        searchText: '',
+        searchedColumn: '',
+    }
+
+    renderSelectedIndex = () => {
         if (this.props.selectedIndex != undefined) {
-            $('#' + this.props.id + '>tbody>tr>td').removeClass('trSelected');
-            $('#' + this.props.id + '>tbody>tr:nth-of-type(' + (this.props.selectedIndex + 1) + ')>td').addClass('trSelected');
+            $('#' + this.props.id + ' tbody tr td').removeClass('trSelected');
+            $('#' + this.props.id + ' tbody tr:nth-of-type(' + (this.props.selectedIndex + 1) + ') td').addClass('trSelected');
         }
     }
-    updateTable = () => {
-        if (this.props.datas.length > 0) this.bindClick();
-        // if (this.props.datas.length > 0) {
-        //     let tds = $('#' + this.props.id + '>tbody>tr')[0].cells;
-        //     let ws = Object.keys(tds).map((key) => tds[key].clientWidth);
-        //     ws.forEach((w, i) => $('#' + this.props.id + '_head_' + i).css({ width: w - 40 }));
-        // }
-        // else {
-            let a = $('#' + this.props.id)[0];
-            $('#' + this.props.id + '_head').css({ width: a.clientWidth || a.offsetWidth });
-            let tds = $('#' + this.props.id + '>thead>tr')[0].cells;
-            let ws = Object.keys(tds).map((key) => tds[key].clientWidth || tds[key].offsetWidth);
-            ws.forEach((w, i) => {
-                $('#' + this.props.id + '_head_' + i).css({ width: w })
-            });
-        // }
-    }
+
     componentWillReceiveProps(nextProps) {
-        if (JSON.stringify(this.props.datas) != JSON.stringify(nextProps.datas)) {
+        if (JSON.stringify(this.props.datas) != JSON.stringify(nextProps.datas) || JSON.stringify(this.props.dataSource) != JSON.stringify(nextProps.dataSource)) {
             $('#' + this.props.id).addClass('slideInUp animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('#' + this.props.id).removeClass('slideInUp animated'));
         }
     }
+
     componentDidUpdate() {
-        this.updateTable();
+        if ((this.props.datas && this.props.datas.length > 0) || (this.props.dataSource && this.props.dataSource.length > 0)) this.renderSelectedIndex();
     }
-    componentDidMount() {
-        this.updateTable();
-        document.getElementById(this.props.id + '_scrollbar').onscroll = (e) => {
-            $('#' + this.props.id + '_head').css({ left: '-' + $('#' + this.props.id + '_scrollbar')[0].scrollLeft + 'px' });
-        }
-    }
+
+    getColumnSearchProps = (dataIndex, item) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+          <div style={{width: '500px', padding: '50px 0', background: '#1464b3' }}>
+            <Input
+              ref={(node) => {
+                this.searchInput = node;
+              }}
+              placeholder={`搜索 ${item.title}`}
+              value={selectedKeys[0]}
+              onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+              onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+              style={{ width: 450, height: 100, margin: 25, display: 'block', border: 'none', background: '#000b33', color: '#fff' }}
+            />
+            <Button
+              type="primary"
+              onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+              size="small"
+              style={{ width: 200, height: 100, margin: '0 20px' }}
+            >
+              搜索
+            </Button>
+            <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 200, height: 100, margin: '0 20px', border: 'none', background: '#d0e8ff'}}>
+              重置
+            </Button>
+          </div>
+        ),
+        filterIcon: (filtered) => (
+          <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+        ),
+        onFilter: (value, record) =>
+        record[dataIndex] ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase()) : false,
+        onFilterDropdownVisibleChange: (visible) => {
+          if (visible) {
+            setTimeout(() => this.searchInput.select());
+          }
+        },
+        render: (text) =>
+          this.state.searchedColumn === dataIndex ? (
+            <Highlighter
+              highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+              searchWords={[this.state.searchText]}
+              autoEscape
+              textToHighlight={text ? text.toString() : ''}
+            />
+          ) : (
+            text
+          ),
+      });
+    
+      handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        this.setState({
+          searchText: selectedKeys[0],
+          searchedColumn: dataIndex,
+        });
+      };
+    
+      handleReset = (clearFilters) => {
+        clearFilters();
+        this.setState({ searchText: '' });
+      };
+    
+
     render() {
-        let { flds = [], datas = [], rowNo } = this.props;
+        let {title, id, hide, columns, flds, dataSource, datas, rowNo, trClick, trDbclick, unFilter, zebraCrossing = true, classname, style, ...others } = this.props;
+        flds = flds ? flds : columns ? columns : [];
+        datas = datas ? datas : dataSource ? dataSource : [];
+        flds = flds.map((item) => {
+            if (item.title && !item.unFilter && !unFilter) {
+                return {
+                    ...item,
+                    ...this.getColumnSearchProps(item.dataIndex, item),
+                }
+            } else {
+                return item
+            }
+        })
         if (rowNo) {
-            flds = [{ title: '序号', dataIndex: 'rowNo' }].concat(flds);
-            datas.forEach((d, i) => d.rowNo = i + 1);
+            flds = [
+                { title: '序号', 
+                dataIndex: 'rowNo', 
+                render: (text, record, index) => <span>{index + 1}</span>,
+                }].concat(flds);
         }
-        if (this.props.hide) flds = flds.filter((e) => !this.props.hide[e.dataIndex]);
+        if (hide) {flds = flds.filter((e) => !hide[e.dataIndex])}
         let items = [];
-        this.props.title && this.props.title.export ? items.push(<div key={-2} className='tableExport' onClick={() => table2Excel(this.props.id)}></div>) : '';
-        this.props.title && this.props.title.close ? items.push(<div key={-1} className='tableClose' onClick={() => this.props.title.close()}></div>) : '';
-        this.props.title && this.props.title.items ? items = (this.props.title.items || []).concat(items) : '';
+        title && title.export ? items.push(<div key={-2} className='tableExport' onClick={() => table2Excel(this.props.id)}></div>) : '';
+        title && title.close ? items.push(<div key={-1} className='tableClose' onClick={() => title.close()}></div>) : '';
+        title && title.items ? items = (title.items || []).concat(items) : '';
         return (
-            <div className={this.props.className || 'mtable'} style={this.props.style} ref='table'>
-                {this.props.title ? <div className='mttitle'><div>{this.props.title.name}</div><div>{items}</div></div> : null}
-                <div className='tmhead'>
-                    <div className='mhead' id={this.props.id + '_head'}>{flds.map((fld, i) => <div key={i} id={this.props.id + '_head_' + i}>{flds[i].title}</div>)}</div>
-                </div>
-                <div id={this.props.id + '_scrollbar'} className='mttable scrollbar' style={this.props.style.height ? { height: this.props.style.height - 185 } : {}}>
-                    <table id={this.props.id}>
-                        <thead>
-                            <tr>
-                                {flds.map((fld, i) => <td key={i}><div style={{height: 0, overflow: 'hidden'}}>{fld.title}</div></td>)}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {datas.map((data, i) =>
-                                <tr key={i}>
-                                    {flds.map((fld, j) => <td key={j}>{this.props.myTd ? this.props.myTd(i, data, fld, j) : data && data[fld.dataIndex]}</td>)}
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+            <div className={`mtable ${classname}` } style={this.props.style} ref='table'>
+                {title ? <div className='mttitle'><div>{title.name}</div><div>{items}</div></div> : null}
+                <div id={id + '_scrollbar'} className={`mttable scrollbar ${zebraCrossing ? 'mttable-zebraCrossing' : ''}`} style={this.props.style.height ? { height: this.props.style.height - 185 } : {}}>
+                    <Table 
+                        id={id}
+                        columns={flds} 
+                        dataSource={datas} 
+                        pagination={false} 
+                        onRow={(record, index) => {
+                            return {
+                                onClick: () => {
+                                    if (trClick) trClick(record, index, datas);
+                                }, 
+                                onDoubleClick: () => {
+                                    if (trDbclick) trDbclick(record, index, datas);
+                                },
+                            }
+                        }} 
+                        {...others} 
+                    />
                 </div>
             </div>
         )

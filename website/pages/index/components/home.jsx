@@ -51,6 +51,7 @@ export default class Home extends React.Component {
             let timeout = null;
             let entitys = [];
             this.handleShowTip('p0');
+            // let Cesium = null;
             let viewer = new Cesium.Viewer('homeLeft', {
                 animation: false, // 是否创建动画小器件，左下角仪表 
                 timeline: false, // 是否显示时间轴,
@@ -274,7 +275,7 @@ export default class Home extends React.Component {
     }
     render() {
         let flds = [
-            { title: '港口名称', dataIndex: 'name' },
+            { title: '港口名称', dataIndex: 'name', width: 880 },
             { title: '地点', dataIndex: 'addr' },
             { title: '港口开埠时间', dataIndex: 'kbsj' },
             { title: '招商局运营时间', dataIndex: 'yysj' },
@@ -291,7 +292,7 @@ export default class Home extends React.Component {
                    <div className='rightP' style={{ position: 'absolute', top: 50, left: 90, width: 1750, height: 2470, zIndex: 1 }}>
                         <div className='rightP-t' />
                         <div className='rightP-c'>
-                            <Table style={{ width: 1710, height: 1407 }} id={'aa'} selectedIndex={this.state.selectedIndex} flds={flds} datas={datas} trClick={this.trClick} trDbclick={this.trDbclick} />
+                            <Table style={{ width: 1710, height: 1407 }} id={'aa'} selectedIndex={this.state.selectedIndex} flds={flds} datas={datas} trClick={this.trClick} trDbclick={this.trDbclick} scroll={{x: 2100}} />
                             {this.state.tip ? <MyPortDesc title={this.state.tip.name} style={{ width: 1700 }} port={this.state.tip} /> : null}
                         </div>
                         <div className='rightP-b' />

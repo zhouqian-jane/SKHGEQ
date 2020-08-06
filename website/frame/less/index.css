@@ -304,8 +304,7 @@
 .mtable > .mttable > table {
   width: 100%;
 }
-.mtable > .mttable > table > thead > tr > td {
-  height: 0;
+.mtable > .mttable > table > thead > tr > th {
   background: rgba(255, 255, 255, 0);
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   color: white;
@@ -315,10 +314,11 @@
   opacity: 0;
   border: none;
 }
-.mtable > .mttable > table > thead > tr > td > div {
+.mtable > .mttable > table > thead > tr > th > div {
   word-wrap: break-word;
   white-space: nowrap;
   text-indent: 50px;
+  text-align: left;
 }
 .mtable > .mttable > table > tbody > tr {
   cursor: pointer;
