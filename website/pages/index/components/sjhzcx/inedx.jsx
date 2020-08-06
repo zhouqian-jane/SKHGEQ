@@ -43,7 +43,7 @@ export default class sjzhcx extends React.Component {
             <div className='ac' style={{display: 'flex'}}>
                 {/* <img src={ppppp} style={{width: '11520px'}} /> */}
                 <div className='ac-back' onClick={this.back}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
-                <div className='ac-ckbox' style={{width: '4600px', position: 'relative'}}>
+                <div className='ac-ckbox' style={{width: '3700px', position: 'relative'}}>
                     <div className='ac-ckbox-title' style={{left: '300px'}}>数据综合查询</div>
                     <div style={{width: '100%', height: '100%', display: 'flex', flexWrap: 'wrap'}}>
                         {/* <SjzhcxCard title="集装箱" titleStyle={{color: '#77f1f7'}} width="2600" height="1220" style={{margin: '300px 70px 120px'}}>
@@ -60,20 +60,20 @@ export default class sjzhcx extends React.Component {
                         </SjzhcxCard> */}
                     </div>
                 </div>
-                <div className='ac-ckbox' style={{width: '6600px', position: 'relative'}}>
+                <div className='ac-ckbox' style={{width: '7500px', position: 'relative'}}>
                     <div className='ac-back' onClick={() => publish('changeiframe', { index: 5, props: {} })}> <span style={{ 'position': 'relative', left: 120, 'whiteSpace': 'nowrap', 'fontSize': 80, top: '-5px' }}> 返回主页 </span></div>
                     <div className='ac-ckbox-title' style={{left: '300px'}}>EXPORT数据展示</div>
                     <div style={{ display: 'flex', width: '100%', height: '100%'}}>
-                        <div style={{width: '4800px', height: '100%', margin: '0 70px', display: 'flex', flexWrap: 'wrap'}}>
-                            <SjzhcxCard title="申报" titleStyle={{color: '#77f1f7'}} width="4800" height="1290" style={{margin: '250px 0 120px'}}>
+                        <div style={{width: '5600px', height: '100%', margin: '0 70px', display: 'flex', flexWrap: 'wrap'}}>
+                            <SjzhcxCard title="申报" titleStyle={{color: '#77f1f7'}} width="5600" height="1290" style={{margin: '250px 0 120px'}}>
                                 <ExportSb />
                             </SjzhcxCard>
-                            <SjzhcxCard title="查验" titleStyle={{color: '#77f1f7'}} width="4800" height="1360">
+                            <SjzhcxCard title="查验" titleStyle={{color: '#77f1f7'}} width="5600" height="1360">
                                 <ExportCy />
                             </SjzhcxCard>
                         </div>
-                        <div style={{width: '1600px', height: '100%', overflow: 'hidden' }}>
-                            <SjzhcxCard title="码头" titleStyle={{color: '#77f1f7'}} width="1600" height="2800" style={{margin: '250px 0 0'}} backgroundImage={bg1}>
+                        <div style={{width: '1700px', height: '100%', overflow: 'hidden' }}>
+                            <SjzhcxCard title="码头" titleStyle={{color: '#77f1f7'}} width="1700" height="2800" style={{margin: '250px 0 0'}} backgroundImage={bg1}>
                             </SjzhcxCard>    
                         </div>
                     </div>

@@ -286,7 +286,7 @@
             background: url('../images/th-left.png') no-repeat;
             background-size: 100% 100%;
             line-height: 129px;
-            color: white;
+            color: #fafafa;
             font-size: 50px;
             padding-left: 55px;
         }
@@ -313,7 +313,7 @@
             justify-content: flex-start;
             height: 94px;
             font-size: 40px;
-            color: white;
+            color: #fafafa;
             position: relative;
             > div {
                 // padding: 0 20px;
@@ -338,7 +338,7 @@
                         // height: 0;
                         background: rgba(255, 255, 255, 0);
                         border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-                        color: white;
+                        color: #fafafa;
                         font-size: 40px;
                         word-wrap: break-word;
                         white-space: nowrap;
@@ -360,7 +360,7 @@
                 > tr > td {
                     height: 92px;
                     line-height: 92px;
-                    color: white;
+                    color: #fafafa;
                     font-size: 45px;
                     // padding-left: 25px;
                     // padding-right: 25px;
@@ -388,7 +388,7 @@
                 }
                 &:hover {
                     td {
-                        background: rgba(255, 189, 77, 0.8) !important;
+                        background: rgba(0,0,0,0) !important;
                     }
                 }
                 td {
@@ -396,6 +396,7 @@
                     color: #fff;
                 }
             } 
+
         }
     }
 
@@ -537,6 +538,18 @@
 }
 .colorBlockTable{
     background: unset;
+    :global {
+        .ant-table{
+            font-size: 40px;
+            .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+                padding: 16px 0;
+            }
+            .ant-table-tbody > tr td{
+                color: #208ec3;
+            }
+        }
+        
+    }
 }
 .panel {
     display: flex;

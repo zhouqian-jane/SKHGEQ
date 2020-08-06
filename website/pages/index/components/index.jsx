@@ -66,24 +66,24 @@ export default class App extends React.Component {
         let curProps = ops.props;
         let index = ops.index;
         if (index != idx || curProps.defaultLayer) {
-            let curLayer = false;
-            switch (index) {
-                case 1:
-                    curLayer = <Login {...curProps} />;
-                    break;
-                case 2:
-                    curLayer = <AgingControl {...curProps} />;
-                    break;
-                case 3:
-                    curLayer = <Sjzhcx {...curProps} />;
-                    break;
-                case 5 : 
-                    window.location.reload();
-                    break;
-                default:
-                    // window.location.reload();
-                    curLayer = <Logins {...curProps} />;
-            }
+            let curLayer = <Sjzhcx {...curProps} />;
+            // switch (index) {
+            //     case 1:
+            //         curLayer = <Login {...curProps} />;
+            //         break;
+            //     case 2:
+            //         curLayer = <AgingControl {...curProps} />;
+            //         break;
+            //     case 3:
+            //         curLayer = <Sjzhcx {...curProps} />;
+            //         break;
+            //     case 5 : 
+            //         window.location.reload();
+            //         break;
+            //     default:
+            //         // window.location.reload();
+            //         curLayer = <Logins {...curProps} />;
+            // }
             this.layers[index] = { layerIndex: index, props: curProps };
             $('.mbody-btn').addClass('fadeIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.mbody-btn').removeClass('fadeIn animated'));
             $('.mbody-content').addClass('zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => $('.mbody-content').removeClass('zoomIn animated'));
