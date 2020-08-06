@@ -66,7 +66,7 @@ class MapOperation extends React.Component {
         SHIP_LAYER: true,
         BARGE_SHIP_LAYER: true,
         QUERY_BOX: true,
-        box: {            //查验集装箱
+        box: {            // 查验集装箱
             tab: [],
             val: [],
             tit: '',
@@ -81,17 +81,10 @@ class MapOperation extends React.Component {
     }
 
     componentDidMount() {
-        let mapExtent = {
-            xmin: 113.821099658,
-            ymin: 22.444926626,
-            xmax: 113.963486604,
-            ymax: 22.495485413,
-        };
-        // console.log(this.props.map);
-        this.props.map.mapOper.setMapExtent(mapExtent);
 
         /** 港口码头划分 */
         publish('webAction', { svn: 'skhg_service', path: 'getAreaByWhere', data: { where: 'LAYER=2' } }).then((res) => {
+
             /** 查验集装箱 */
             let o = [];
             publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CHK_CHECK_COUNT', where: '1=1' } }).then((ors) => {
@@ -148,7 +141,7 @@ class MapOperation extends React.Component {
                         x: i.x,
                         y: i.y,
                         color: '#fff',
-                        text: "待查箱数：" + e[1].data[i.dc].COUNT_NUM,
+                        text: '待查箱数：' + e[1].data[i.dc].COUNT_NUM,
                         offsetX: 0,
                         offsetY: 0,
                         layerIndex: 10,
@@ -168,7 +161,7 @@ class MapOperation extends React.Component {
                         x: i.x,
                         y: Number(i.y) - 0.003,
                         color: '#fff',
-                        text: "调往箱数：" + e[1].data[i.dw].COUNT_NUM,
+                        text: '调往箱数：' + e[1].data[i.dw].COUNT_NUM,
                         offsetX: 0,
                         offsetY: 0,
                         layerIndex: 10,
@@ -495,7 +488,7 @@ class MapOperation extends React.Component {
 
     /** 查验集装箱切换信息  */
     handleCYJZXXQ = (e) => {
-        publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CHK_CHECK_INFO', where: "STATUS = " + e.DETAILID } }).then((res) => {
+        publish('webAction', { svn: 'skhg_loader_service', path: 'queryTableByWhere', data: { tableName: 'V_IMAP_CHK_CHECK_INFO', where: 'STATUS = ' + e.DETAILID } }).then((res) => {
             let flds = Object.keys(res[0].attr).map((e, i) => { return { title: res[0].attr[e], dataIndex: e }; });
             this.setState({ box_xq: { QUERY_BOX_XQ: true, tab: flds, val: res[0].data, tit: e.CHECK_COUNT_TYPE } });
         })
@@ -510,11 +503,11 @@ class MapOperation extends React.Component {
     }
 
     render() {
-        let { tip = {} ,items = 1 } = this.state;
+        let { tip = {}, items = 1 } = this.state;
         let descmsg = [];
-        if(items === 1){
+        if (items === 1) {
             descmsg = <Details columns={this.state.desColumns} columnTotal={2} item={this.state.desItem}></Details>;
-        }else{
+        } else {
             descmsg = <Table rowNo={true} style={{ width: '100%', height: 1740 }} id={id2} selectedIndex={null} flds={this.state.ShipTrackFlds} datas={this.state.itemData} trClick={null} trDbclick={null} />
         }
         let StyleView = {
@@ -552,7 +545,7 @@ class MapOperation extends React.Component {
                         flds={this.state.box.tab}
                         datas={this.state.box.val}
                         trClick={null}
-                        trDbclick={e => this.handleCYJZXXQ(e)}
+                        trDbclick={(e) => this.handleCYJZXXQ(e)}
                         myTd={null}
                         hide={{ DETAILID: true }} />
                 </div>}
@@ -780,6 +773,14 @@ export default class Port extends React.Component {
                 $ifrme.css({ visibility: '' });
                 $target.removeClass('zoomOut animated').addClass('zoomIn animated');
                 this.setState({ map: $ifrme['0'].contentWindow });
+                let mapExtent = {
+                    xmin: 113.821099658,
+                    ymin: 22.444926626,
+                    xmax: 113.963486604,
+                    ymax: 22.495485413,
+                };
+                // console.log(this.props.map);
+                $ifrme['0'].contentWindow.mapOper.setMapExtent(mapExtent);
             });
         }
     }
