@@ -11,3 +11,4 @@ export { default as Vedios } from './vedios';
 export { default as ImgDisplay } from './imgDisplay';
 export { default as QueryBox } from './queryBox';
 export { default as QueryBoxs } from './queryBoxs';
+export { default as ColorBlockTable } from './colorBlockTable';
