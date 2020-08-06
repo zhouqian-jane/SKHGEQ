@@ -57,6 +57,12 @@
       "description": "数据服务接口",
       "url": "https://eportapisct.scctcn.com/api",
       "proxy": "proxy"
+    },
+    {
+      "name": "sjzhcx_srv",
+      "description": "数据综合查询接口",
+      "url": "http://172.28.1.101:3579/api",
+      "proxy": "proxy"
     }
   ]
 }
