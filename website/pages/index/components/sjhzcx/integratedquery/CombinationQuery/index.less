@@ -1,0 +1,97 @@
+.comb{
+    &-btn{
+        width: 1086px;
+        height: 166px;
+        background: url(../../../../images/sjzhcx/1x/资源\ 42mdpi.png) no-repeat center;  
+        color: #ffffff;
+        font-size: 60px;
+        text-align: center;
+        line-height: 166px;
+        margin: 0 auto;
+        margin-top: 100px;
+    }
+    &-query{
+        margin-top: 76px;
+    }
+}
+
+.combinput{
+    border: solid 1px #0b3d84;
+    height: 195px;
+    width: 1367px;
+    padding-top: 57px;
+    margin: 0 auto;
+    &-prex{
+        width: 340px;
+        color: rgb(255, 255, 255);
+        font-size: 60px;
+        text-align: center;
+        border-right: 2px solid rgb(10, 56, 125);
+        float: left;
+    }
+    &-input{
+        width: 1018px;
+        float: left;
+        border: none;
+        height: 90px;
+        font-size: 60px;
+        color: #ffffff;
+        padding-left: 100px;
+        background-color: #001840;
+    }
+}
+.combselect{
+    border: solid 1px #0b3d84;
+    height: 195px;
+    width: 1367px;
+    margin: 0 auto;
+    &-prex{
+        width: 340px;
+        color: rgb(255, 255, 255);
+        font-size: 60px;
+        text-align: center;
+        border-right: 2px solid rgb(10, 56, 125);
+        float: left;
+        margin: 49px 0px;
+    }
+    &-select{
+        width: 1018px;
+        float: left;
+        position: relative;
+        select{
+            /*清除select的边框样式*/
+            border: none;
+            width: 100%;
+            /*清除select聚焦时候的边框颜色*/
+            outline: none;
+            /*将select的宽高等于div的宽高*/
+            border: none;
+            height: 187px;
+            font-size: 60px;
+            color: #ffffff;
+            padding-left: 100px;
+            background-color: #001840;
+            /*隐藏select的下拉图标*/
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /*通过padding-left的值让文字居中*/
+            padding-left: 100px;
+      }
+
+    }
+    &-select:after{
+        content: "";
+        width: 30px;
+        height: 33px;
+        background: url(../../../../images/sjzhcx/1x/资源\ 46mdpi.png) no-repeat center;
+        /*通过定位将图标放在合适的位置*/
+        position: absolute;
+        right: 42px;
+        top: 83px;
+        /*给自定义的图标实现点击下来功能*/
+        pointer-events: none;
+        transform: rotate(90deg);
+      }
+
+}

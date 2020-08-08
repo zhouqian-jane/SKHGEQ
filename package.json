@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "animate.css": "^3.5.2",
+    "echarts-for-react": "^2.0.16",
     "es6-promise": "^4.1.0",
     "install": "^0.12.1",
     "jquery": "^3.1.1",

@@ -1,0 +1,87 @@
+.terminal{
+    margin-top: 70px;
+    padding: 0 60px;
+    overflow: hidden;
+    &-title{
+        height: 100px;
+        &-check{
+            float: left;
+            :global{
+                .ant-checkbox-group-item{
+                    margin-right: 90px;
+                }
+                .ant-checkbox-checked .ant-checkbox-inner{
+                    width: 50px;
+                    height: 50px;
+                    border-color: #083a72;
+                    background-color: rgba(0,0,0,0); 
+                }
+                .ant-checkbox-inner{
+                    width: 50px;
+                    height: 50px;
+                    border-color: #083a72;
+                    background-color: rgba(0,0,0,0); 
+                }
+                .ant-checkbox-inner::after{
+                    width: 17px;
+                    height: 30px; 
+                    border-color: #77f1f7;
+                }
+                .ant-checkbox + span{
+                    color: #ffffff;
+                    font-size: 60px;
+                    float: left;
+                    margin-right: 22px;
+                }
+            }
+        }
+        &-date{
+            width: 429px;
+            height: 92px;
+            float: right;
+            background: url(../../../../images//sjzhcx/1x/资源\ 40mdpi.png) no-repeat bottom left;
+            span{
+                color: #1890ff;
+                font-size: 60px;
+                font-weight: bold;
+                margin-left: 140px;
+                margin-right: 24px;
+            }
+            &-select{
+                display: inline-block;
+                position: relative;
+                width: 190px;
+                select{
+                    /*清除select的边框样式*/
+                    border: none;
+                    width: 100%;
+                    /*清除select聚焦时候的边框颜色*/
+                    outline: none;
+                    /*将select的宽高等于div的宽高*/
+                    border: none;
+                    font-size: 60px;
+                    color: #26cdf7;
+                    background-color: #001840;
+                    /*隐藏select的下拉图标*/
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+              }
+            }
+            &-select:after{
+                content: "";
+                width: 30px;
+                height: 33px;
+                background: url(../../../../images/sjzhcx/1x/资源\ 46mdpi.png) no-repeat center;
+                /*通过定位将图标放在合适的位置*/
+                position: absolute;
+                right: 0px;
+                top: 31px;
+                /*给自定义的图标实现点击下来功能*/
+                pointer-events: none;
+                transform: rotate(90deg);
+              }
+        }
+    }
+    
+}
